@@ -1,5 +1,5 @@
-name: robopomodoro
-description: A new Flutter project.
+name: Robopomodoro
+description: Robowerkz pomodoro app
 
 dependencies:
   flutter:
