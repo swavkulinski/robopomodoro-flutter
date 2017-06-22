@@ -4,6 +4,8 @@ description: Robowerkz pomodoro app
 dependencies:
   flutter:
     sdk: flutter
+  shared_preferences:
+    path: ../flutter-plugins/packages/shared_preferences
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
