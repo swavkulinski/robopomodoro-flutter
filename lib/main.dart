@@ -11,7 +11,7 @@ void main() {
 
 class RobopomodoroApp extends StatefulWidget {
 
-  Future<SharedPreferences> _preferences;
+  final Future<SharedPreferences> _preferences;
 
   RobopomodoroApp(this._preferences);
 

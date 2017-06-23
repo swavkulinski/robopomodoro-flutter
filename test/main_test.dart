@@ -22,4 +22,5 @@ void main() {
     var answer = appState.onboardingCompleted;
     expect(answer, true);
   });
-}
+
+  }
