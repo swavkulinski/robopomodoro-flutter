@@ -6,11 +6,15 @@ dependencies:
     sdk: flutter
   shared_preferences:
     path: ../flutter-plugins/packages/shared_preferences
+  di: ">=3.3.4 <4.0.0"
+
   mockito: "^2.0.2"
-  
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
 flutter:
   uses-material-design: true
+transformers:
+- di
