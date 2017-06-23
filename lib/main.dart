@@ -1,68 +1,21 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'onboarding/onboarding_widget.dart';
-import 'main/main_widget.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import "package:di/di.dart";
+import 'onboarding/onboarding_module.dart';
+import 'app_module.dart';
+import 'app_state.dart';
 
 void main() {
-
-  runApp(new RobopomodoroApp(SharedPreferences.getInstance()));
+  runApp(new RobopomodoroApp());
 }
+
+
+var injector = new ModuleInjector(<Module>[appModule]);
 
 class RobopomodoroApp extends StatefulWidget {
 
-  final Future<SharedPreferences> _preferences;
-
-  RobopomodoroApp(this._preferences);
+  RobopomodoroApp();
 
   @override
-  AppState createState() => new AppState(_preferences);
+  AppState createState() => injector.get(AppState);
 
-}
-
-class AppState extends State<RobopomodoroApp> {
-
-    Future<SharedPreferences> _preferences;
-    AppState(this._preferences);
-
-    var _onboardingCompleted = false;
-
-    Future<Null> _persistOnboardingCompleted() async {
-      SharedPreferences prefs = await _preferences;
-      prefs.setBool('onboadring_completed', true);
-
-    }
-
-    bool get onboardingCompleted  => _onboardingCompleted;
-
-    Future<Null> _readOnboardingCompleted() async {
-      SharedPreferences prefs = await _preferences;
-      setState((){
-        _onboardingCompleted = prefs.getBool('onboadring_completed');
-      });
-    }
-
-    @override initState() {
-      super.initState();
-      _readOnboardingCompleted();
-    }
-
-    void onOnboardingCompleted() {
-        _onboardingCompleted = true;
-        _persistOnboardingCompleted();
-    }
-
-    @override
-    Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Flutter Demo',
-      theme: new ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: _onboardingCompleted ? new MyHomePage() : new OnboardingWidget(callback:(){onOnboardingCompleted();}),
-      routes: <String,WidgetBuilder>{
-        '/home': (BuildContext context) => new MyHomePage(),
-      },
-    );
-  }
 }
