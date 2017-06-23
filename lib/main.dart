@@ -5,31 +5,38 @@ import 'main/main_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  runApp(new RobopomodoroApp());
+
+  runApp(new RobopomodoroApp(SharedPreferences.getInstance()));
 }
 
 class RobopomodoroApp extends StatefulWidget {
 
+  Future<SharedPreferences> _preferences;
+
+  RobopomodoroApp(this._preferences);
 
   @override
-  AppState createState() => new AppState();
-
+  AppState createState() => new AppState(_preferences);
 
 }
 
 class AppState extends State<RobopomodoroApp> {
 
+    Future<SharedPreferences> _preferences;
+    AppState(this._preferences);
+
     var _onboardingCompleted = false;
-    Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 
     Future<Null> _persistOnboardingCompleted() async {
-      SharedPreferences prefs = await _sharedPreferences;
+      SharedPreferences prefs = await _preferences;
       prefs.setBool('onboadring_completed', true);
 
     }
 
+    bool get onboardingCompleted  => _onboardingCompleted;
+
     Future<Null> _readOnboardingCompleted() async {
-      SharedPreferences prefs = await _sharedPreferences;
+      SharedPreferences prefs = await _preferences;
       setState((){
         _onboardingCompleted = prefs.getBool('onboadring_completed');
       });
