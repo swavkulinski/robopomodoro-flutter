@@ -1,15 +1,16 @@
 import 'dart:async';
-import 'package:di/di.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'main.dart';
 import 'main/main_widget.dart';
-import 'onboarding/onboarding_widget.dart';
+import 'onboarding/onboarding_module.dart';
 
 class AppState extends State<RobopomodoroApp> {
 
-    Future<SharedPreferences> _preferences = injector.get(SharedPreferences);
+    AppState(this._preferences);
+
+    Future<SharedPreferences> _preferences;
 
     var _onboardingCompleted = false;
 
@@ -46,7 +47,7 @@ class AppState extends State<RobopomodoroApp> {
       theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: _onboardingCompleted ? new MyHomePage() : new OnboardingWidget(callback:(){onOnboardingCompleted();}),
+      home: _onboardingCompleted ? new MyHomePage() : onboardingWidget((){onOnboardingCompleted();}),
       routes: <String,WidgetBuilder>{
         '/home': (BuildContext context) => new MyHomePage(),
       },

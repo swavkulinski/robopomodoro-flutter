@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
-import "package:di/di.dart";
-import 'onboarding/onboarding_module.dart';
 import 'app_module.dart';
 import 'app_state.dart';
+import 'di/di.dart';
 
 void main() {
-  runApp(new RobopomodoroApp());
+  runApp(robopomodoroApp);
 }
 
 
-var injector = new ModuleInjector(<Module>[appModule]);
-
 class RobopomodoroApp extends StatefulWidget {
 
-  RobopomodoroApp();
+  final Factory<AppState> _appStateFactory;
+
+  RobopomodoroApp(this._appStateFactory);
 
   @override
-  AppState createState() => injector.get(AppState);
+  AppState createState() => _appStateFactory();
 
 }
