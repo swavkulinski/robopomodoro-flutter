@@ -13,7 +13,9 @@ void main() {
     var callback = (){};
 
     // Tells the tester to build a UI based on the widget tree passed to it
-    var widgetUnderTest = new OnboardingWidget(callback: callback);
+    var pageController = new PageController();
+    var stateUnderTest = () => new OnboardingState(pageController);
+    var widgetUnderTest = new OnboardingWidget(callback,stateUnderTest);
     await tester.pumpWidget(widgetUnderTest);
 
     // Taps on the widget found by key

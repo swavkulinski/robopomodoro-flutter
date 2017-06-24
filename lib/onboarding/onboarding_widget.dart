@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
-import "package:di/di.dart";
+import '../di/di.dart';
 
 class OnboardingWidget extends StatefulWidget {
-  OnboardingWidget({this.callback}) : super();
+  OnboardingWidget(this.callback,this._stateFactory) : super();
 
+  final Factory<OnboardingState> _stateFactory;
   final VoidCallback callback;
 
-
-
   @override
-  _OnboardingState createState() => new _OnboardingState();
+  OnboardingState createState() => _stateFactory();
+
 }
 
-class _OnboardingState extends State<OnboardingWidget> {
+class OnboardingState extends State<OnboardingWidget> {
 
-  @Injectable()
   PageController _pageController;
+
+  OnboardingState(this._pageController);
 
   var _previousEnabled = false;
   var _nextEnabled = true;
-
 
   @override
   Widget build(BuildContext context) {
