@@ -9,7 +9,6 @@ void main() {
 
       testWidgets('GIVEN app starts for the first time WHEN onboarding widget is shown THEN first page is displayed', (WidgetTester tester) async {
     // You can use keys to locate the widget you need to test
-    var value = 0.0;
     var callback = (){};
 
     // Tells the tester to build a UI based on the widget tree passed to it
@@ -22,7 +21,7 @@ void main() {
     await tester.tap(find.byIcon(Icons.arrow_forward));
 
     // Verifies that the widget updated the value correctly
-    expect(value, equals(0.5));
+    expect(pageController.page, equals(0));
   });
 
       //'GIVEN onboarding is shown WHEN user click next button THEN next page is shown',
