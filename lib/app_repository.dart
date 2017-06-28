@@ -3,18 +3,25 @@ import 'dart:async';
 
 class AppRepository {
   Future<SharedPreferences> _sharedPreferencesFuture;
+  OnReadOnboardingCompleted onReadHandler;
+  OnWriteOnboardingCompleted onWriteHandler;
 
   AppRepository(this._sharedPreferencesFuture);
 
-  Future<bool> readOnboardingCompleted() async {
+  readOnboardingCompleted() async {
     SharedPreferences prefs = await _sharedPreferencesFuture;
     var onboardingCompleted = prefs.getBool('onboadring_completed');
-    return onboardingCompleted == null ? false : onboardingCompleted;
+    onReadHandler(onboardingCompleted == null ? false : onboardingCompleted);
   }
 
-  Future<Null> writeOnboardingCompleted() async {
+  writeOnboardingCompleted() async {
     SharedPreferences prefs = await _sharedPreferencesFuture;
     prefs.setBool('onboadring_completed', true);
     prefs.commit();
+    onWriteHandler();
   }
 }
+
+typedef OnReadOnboardingCompleted (bool isOnboardingCompleted);
+
+typedef OnWriteOnboardingCompleted();
