@@ -17,12 +17,15 @@ class AppState extends State<RobopomodoroApp> {
 
     @override initState() {
       super.initState();
-      _appRepository.readOnboardingCompleted();
+      _appRepository.readOnboardingCompleted().then((readValue){
+        print("read: $readValue");
+        setState(()=>_onboardingCompleted = readValue);
+      });
     }
 
     void onOnboardingCompleted() {
           _onboardingCompleted = true;
-          _appRepository.writeOnboardingCompleted();
+          _appRepository.writeOnboardingCompleted().then((n)=>print("write done"));
     }
 
     @override
