@@ -15,5 +15,6 @@ class AppRepository {
   Future<Null> writeOnboardingCompleted() async {
     SharedPreferences prefs = await _sharedPreferencesFuture;
     prefs.setBool('onboadring_completed', true);
+    prefs.commit();
   }
 }
