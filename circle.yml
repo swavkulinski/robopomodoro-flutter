@@ -11,7 +11,7 @@ dependencies:
     - "../flutter-plugins"
 test:
   override:
-    - echo 'flutter test' > test.log
+    - echo `flutter test` > test.log
 general:
   artifacts:
     - ""
