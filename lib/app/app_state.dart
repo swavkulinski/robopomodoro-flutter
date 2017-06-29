@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'main.dart';
 import 'app_repository.dart';
-import 'main/main_widget.dart';
-import 'onboarding/onboarding_module.dart';
+import 'app_widget.dart';
+import '../main/main_widget.dart';
+import '../onboarding/onboarding_module.dart';
 
 class AppState extends State<RobopomodoroApp> {
   AppState(this._appRepository);
@@ -22,7 +22,7 @@ class AppState extends State<RobopomodoroApp> {
     _appRepository.onWriteHandler = (){
       print('onboarding marked as completed');
     };
-    _appRepository.readOnboardingCompleted();    
+    _appRepository.readOnboardingCompleted();
     super.initState();
   }
 

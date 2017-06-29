@@ -1,7 +1,7 @@
 import 'package:test/test.dart';
 import 'package:mockito/mockito.dart';
-import '../lib/app_state.dart';
-import '../lib/app_repository.dart';
+import '../lib/app/app_state.dart';
+import '../lib/app/app_repository.dart';
 
 class MockAppRepository extends Mock implements AppRepository {
   OnReadOnboardingCompleted onReadHandler;
