@@ -6,6 +6,12 @@ dependencies:
   pre:
     - git clone -b alpha https://github.com/flutter/flutter.git ../flutter
     - git clone git@github.com:flutter/plugins.git ../flutter-plugins
+  cache_directories:
+    - "../flutter"
+    - "../flutter-plugins"
 test:
   override:
-    - flutter test
+    - echo 'flutter test' > test.log
+general:
+  artifacts:
+    - ""
