@@ -14,4 +14,4 @@ test:
     - echo `flutter test` > test.log
 general:
   artifacts:
-    - ""
+    - "test.log"
