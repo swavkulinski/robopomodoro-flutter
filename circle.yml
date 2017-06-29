@@ -2,7 +2,6 @@ dependencies:
     pre:
       - mkdir flutter
       - cd flutter
-      - git clone -b alpha https://github.com/flutter/flutter.git
       - export PATH=`pwd`/flutter/bin:$PATH
       - echo y | sdkmanager "build-tools;26.0.0"
       - echo y | sdkmanager "platforms;android-26"
