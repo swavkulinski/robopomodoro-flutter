@@ -11,7 +11,7 @@ class MockAppRepository extends Mock implements AppRepository {
 void main() {
   var mockAppRepository = new MockAppRepository();
   test(
-      'GIVEN app starts for the first time WHEN AppState is created THEN onboadring is enabled',
+      'GIVEN AppState WHEN created THEN onboardingCompleted is false',
       () {
     AppState systemUnderTest = new AppState(mockAppRepository);
     var answer = systemUnderTest.onboardingCompleted;
@@ -19,12 +19,20 @@ void main() {
   });
 
   test(
-      'GIVEN app starts WHEN onboarding was completed THEN onboarding is disabled',
+      'GIVEN AppState WHEN initState is invoked THEN callbacks are registered',
       () {
     AppState systemUnderTest = new AppState(mockAppRepository);
     systemUnderTest.initState();
     verify(mockAppRepository.readOnboardingCompleted());
     expect(mockAppRepository.onReadHandler,isNotNull);
     expect(mockAppRepository.onWriteHandler,isNotNull);
+  });
+
+  test('GIVEN AppState WHEN onOnboardingCompleted() THEN state is updated and persisted in shared preferences',
+  (){
+    AppState systemUnderTest = new AppState(mockAppRepository);
+    systemUnderTest.onOnboardingCompleted();
+    verify(mockAppRepository.writeOnboardingCompleted());
+    expect(systemUnderTest.onboardingCompleted,true);
   });
 }
