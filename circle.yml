@@ -1,6 +1,3 @@
-machine:
-  environment:
-    - A: something
 dependencies:
   pre:
     - git clone -b alpha https://github.com/flutter/flutter.git
