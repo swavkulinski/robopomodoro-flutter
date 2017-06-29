@@ -1,10 +1,7 @@
 dependencies:
     pre:
-      - mkdir flutter
-      - cd flutter
-      - export PATH=`pwd`/flutter/bin:$PATH
-      - echo y | sdkmanager "build-tools;26.0.0"
-      - echo y | sdkmanager "platforms;android-26"
+      - echo 'hello world'
+      - echo 'hi!'
   test:
     override:
       - flutter test
