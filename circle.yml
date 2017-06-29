@@ -2,6 +2,7 @@ dependencies:
   pre:
     - ls ../..
     - git clone -b alpha https://github.com/flutter/flutter.git
+    - ls
 test:
   override:
     - flutter test
