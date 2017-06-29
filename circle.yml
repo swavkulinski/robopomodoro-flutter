@@ -4,9 +4,8 @@ machine:
 
 dependencies:
   pre:
-    - ls ..
     - git clone -b alpha https://github.com/flutter/flutter.git ../flutter
-    - ls
+    - git clone git@github.com:flutter/plugins.git ../flutter-plugins
 test:
   override:
     - flutter test
