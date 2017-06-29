@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:test/test.dart';
 import 'package:mockito/mockito.dart';
 import '../lib/app_state.dart';
@@ -11,7 +10,6 @@ class MockAppRepository extends Mock implements AppRepository {
 
 void main() {
   var mockAppRepository = new MockAppRepository();
-  var mockBoolFuture = new Future.sync(()=>true);
   test(
       'GIVEN app starts for the first time WHEN AppState is created THEN onboadring is enabled',
       () {
