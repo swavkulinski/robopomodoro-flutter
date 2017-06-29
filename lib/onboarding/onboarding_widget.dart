@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import '../di/di.dart';
 
 class OnboardingWidget extends StatefulWidget {
-  OnboardingWidget(this.callback,this._stateFactory) : super();
+  OnboardingWidget({Key key, this.onComplete, this.stateFactory}):
+  assert(onComplete != null),
+  assert(stateFactory != null),
+  super(key:key);
 
-  final Factory<OnboardingState> _stateFactory;
-  final VoidCallback callback;
+  final Factory<OnboardingState> stateFactory;
+  final VoidCallback onComplete;
 
   @override
-  OnboardingState createState() => _stateFactory();
+  OnboardingState createState() => stateFactory();
 
 }
 
@@ -51,7 +54,7 @@ class OnboardingState extends State<OnboardingWidget> {
 
   VoidCallback _handleOnPreviousPressed (){
     if(_previousEnabled){
-      return ()=>_pageController.previousPage(duration: new Duration(milliseconds: 100),curve: Curves.easeOut);
+      return ()=>_pageController.previousPage(duration: new Duration(milliseconds: 400),curve: Curves.easeOut);
     }else {
       return null;
     }
@@ -59,10 +62,10 @@ class OnboardingState extends State<OnboardingWidget> {
 
   VoidCallback _handleOnNextPressed () {
     if(_nextEnabled){
-      return ()=>_pageController.nextPage(duration: new Duration(milliseconds: 100),curve: Curves.easeOut);
+      return ()=>_pageController.nextPage(duration: new Duration(milliseconds: 400),curve: Curves.easeOut);
     } else {
       return (){
-        widget.callback();
+        widget.onComplete();
         Navigator.of(context).pushReplacementNamed('/home');
       };
     }

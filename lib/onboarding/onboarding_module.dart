@@ -5,4 +5,4 @@ var onboardingPageController = new PageController();
 
 var onboardingStateFactory = () => new OnboardingState(onboardingPageController);
 
-var onboardingWidget  = (VoidCallback callback) => new OnboardingWidget(callback,onboardingStateFactory);
+var onboardingWidget  = (VoidCallback callback) => new OnboardingWidget(onComplete:callback,stateFactory: onboardingStateFactory);
