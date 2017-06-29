@@ -1,6 +1,5 @@
 dependencies:
     pre:
-      - echo 'pre step'
       - mkdir flutter
       - cd flutter
       - git clone -b alpha https://github.com/flutter/flutter.git
