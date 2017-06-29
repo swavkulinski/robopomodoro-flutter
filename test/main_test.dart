@@ -28,7 +28,8 @@ void main() {
     expect(mockAppRepository.onWriteHandler,isNotNull);
   });
 
-  test('GIVEN AppState WHEN onOnboardingCompleted() THEN state is updated and persisted in shared preferences',
+  test(
+    'GIVEN AppState WHEN onOnboardingCompleted() THEN state is updated and persisted in shared preferences',
   (){
     AppState systemUnderTest = new AppState(mockAppRepository);
     systemUnderTest.onOnboardingCompleted();
