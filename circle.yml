@@ -1,7 +1,7 @@
 dependencies:
-    pre:
-      - echo 'hello world'
-      - echo 'hi!'
-  test:
-    override:
-      - flutter test
+  pre:
+    - echo 'hello world'
+    - echo 'hi!'
+test:
+  override:
+    - flutter test
