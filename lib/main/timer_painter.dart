@@ -1,27 +1,47 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter/painting.dart';
-import 'main_module.dart';
 import 'dart:ui';
 import 'dart:math';
 
 class TimerPainter extends CustomPainter {
 
+  Paint platePaint;
+  Color dialColor;
+  Paint shadowPaint;
+  Matrix4 shadowTranslation;
+
+  double dialCenter;
+  double dialRadius;
+
+  TimerPainter({
+    this.platePaint,
+    this.dialColor,
+    this.shadowPaint,
+    this.dialCenter:280.0,
+    this.dialRadius :180.0,
+    this.shadowTranslation,
+  }) {
+    if(dialColor == null) {
+      this.dialColor = _defaultDialColor();
+    }
+    if(platePaint == null) {
+      this.platePaint = _defaultPlatePaint();
+    }
+    if(shadowPaint == null) {
+      this.shadowPaint = _defaultShadowPaint();
+    }
+    if(shadowTranslation == null) {
+      this.shadowTranslation = _defaultShadowTranslation();
+    }
+  }
+
   @override
   void paint(Canvas canvas, Size size) {
-    var backgroundColor = new Color(0xFFA4C639);
-    var dialPaint = new Paint();
-    dialPaint.colorFilter = new ColorFilter.mode(backgroundColor, BlendMode.srcIn);
-    var dialShadowPaint = new Paint();
-    dialShadowPaint.color = new Color(0x66000000);
-    dialShadowPaint.maskFilter = new MaskFilter.blur(BlurStyle.normal, 8.0);
-    var backgroundPaint = new Paint();
-    backgroundPaint.color = backgroundColor;
 
-    canvas.drawColor(backgroundColor, BlendMode.src );
-    //canvas.drawCircle(new Offset(size.width/2, size.height/2), size.width/2, dialPaint);
-    var shadowPath = frontPlate(size,280.0,180.0).transform(new Matrix4.translationValues(0.0, 6.0, 0.0).storage);
-    canvas.drawPath(shadowPath,dialShadowPaint);
-    canvas.drawPath(frontPlate(size,280.0,180.0),dialPaint);
+    canvas.drawColor(dialColor, BlendMode.src );
+    var shadowPath = _frontPlate(size,dialCenter,dialRadius).transform(shadowTranslation.storage);
+    canvas.drawPath(shadowPath,shadowPaint);
+    canvas.drawPath(_frontPlate(size,dialCenter,dialRadius),platePaint);
   }
 
   @override
@@ -29,7 +49,27 @@ class TimerPainter extends CustomPainter {
     return false;
   }
 
-  Path frontPlate(Size screenSize, double dialCenterHeight, double dialRadius) {
+  Color _defaultDialColor() => new Color(0xFFA4C639);
+
+
+  Paint _defaultPlatePaint() {
+    var paint = new Paint();
+    paint.color = _defaultDialColor();
+    return paint;
+  }
+
+  Paint _defaultShadowPaint() {
+      var paint = new Paint();
+      paint.color = new Color(0x66000000);
+      paint.maskFilter = new MaskFilter.blur(BlurStyle.normal, 8.0);
+      return paint;
+  }
+
+  Matrix4 _defaultShadowTranslation() {
+    return new Matrix4.translationValues(0.0, 6.0, 0.0);
+  }
+
+  Path _frontPlate(Size screenSize, double dialCenterHeight, double dialRadius) {
       Path shadowPath = new Path();
 
       shadowPath.lineTo(screenSize.width/2, 0.0);
