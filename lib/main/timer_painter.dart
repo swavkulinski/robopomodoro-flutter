@@ -19,9 +19,9 @@ class TimerPainter extends CustomPainter {
 
     canvas.drawColor(backgroundColor, BlendMode.src );
     //canvas.drawCircle(new Offset(size.width/2, size.height/2), size.width/2, dialPaint);
-    var shadowPath = frontPlate(size,80.0,180.0).transform(new Matrix4.translationValues(0.0, 6.0, 0.0).storage);
+    var shadowPath = frontPlate(size,280.0,180.0).transform(new Matrix4.translationValues(0.0, 6.0, 0.0).storage);
     canvas.drawPath(shadowPath,dialShadowPaint);
-    canvas.drawPath(frontPlate(size,80.0,180.0),dialPaint);
+    canvas.drawPath(frontPlate(size,280.0,180.0),dialPaint);
   }
 
   @override
@@ -36,8 +36,9 @@ class TimerPainter extends CustomPainter {
       shadowPath.lineTo(screenSize.width/2,screenSize.height);
       shadowPath.lineTo(screenSize.width/2,dialCenterHeight + dialRadius);
       var horizontalPadding = screenSize.width/2 - dialRadius;
-      var verticalPadding = screenSize.height/2 - dialRadius;
-      var dialRectangle = new Rect.fromLTRB(horizontalPadding, verticalPadding, screenSize.width - horizontalPadding, screenSize.height - verticalPadding);
+      var topPadding = dialCenterHeight - dialRadius;
+      var bottomPadding = screenSize.height - dialCenterHeight - dialRadius;
+      var dialRectangle = new Rect.fromLTRB(horizontalPadding, topPadding, screenSize.width - horizontalPadding, screenSize.height - bottomPadding);
       shadowPath.arcTo(dialRectangle, -PI/2, -PI, false);
       shadowPath.arcTo(dialRectangle, PI/2, -PI, false);
       shadowPath.lineTo(screenSize.width/2, 0.0);
