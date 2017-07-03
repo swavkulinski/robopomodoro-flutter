@@ -2,6 +2,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/painting.dart';
 import 'dart:ui';
 import 'dart:math';
+import 'main_module.dart';
 
 class TimerPainter extends CustomPainter {
 
@@ -37,11 +38,12 @@ class TimerPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-
+    print("timer_painter size: $size, radius:$dialRadius");
     canvas.drawColor(dialColor, BlendMode.src );
     var shadowPath = _frontPlate(size,dialCenter,dialRadius).transform(shadowTranslation.storage);
     canvas.drawPath(shadowPath,shadowPaint);
     canvas.drawPath(_frontPlate(size,dialCenter,dialRadius),platePaint);
+    drawDebug(canvas, size);
   }
 
   @override
@@ -73,12 +75,8 @@ class TimerPainter extends CustomPainter {
       Path shadowPath = new Path();
 
       shadowPath.lineTo(screenSize.width/2, 0.0);
-      shadowPath.lineTo(screenSize.width/2,screenSize.height);
-      shadowPath.lineTo(screenSize.width/2,dialCenterHeight + dialRadius);
-      var horizontalPadding = screenSize.width/2 - dialRadius;
-      var topPadding = dialCenterHeight - dialRadius;
-      var bottomPadding = screenSize.height - dialCenterHeight - dialRadius;
-      var dialRectangle = new Rect.fromLTRB(horizontalPadding, topPadding, screenSize.width - horizontalPadding, screenSize.height - bottomPadding);
+      shadowPath.lineTo(screenSize.width/2,dialCenterHeight - dialRadius);
+      var dialRectangle = new Rect.fromCircle(center: new Offset(screenSize.width/2, dialCenterHeight),radius: dialRadius);
       shadowPath.arcTo(dialRectangle, -PI/2, -PI, false);
       shadowPath.arcTo(dialRectangle, PI/2, -PI, false);
       shadowPath.lineTo(screenSize.width/2, 0.0);
@@ -89,4 +87,6 @@ class TimerPainter extends CustomPainter {
       shadowPath.lineTo(0.0, 0.0);
       return shadowPath;
   }
+
+
 }
