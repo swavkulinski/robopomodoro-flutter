@@ -9,10 +9,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  static const DIAL_CENTER = 280.0;
-  static const DIAL_RADIUS = 180.0;
+  static const DIAL_CENTER = 240.0;
+  static const DIAL_RADIUS = 120.0;
   static const DEFAULT_COLOR = 0xFFA4C639;
-  static const double radius = 360.0;
+  static const double radius = 45.0;
 
   @override
   Widget build(BuildContext context) {
@@ -21,27 +21,22 @@ class _MyHomePageState extends State<MyHomePage> {
     print("screen height:${size.height}");
     print("center:$DIAL_CENTER");
     print("fractional:${DIAL_CENTER/size.height}");
-    return new Scaffold(
-      body: new Stack(children: <Widget>[
-        new Container(
-          constraints: new BoxConstraints.expand(),
-            child: new CustomPaint(
-          painter: new TimerPainter(
-              dialCenter: DIAL_CENTER, dialRadius: DIAL_RADIUS),
-          //size: size,
-          child: new Container(
-            constraints: new BoxConstraints.tightFor(),
-            alignment: new FractionalOffset.fromOffsetAndSize(new Offset(size.width/2,DIAL_CENTER), size),//(0.5,DIAL_CENTER/size.height),
-            child: new GestureDetector(
-              child: new CentralButton(
-                size: new Size(radius, radius),
-                bodyPaint: defaultPaint(),
-                shadowPaint: defaultShadowPaint(),
-              ),
-            ),
-          ),
-        )),
-      ]),
-    );
+    return new Stack(children: <Widget>[
+      new CustomPaint(
+        size: size,
+        painter:
+            new TimerPainter(dialCenter: DIAL_CENTER, dialRadius: DIAL_RADIUS, shadowPaint: defaultShadowPaint()),
+      ),
+      new Transform(
+        transform: new Matrix4.translationValues(size.width/2 - radius, DIAL_CENTER - radius, 0.0),
+        child: new CustomPaint(
+            size: new Size(radius * 2, radius * 2),
+            painter:
+                new CentralButtonPainter(defaultPaint(), defaultShadowPaint())),
+      ),
+    ]);
   }
 }
+
+/*
+*/

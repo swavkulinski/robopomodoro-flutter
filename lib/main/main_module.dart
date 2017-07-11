@@ -15,7 +15,7 @@ Paint defaultPaint() {
 Paint defaultShadowPaint() {
       var paint = new Paint();
       paint.color = new Color(0x66000000);
-      paint.maskFilter = new MaskFilter.blur(BlurStyle.normal, 8.0);
+      paint.maskFilter = new MaskFilter.blur(BlurStyle.normal, 2.0);
       return paint;
 }
 
@@ -23,7 +23,7 @@ Paint defaultShadowPaint() {
 Color defaultDialColor() => new Color(0xFFA4C639);
 
 void drawDebug(Canvas canvas, Size size) {
-    var increment = 16.0;
+    var increment = 20.0;
     Paint debugPaint = new Paint();
     debugPaint.color = new Color(0xFF000000);
     for(var x = 0.0; x < size.width; x+=increment) {

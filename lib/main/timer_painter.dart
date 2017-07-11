@@ -43,7 +43,8 @@ class TimerPainter extends CustomPainter {
     var shadowPath = _frontPlate(size,dialCenter,dialRadius).transform(shadowTranslation.storage);
     canvas.drawPath(shadowPath,shadowPaint);
     canvas.drawPath(_frontPlate(size,dialCenter,dialRadius),platePaint);
-    drawDebug(canvas, size);
+    //_drawDebug(canvas, size);
+    //drawDebug(canvas, size);
   }
 
   @override
@@ -63,12 +64,12 @@ class TimerPainter extends CustomPainter {
   Paint _defaultShadowPaint() {
       var paint = new Paint();
       paint.color = new Color(0x66000000);
-      paint.maskFilter = new MaskFilter.blur(BlurStyle.normal, 8.0);
+      paint.maskFilter = new MaskFilter.blur(BlurStyle.normal, 2.0);
       return paint;
   }
 
   Matrix4 _defaultShadowTranslation() {
-    return new Matrix4.translationValues(0.0, 6.0, 0.0);
+    return new Matrix4.translationValues(0.0, 1.0, 0.0);
   }
 
   Path _frontPlate(Size screenSize, double dialCenterHeight, double dialRadius) {
@@ -86,6 +87,33 @@ class TimerPainter extends CustomPainter {
       shadowPath.lineTo(0.0, screenSize.height/2);
       shadowPath.lineTo(0.0, 0.0);
       return shadowPath;
+  }
+
+  void _drawDebug(Canvas canvas, Size size) {
+      Paint _paint = new Paint();
+      _paint.color = new Color(0xFF660000);
+      _paint.strokeWidth = 2.0;
+      _drawHorizontalDebug(canvas, 0.0, size, _paint);
+      _drawHorizontalDebug(canvas, size.height, size, _paint);
+      _drawHorizontalDebug(canvas, dialCenter, size, _paint);
+      _drawHorizontalDebug(canvas, dialCenter - dialRadius, size, _paint);
+      _drawHorizontalDebug(canvas, dialCenter + dialRadius, size, _paint);
+
+      _drawVerticalDebug(canvas, 0.0, size, _paint);
+      _drawVerticalDebug(canvas, size.width, size, _paint);
+      _drawVerticalDebug(canvas, size.width/2, size, _paint);
+      _drawVerticalDebug(canvas, size.width/2 - dialRadius, size, _paint);
+      _drawVerticalDebug(canvas, size.width/2 + dialRadius, size, _paint);
+
+
+  }
+
+  void _drawHorizontalDebug(Canvas canvas, double height, Size size, Paint paint) {
+    canvas.drawLine(new Offset(0.0,height),new Offset(size.width,height), paint);
+  }
+
+  void _drawVerticalDebug (Canvas canvas, double width, Size size, Paint paint) {
+    canvas.drawLine(new Offset(width,0.0),new Offset(width,size.height), paint);
   }
 
 
