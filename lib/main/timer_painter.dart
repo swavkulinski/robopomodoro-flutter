@@ -2,7 +2,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/painting.dart';
 import 'dart:ui';
 import 'dart:math';
-import 'main_module.dart';
 
 class TimerPainter extends CustomPainter {
 

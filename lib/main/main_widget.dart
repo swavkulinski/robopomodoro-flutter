@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'timer_painter.dart';
 import 'main_module.dart';
 import 'central_button.dart';
+import 'session_digit.dart';
+import '../app/models.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -34,6 +36,23 @@ class _MyHomePageState extends State<MyHomePage> {
             painter:
                 new CentralButtonPainter(defaultPaint(), defaultShadowPaint())),
       ),
+      //new Transform(
+      //  transform: new Matrix4.translationValues(size.width/2 - radius, DIAL_CENTER - radius, 0.0),
+        new CustomPaint(
+            size: new Size(radius * 2, radius * 2),
+            painter: new SessionPainter(
+              sections: <Section> [
+                new Section(
+                  length: 1000 * 60 * 25,
+                  color: new Color(0xFFFF0000),
+                  sessionType: SectionType.WORK,
+                )
+              ],
+              dialOuterRadius: 90.0,
+              dialInnerRadius: 30.0,
+              ),
+        )
+      //)
     ]);
   }
 }
