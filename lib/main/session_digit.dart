@@ -45,15 +45,24 @@ class SessionPainter extends CustomPainter {
     Path path = new Path();
     //path.moveTo(dialInnerRadius, 0.0);
     //path.lineTo(dialInnerRadius + dialOuterRadius, 0.0);
-    var angle = _calculateAngleForSection(section);
+    var sweep = _calculateAngleForSection(section);
+    var startAngle = PI/3;
+
 
     path.moveTo(dialOuterRadius + dialInnerRadius, dialOuterRadius);
     path.lineTo(dialOuterRadius * 2, dialOuterRadius);
     Rect outerRect = new Rect.fromLTWH(0.0,0.0, dialOuterRadius * 2, dialOuterRadius * 2);
     Rect innerRect = new Rect.fromLTWH(dialOuterRadius - dialInnerRadius, dialOuterRadius - dialInnerRadius, dialInnerRadius * 2, dialInnerRadius * 2);
-    path.arcTo(outerRect, 0.0, angle, false);
-    path.lineTo(dialOuterRadius + cos(angle) * dialInnerRadius, dialOuterRadius + sin(angle) *dialInnerRadius);
-    path.arcTo(innerRect, angle, -angle, false);
+    path.arcTo(outerRect, 0.0, sweep, false);
+    path.lineTo(dialOuterRadius + cos(sweep) * dialInnerRadius, dialOuterRadius + sin(sweep) *dialInnerRadius);
+    path.arcTo(innerRect, sweep, -sweep, false);
+
+    var transform = new Matrix4.identity()
+    //TOOD fix transform
+    .multiplied(new Matrix4.translationValues(dialOuterRadius,dialOuterRadius, 0.0))
+    .multiplied(new Matrix4.rotationZ(startAngle));
+
+    canvas.transform(transform.storage);
     canvas.drawPath(path, _paintForColors(new Color(0xFFFF0000)));
   }
 
