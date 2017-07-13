@@ -26,33 +26,41 @@ class _MyHomePageState extends State<MyHomePage> {
     return new Stack(children: <Widget>[
       new CustomPaint(
         size: size,
-        painter:
-            new TimerPainter(dialCenter: DIAL_CENTER, dialRadius: DIAL_RADIUS, shadowPaint: defaultShadowPaint()),
+        painter: new TimerPainter(
+            dialCenter: DIAL_CENTER,
+            dialRadius: DIAL_RADIUS,
+            shadowPaint: defaultShadowPaint()),
       ),
       new Transform(
-        transform: new Matrix4.translationValues(size.width/2 - radius, DIAL_CENTER - radius, 0.0),
+        transform: new Matrix4.translationValues(
+            size.width / 2 - radius, DIAL_CENTER - radius, 0.0),
         child: new CustomPaint(
             size: new Size(radius * 2, radius * 2),
             painter:
                 new CentralButtonPainter(defaultPaint(), defaultShadowPaint())),
       ),
-      //new Transform(
-      //  transform: new Matrix4.translationValues(size.width/2 - radius, DIAL_CENTER - radius, 0.0),
-        new CustomPaint(
+      new Transform(
+          transform: new Matrix4.translationValues(
+              size.width/2, DIAL_CENTER, 0.0),
+          child: new CustomPaint(
             size: new Size(radius * 2, radius * 2),
             painter: new SessionPainter(
-              sections: <Section> [
+              sections: <Section>[
                 new Section(
                   length: 1000 * 60 * 25,
                   color: new Color(0xFFFF0000),
                   sessionType: SectionType.WORK,
+                ),
+                new Section(
+                  length: 1000 * 60 * 15,
+                  color: new Color(0xFFFFFF00),
+                  sessionType: SectionType.BREAK,
                 )
               ],
-              dialOuterRadius: 90.0,
-              dialInnerRadius: 30.0,
-              ),
-        )
-      //)
+              dialOuterRadius: 100.0,
+              dialInnerRadius: 60.0,
+            ),
+          ))
     ]);
   }
 }

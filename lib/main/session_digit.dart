@@ -10,7 +10,6 @@ class SessionPainter extends CustomPainter {
   static const MILLIS_TO_ANGLE =  2 * PI / (60 * 60 * 1000);
 
   List<Paint> sectionPaints;
-  Matrix4 shadowTranslation;
 
   double dialInnerRadius;
   double dialOuterRadius;
@@ -31,7 +30,7 @@ class SessionPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     _debug();
     for(Section section in sections) {
-          _drawSection(section, canvas, size);
+          _drawArcSection(section, canvas, size);
     }
   }
 
@@ -40,30 +39,15 @@ class SessionPainter extends CustomPainter {
     return false;
   }
 
-  void _drawSection(Section section, Canvas canvas, Size size) {
-
+  void _drawArcSection(Section section, Canvas canvas, Size size) {
     Path path = new Path();
-    //path.moveTo(dialInnerRadius, 0.0);
-    //path.lineTo(dialInnerRadius + dialOuterRadius, 0.0);
     var sweep = _calculateAngleForSection(section);
-    var startAngle = PI/3;
 
-
-    path.moveTo(dialOuterRadius + dialInnerRadius, dialOuterRadius);
-    path.lineTo(dialOuterRadius * 2, dialOuterRadius);
-    Rect outerRect = new Rect.fromLTWH(0.0,0.0, dialOuterRadius * 2, dialOuterRadius * 2);
-    Rect innerRect = new Rect.fromLTWH(dialOuterRadius - dialInnerRadius, dialOuterRadius - dialInnerRadius, dialInnerRadius * 2, dialInnerRadius * 2);
-    path.arcTo(outerRect, 0.0, sweep, false);
-    path.lineTo(dialOuterRadius + cos(sweep) * dialInnerRadius, dialOuterRadius + sin(sweep) *dialInnerRadius);
-    path.arcTo(innerRect, sweep, -sweep, false);
-
-    var transform = new Matrix4.identity()
-    //TOOD fix transform
-    .multiplied(new Matrix4.translationValues(dialOuterRadius,dialOuterRadius, 0.0))
-    .multiplied(new Matrix4.rotationZ(startAngle));
-
-    canvas.transform(transform.storage);
-    canvas.drawPath(path, _paintForColors(new Color(0xFFFF0000)));
+    path.arcTo(new Rect.fromCircle(center:new Offset(0.0, 0.0),radius: dialOuterRadius), 0.0, sweep,false);
+    path.lineTo(cos(sweep) * dialInnerRadius,sin(sweep) *dialInnerRadius);
+    path.arcTo(new Rect.fromCircle(center:new Offset(0.0, 0.0),radius: dialInnerRadius), sweep, -sweep,false);
+    canvas.drawPath(path, _paintForColors(section.color));
+    canvas.rotate(sweep);
   }
 
   double _calculateAngleForSection(Section section) {
