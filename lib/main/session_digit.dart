@@ -4,11 +4,12 @@ import 'dart:ui';
 import 'dart:math';
 
 import '../app/models.dart';
+import '../main/main_module.dart';
 
 class SessionPainter extends CustomPainter {
 
   static const MILLIS_TO_ANGLE =  2 * PI / (60 * 60 * 1000);
-  static const double STRIPES_FACTOR = PI / (6 / 60 / 1000);
+  static const double STRIPES_FACTOR = PI / (1 / 60 / 1000);
 
   List<Paint> sectionPaints;
 
@@ -30,15 +31,39 @@ class SessionPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     _debug();
-
+    canvas.save();
     for(Section section in sections) {
           drawSection(section, canvas);
     }
+    canvas.restore();
+    //drawSessionShadow(canvas);
+
   }
 
   @override
   bool shouldRepaint(SessionPainter oldDelegate) {
     return false;
+  }
+
+  Section calculateSessionTotal() {
+    int totalLength = 0;
+    totalLength = sections.map((s)=>s.length).fold(totalLength,(v,e){return v+=e;});
+    return new Section(length: totalLength,color: new Color(0x33000000), sessionType: SectionType.WORK);
+
+  }
+
+  void drawSessionShadow(Canvas canvas) {
+
+    Section session = calculateSessionTotal();
+    int numberOfStripes = calculateNumberOfStripes(session);
+    double stripeAngle = session.length / numberOfStripes * MILLIS_TO_ANGLE;
+    double radiusDeduction = (dialOuterRadius - dialInnerRadius)/session.length;
+    double initRadius = 0.0;
+    for(int i = 0; i < numberOfStripes; i ++) {
+      Stripe stripe = calculateStripe(stripeAngle,initRadius,radiusDeduction * i, radiusDeduction * (i + 1));
+      drawStripe(canvas, stripe, defaultShadowPaint());
+      canvas.rotate(stripeAngle);
+    }
   }
 
   void drawSection(Section section, Canvas canvas) {
@@ -47,23 +72,25 @@ class SessionPainter extends CustomPainter {
     double stripeAngle = calculateStripeWidth(section) * MILLIS_TO_ANGLE; // reduce to radians
     double initRadius = calculateInitRadius(section);
     double radiusDeduction = (calculateEndRadius(section) - initRadius) / numberOfStripes;
+
+    print("fullAngle $fullAngle");
+    print("no of stripes $numberOfStripes");
+
+    print("init radius $initRadius");
+    print("radius deduction $radiusDeduction");
     for(int i = 0; i < numberOfStripes; i++) {
-      print("fullAngle $fullAngle");
-      print("no of stripes $numberOfStripes");
-      print("init radius $initRadius");
-      print("radius deduction $radiusDeduction");
-      Stripe stripe = calculateStripe(stripeAngle, initRadius, radiusDeduction * i);
+            Stripe stripe = calculateStripe(stripeAngle, initRadius, radiusDeduction * i, radiusDeduction * (i+1));
       drawStripe(canvas, stripe, _paintForColors(section.color));
       canvas.rotate(stripeAngle);
     }
 
   }
 
-  Stripe calculateStripe(double stripeAngle, double initRadius, double radiusDeduction) {
+  Stripe calculateStripe(double stripeAngle, double initRadius, double radiusDeductionTop, double radiusDeductionBottom) {
     return new Stripe(
       beginBottom: new Point(dialInnerRadius,0.0),
-      beginTop: new Point(dialOuterRadius - initRadius - radiusDeduction, 0.0),
-      endTop: new Point(cos(stripeAngle) * (dialOuterRadius - initRadius - radiusDeduction), sin(stripeAngle) * (dialOuterRadius - initRadius - radiusDeduction)),
+      beginTop: new Point(dialOuterRadius - initRadius - radiusDeductionTop, 0.0),
+      endTop: new Point(cos(stripeAngle) * (dialOuterRadius - initRadius - radiusDeductionBottom), sin(stripeAngle) * (dialOuterRadius - initRadius - radiusDeductionBottom)),
       endBottom: new Point(cos(stripeAngle) * dialInnerRadius, sin(stripeAngle) * dialInnerRadius),
     );
   }
@@ -77,7 +104,6 @@ class SessionPainter extends CustomPainter {
   }
 
   double calculateInitRadius(Section section) {
-    int indexOfSection = sections.indexOf(section);
     int initialValue = 0;
     int lengthOfSectionsBefore = (sections.where((s){
       return sections.indexOf(s) < sections.indexOf(section);
@@ -87,7 +113,6 @@ class SessionPainter extends CustomPainter {
 
   double calculateEndRadius(Section section) {
 
-    int indexOfSection = sections.indexOf(section);
     int initialValue = 0;
     int lengthOfSectionsBefore = (sections.where((s){
       return sections.indexOf(s) <= sections.indexOf(section);
