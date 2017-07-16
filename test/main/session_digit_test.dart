@@ -3,6 +3,7 @@ import 'package:mockito/mockito.dart';
 import '../../lib/main/session_digit.dart';
 import '../../lib/app/models.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 void main(){
 
@@ -71,6 +72,25 @@ Section mockSectionThree = new Section(
     "GIVEN a section WHEN stripe length is calculated THEN returned valus is equal to total length of the section divided by calculated number of stripes",
     (){
       expect(sessionPainterUnderTest.calculateStripeWidth(mockSectionOne),mockSectionOne.length / 85);
+    }
+  );
+
+  test(
+    "GIVEN stripe angle WHEN stripe is calculated THEN returned stripe consist four corners of the stripe defined by angle and inner and outer radius",
+    (){
+      Stripe stripe = sessionPainterUnderTest.calculateStripe(PI/2);
+
+      expect(stripe.beginBottom.x,INNER_RADIUS);
+      expect(stripe.beginBottom.y,0.0);
+
+      expect(stripe.beginTop.x, OUTER_RADIUS);
+      expect(stripe.beginTop.y, 0.0);
+
+      expect(stripe.endTop.x.abs() < 0.000001, true);
+      expect(stripe.endTop.y, OUTER_RADIUS);
+
+      expect(stripe.endBottom.x.abs() < 0.000001, true);
+      expect(stripe.endBottom.y,INNER_RADIUS);
     }
   );
 }

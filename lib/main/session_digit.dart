@@ -52,13 +52,13 @@ class SessionPainter extends CustomPainter {
       print("no of stripes $numberOfStripes");
       print("init radius $initRadius");
       print("radius deduction $radiusDeduction");
-      Stripe stripe = calculateStripe(section, stripeAngle);
+      Stripe stripe = calculateStripe(stripeAngle);
       drawStripe(canvas, stripe, _paintForColors(section.color));
       canvas.rotate(stripeAngle);
     }
   }
 
-  Stripe calculateStripe(Section section, double stripeAngle) {
+  Stripe calculateStripe(double stripeAngle) {
     return new Stripe(
       beginBottom: new Point(dialInnerRadius,0.0),
       beginTop: new Point(dialOuterRadius, 0.0),
@@ -66,17 +66,6 @@ class SessionPainter extends CustomPainter {
       endBottom: new Point(cos(stripeAngle) * dialInnerRadius, sin(stripeAngle) * dialInnerRadius),
     );
   }
-
-
-/*void _drawStripe(Canvas canvas, int numberOfStripes, int stripeIndex, double stripeAngle, double fullAngle, Paint paint, double initRadius, double radiusDeduction) {
-    Path path = new Path();
-    path.moveTo(dialInnerRadius, 0.0);
-    path.lineTo(dialOuterRadius - initRadius, 0.0);
-    path.lineTo(cos(stripeAngle) * (dialOuterRadius - initRadius - radiusDeduction), sin(stripeAngle) * (dialOuterRadius - initRadius - radiusDeduction));
-    path.lineTo(cos(stripeAngle) * (dialInnerRadius), sin(stripeAngle) * (dialInnerRadius));
-    path.lineTo(dialInnerRadius, 0.0);
-    canvas.drawPath(path, paint);
-  }*/
 
   int calculateNumberOfStripes(Section section) {
       return calculateTotalLengthForSection(sections.length) ~/ STRIPES_FACTOR;
