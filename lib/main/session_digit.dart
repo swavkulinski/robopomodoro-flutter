@@ -9,7 +9,7 @@ import '../main/main_module.dart';
 class SessionPainter extends CustomPainter {
 
   static const MILLIS_TO_ANGLE =  2 * PI / (60 * 60 * 1000);
-  static const double STRIPES_FACTOR = PI / (1 / 60 / 1000);
+  static const double STRIPES_FACTOR = PI / (6 / 60 / 1000);
 
   List<Paint> sectionPaints;
 
@@ -32,12 +32,12 @@ class SessionPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     _debug();
     canvas.save();
+    drawSessionShadow(canvas);
+
+    canvas.restore();
     for(Section section in sections) {
           drawSection(section, canvas);
     }
-    canvas.restore();
-    //drawSessionShadow(canvas);
-
   }
 
   @override
@@ -57,7 +57,7 @@ class SessionPainter extends CustomPainter {
     Section session = calculateSessionTotal();
     int numberOfStripes = calculateNumberOfStripes(session);
     double stripeAngle = session.length / numberOfStripes * MILLIS_TO_ANGLE;
-    double radiusDeduction = (dialOuterRadius - dialInnerRadius)/session.length;
+    double radiusDeduction = (dialOuterRadius - dialInnerRadius)/numberOfStripes;
     double initRadius = 0.0;
     for(int i = 0; i < numberOfStripes; i ++) {
       Stripe stripe = calculateStripe(stripeAngle,initRadius,radiusDeduction * i, radiusDeduction * (i + 1));

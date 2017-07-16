@@ -1,5 +1,4 @@
 import 'package:test/test.dart';
-import 'package:mockito/mockito.dart';
 import '../../lib/main/session_digit.dart';
 import '../../lib/app/models.dart';
 import 'package:flutter/material.dart';
