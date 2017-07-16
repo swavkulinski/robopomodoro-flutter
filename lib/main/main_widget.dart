@@ -48,17 +48,17 @@ class _MyHomePageState extends State<MyHomePage> {
               sections: <Section>[
                 new Section(
                   length: 1000 * 60 * 25,
-                  color: new Color(0xFFFF0000),
+                  color: defaultDialColor(),
                   sessionType: SectionType.WORK,
                 ),
                 new Section(
                   length: 1000 * 60 * 15,
-                  color: new Color(0xFFFFFF00),
+                  color: brighterDialColor(),
                   sessionType: SectionType.BREAK,
                 )
               ],
-              dialOuterRadius: 110.0,
-              dialInnerRadius: 60.0,
+              dialOuterRadius: 115.0,
+              dialInnerRadius: 50.0,
             ),
           ))
     ]);

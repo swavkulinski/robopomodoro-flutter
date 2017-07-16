@@ -21,6 +21,8 @@ Paint defaultShadowPaint() {
 
 
 Color defaultDialColor() => new Color(0xFFA4C639);
+Color darkerDialColor() => new Color(0xFF809B2D);
+Color brighterDialColor() => new Color(0xFFA8CF2B);
 
 void drawDebug(Canvas canvas, Size size) {
     var increment = 20.0;
