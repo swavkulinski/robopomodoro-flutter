@@ -46,23 +46,24 @@ class SessionPainter extends CustomPainter {
     int numberOfStripes = calculateNumberOfStripes(section);
     double stripeAngle = calculateStripeWidth(section) * MILLIS_TO_ANGLE; // reduce to radians
     double initRadius = calculateInitRadius(section);
-    double radiusDeduction = 0.0; //calculateRadiusDeduction();
+    double radiusDeduction = (calculateEndRadius(section) - initRadius) / numberOfStripes;
     for(int i = 0; i < numberOfStripes; i++) {
       print("fullAngle $fullAngle");
       print("no of stripes $numberOfStripes");
       print("init radius $initRadius");
       print("radius deduction $radiusDeduction");
-      Stripe stripe = calculateStripe(stripeAngle);
+      Stripe stripe = calculateStripe(stripeAngle, initRadius, radiusDeduction * i);
       drawStripe(canvas, stripe, _paintForColors(section.color));
       canvas.rotate(stripeAngle);
     }
+
   }
 
-  Stripe calculateStripe(double stripeAngle) {
+  Stripe calculateStripe(double stripeAngle, double initRadius, double radiusDeduction) {
     return new Stripe(
       beginBottom: new Point(dialInnerRadius,0.0),
-      beginTop: new Point(dialOuterRadius, 0.0),
-      endTop: new Point(cos(stripeAngle) * dialOuterRadius, sin(stripeAngle) * dialOuterRadius),
+      beginTop: new Point(dialOuterRadius - initRadius - radiusDeduction, 0.0),
+      endTop: new Point(cos(stripeAngle) * (dialOuterRadius - initRadius - radiusDeduction), sin(stripeAngle) * (dialOuterRadius - initRadius - radiusDeduction)),
       endBottom: new Point(cos(stripeAngle) * dialInnerRadius, sin(stripeAngle) * dialInnerRadius),
     );
   }
@@ -78,9 +79,22 @@ class SessionPainter extends CustomPainter {
   double calculateInitRadius(Section section) {
     int indexOfSection = sections.indexOf(section);
     int initialValue = 0;
-    int lengthOfSectionsBefore = (sections.map((s)=> s.length).fold(initialValue,(v,e){v+=e; return v;}));
+    int lengthOfSectionsBefore = (sections.where((s){
+      return sections.indexOf(s) < sections.indexOf(section);
+    }).map((s)=> s.length).fold(initialValue,(v,e){v+=e; return v;}));
     return lengthOfSectionsBefore / calculateRadiusDeduction();
   }
+
+  double calculateEndRadius(Section section) {
+
+    int indexOfSection = sections.indexOf(section);
+    int initialValue = 0;
+    int lengthOfSectionsBefore = (sections.where((s){
+      return sections.indexOf(s) <= sections.indexOf(section);
+    }).map((s)=> s.length).fold(initialValue,(v,e){v+=e; return v;}));
+    return lengthOfSectionsBefore / calculateRadiusDeduction();
+  }
+
 
   double calculateRadiusDeduction() {
     int totalLength = sections.map((s)=>s.length).reduce((v,e){

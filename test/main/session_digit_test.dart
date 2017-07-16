@@ -9,6 +9,8 @@ void main(){
 
   const double OUTER_RADIUS = 100.0;
   const double INNER_RADIUS = 50.0;
+
+  const double RADIUS_REDUCTION = 10.0;
   Color mockSectionOneColor = new Color(0xFFFF0000);
   Color mockSectionTwoColor = new Color(0xFF00FF00);
   Color mockSectionThreeColor = new Color(0xFFFF00FF);
@@ -78,16 +80,17 @@ Section mockSectionThree = new Section(
   test(
     "GIVEN stripe angle WHEN stripe is calculated THEN returned stripe consist four corners of the stripe defined by angle and inner and outer radius",
     (){
-      Stripe stripe = sessionPainterUnderTest.calculateStripe(PI/2);
+
+      Stripe stripe = sessionPainterUnderTest.calculateStripe(PI/2,10.0, 0.0);
 
       expect(stripe.beginBottom.x,INNER_RADIUS);
       expect(stripe.beginBottom.y,0.0);
 
-      expect(stripe.beginTop.x, OUTER_RADIUS);
+      expect(stripe.beginTop.x, OUTER_RADIUS - RADIUS_REDUCTION);
       expect(stripe.beginTop.y, 0.0);
 
       expect(stripe.endTop.x.abs() < 0.000001, true);
-      expect(stripe.endTop.y, OUTER_RADIUS);
+      expect(stripe.endTop.y, OUTER_RADIUS - RADIUS_REDUCTION);
 
       expect(stripe.endBottom.x.abs() < 0.000001, true);
       expect(stripe.endBottom.y,INNER_RADIUS);

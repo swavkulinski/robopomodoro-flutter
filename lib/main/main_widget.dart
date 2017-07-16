@@ -57,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   sessionType: SectionType.BREAK,
                 )
               ],
-              dialOuterRadius: 100.0,
+              dialOuterRadius: 110.0,
               dialInnerRadius: 60.0,
             ),
           ))
