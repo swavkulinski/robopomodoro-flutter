@@ -14,12 +14,12 @@ Paint defaultShadowPaint() {
 }
 
 Paint workSectionIncompletePaint =
-    defaultStrokePaint(workSectionIncompleteColor, 1.0);
+    defaultStrokePaint(workSectionIncompleteColor, 0.4);
 
 Paint workSectionCompletePaint = defaultFillPaint(workSectionCompleteColor);
 
 Paint breakSectionIncompletePaint =
-    defaultStrokePaint(breakSectionIncompleteColor, 1.0);
+    defaultStrokePaint(breakSectionIncompleteColor, 0.4);
 
 Paint breakSectionCompletePaint = defaultFillPaint(breakSectionCompleteColor);
 

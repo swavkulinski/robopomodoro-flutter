@@ -4,6 +4,7 @@ import 'main_module.dart';
 import 'central_button.dart';
 import 'session_digit.dart';
 import '../app/models.dart';
+import 'dart:async';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -17,14 +18,14 @@ class _MyHomePageState extends State<MyHomePage> {
   static const double radius = 45.0;
 
   var elapsedTime = 0;
+  bool isPaused = true;
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    print("screen width:${size.width}");
-    print("screen height:${size.height}");
-    print("center:$DIAL_CENTER");
-    print("fractional:${DIAL_CENTER/size.height}");
+    if(!isPaused){
+      new Future.delayed(new Duration(seconds: 1)).whenComplete(()=> setState(()=> elapsedTime +=10000));
+    }
     return new Stack(children: <Widget>[
       new CustomPaint(
         size: size,
@@ -39,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
         transform: new Matrix4.translationValues(
             size.width / 2 - radius, DIAL_CENTER - radius, 0.0),
         child: new GestureDetector(
-            onTap: ()=> setState(()=> elapsedTime += 5000),
+            onTap: ()=> setState(()=> isPaused = !isPaused),
             child: new CustomPaint(
                 size: new Size(radius * 2, radius * 2),
                 painter: new CentralButtonPainter(
@@ -59,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   sessionType: SectionType.WORK,
                 ),
                 new Section(
-                  length: 1000 * 60 * 15,
+                  length: 1000 * 60 * 5,
                   foregroundPaint: breakSectionCompletePaint,
                   backgroundPaint: breakSectionIncompletePaint,
                   sessionType: SectionType.BREAK,
