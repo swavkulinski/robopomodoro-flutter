@@ -31,13 +31,11 @@ class SessionPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     _debug();
-    canvas.save();
-    drawSessionShadow(canvas);
-
-    canvas.restore();
+    drawSection(canvas,calculateSessionTotal(),defaultShadowPaint());
     for(Section section in sections) {
-          drawSection(section, canvas);
+      drawSection(canvas,section,_paintForColors(section.color));
     }
+
   }
 
   @override
@@ -52,47 +50,19 @@ class SessionPainter extends CustomPainter {
 
   }
 
-  void drawSessionShadow(Canvas canvas) {
+  void drawSection(Canvas canvas, Section session,Paint paint) {
 
-    Section session = calculateSessionTotal();
     int numberOfStripes = calculateNumberOfStripes(session);
     double stripeAngle = session.length / numberOfStripes * MILLIS_TO_ANGLE;
     double radiusDeduction = (dialOuterRadius - dialInnerRadius)/numberOfStripes;
     double initRadius = 0.0;
+    List<Stripe> stripes = new List();
     for(int i = 0; i < numberOfStripes; i ++) {
-      Stripe stripe = calculateStripe(stripeAngle,initRadius,radiusDeduction * i, radiusDeduction * (i + 1));
-      drawStripe(canvas, stripe, defaultShadowPaint());
-      canvas.rotate(stripeAngle);
+      stripes.add(calculateStripe(stripeAngle * i, stripeAngle,initRadius,radiusDeduction * i, radiusDeduction * (i + 1)));
     }
-  }
+    Path path = stripePathBuilder(stripes, stripeAngle);
+    canvas.drawPath(path, paint);
 
-  void drawSection(Section section, Canvas canvas) {
-    double fullAngle = calculateAngleForSection(section);
-    int numberOfStripes = calculateNumberOfStripes(section);
-    double stripeAngle = calculateStripeWidth(section) * MILLIS_TO_ANGLE; // reduce to radians
-    double initRadius = calculateInitRadius(section);
-    double radiusDeduction = (calculateEndRadius(section) - initRadius) / numberOfStripes;
-
-    print("fullAngle $fullAngle");
-    print("no of stripes $numberOfStripes");
-
-    print("init radius $initRadius");
-    print("radius deduction $radiusDeduction");
-    for(int i = 0; i < numberOfStripes; i++) {
-            Stripe stripe = calculateStripe(stripeAngle, initRadius, radiusDeduction * i, radiusDeduction * (i+1));
-      drawStripe(canvas, stripe, _paintForColors(section.color));
-      canvas.rotate(stripeAngle);
-    }
-
-  }
-
-  Stripe calculateStripe(double stripeAngle, double initRadius, double radiusDeductionTop, double radiusDeductionBottom) {
-    return new Stripe(
-      beginBottom: new Point(dialInnerRadius,0.0),
-      beginTop: new Point(dialOuterRadius - initRadius - radiusDeductionTop, 0.0),
-      endTop: new Point(cos(stripeAngle) * (dialOuterRadius - initRadius - radiusDeductionBottom), sin(stripeAngle) * (dialOuterRadius - initRadius - radiusDeductionBottom)),
-      endBottom: new Point(cos(stripeAngle) * dialInnerRadius, sin(stripeAngle) * dialInnerRadius),
-    );
   }
 
   int calculateNumberOfStripes(Section section) {
@@ -169,6 +139,31 @@ class SessionPainter extends CustomPainter {
     print("dialOuterRadius $dialOuterRadius");
     print("dialInnerRadius $dialInnerRadius");
   }
+
+
+Stripe calculateStripe(double initAngle, double stripeAngle, double initRadius, double radiusDeductionTop, double radiusDeductionBottom) {
+    return new Stripe(
+      beginBottom: new Point(cos(initAngle) * dialInnerRadius,sin(initAngle) * dialInnerRadius),
+      beginTop: new Point(cos(initAngle) * (dialOuterRadius - initRadius - radiusDeductionTop), sin(initAngle) * (dialOuterRadius - initRadius - radiusDeductionTop)),
+      endTop: new Point(cos(stripeAngle + initAngle) * (dialOuterRadius - initRadius - radiusDeductionBottom), sin(stripeAngle + initAngle) * (dialOuterRadius - initRadius - radiusDeductionBottom)),
+      endBottom: new Point(cos(stripeAngle + initAngle) * dialInnerRadius, sin(stripeAngle + initAngle) * dialInnerRadius),
+    );
+  }
+
+  Path stripePathBuilder(List<Stripe> stripeList, double stripeRotation) {
+    Path path = new Path();
+    path.moveTo(stripeList[0].beginBottom.x, stripeList[0].beginBottom.y);
+    path.lineTo(stripeList[0].beginTop.x, stripeList[0].beginTop.y);
+    for(var i = 0; i < stripeList.length; i++){
+      path.lineTo(stripeList[i].endTop.x,stripeList[i].endTop.y);
+    }
+    path.lineTo(stripeList[stripeList.length - 1].endBottom.x, stripeList[stripeList.length - 1].endBottom.y);
+    for(var i = stripeList.length -1; i > 0; i--) {
+      path.lineTo(stripeList[i].beginBottom.x, stripeList[i].beginBottom.y);
+    }
+
+    return path;
+}
 
 }
 
