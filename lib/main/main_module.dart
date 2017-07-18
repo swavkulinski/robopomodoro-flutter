@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 
-TextStyle centralButtonStyle() => new TextStyle(
-      color: new Color(0xFFFFFFFF),
-      fontSize: 40.0,
-
-    );
-
-Paint defaultPaint() {
+Paint platePaint() {
     var paint = new Paint();
-    paint.color = defaultDialColor();
+    paint.color = new Color(0xFFFFFFFF);
     return paint;
   }
 
@@ -19,10 +13,45 @@ Paint defaultShadowPaint() {
       return paint;
 }
 
+Paint workSectionIncompletePaint = defaultStrokePaint(workSectionIncompleteColor, 1.0);
 
-Color defaultDialColor() => new Color(0xFFA4C639);
-Color darkerDialColor() => new Color(0xFF809B2D);
-Color brighterDialColor() => new Color(0xFFA8CF2B);
+
+Paint workSectionCompletePaint = defaultFillPaint(workSectionCompleteColor);
+
+
+Paint breakSectionIncompletePaint = defaultStrokePaint(breakSectionIncompleteColor, 1.0);
+
+
+Paint breakSectionCompletePaint = defaultFillPaint(breakSectionCompleteColor);
+
+Paint centralButtonPaint = defaultFillPaint(centralButtonColor);
+
+Paint defaultFillPaint(Color color) {
+    Paint paint = new Paint();
+    paint.style = PaintingStyle.fill;
+    paint.color = color;
+    return paint;
+}
+
+Paint defaultStrokePaint(Color color, double width) {
+  Paint paint = new Paint();
+  paint.strokeWidth = width;
+  paint.strokeCap = StrokeCap.square;
+  paint.style = PaintingStyle.stroke;
+  paint.color = color;
+  return paint;
+}
+
+Color workSectionIncompleteColor = new Color(0x88A4C639);
+Color workSectionCompleteColor =  new Color(0xFFA4C639);
+
+
+Color breakSectionIncompleteColor = new Color(0x88A8CF2B);
+Color breakSectionCompleteColor = new Color(0xFFA8CF2B);
+
+Color dialColor = new Color(0xFFF0F0F0);
+
+Color centralButtonColor = workSectionCompleteColor;
 
 void drawDebug(Canvas canvas, Size size) {
     var increment = 20.0;

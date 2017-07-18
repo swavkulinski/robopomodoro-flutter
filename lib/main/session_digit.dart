@@ -36,7 +36,7 @@ class SessionPainter extends CustomPainter {
       double initAngle = calculateAngleBeforeSection(section);
       double initOuterRadius = dialOuterRadius - dialInnerRadius - calculateInitRadius(section);
       double initInnerRadius = dialOuterRadius - dialInnerRadius - calculateEndRadius(section);
-      drawSection(canvas,section,_paintForColors(section.color),initAngle, initOuterRadius, initInnerRadius);
+      drawSection(canvas,section,initAngle, initOuterRadius, initInnerRadius);
     }
 
   }
@@ -48,11 +48,11 @@ class SessionPainter extends CustomPainter {
   Section calculateSessionTotal() {
     int totalLength = 0;
     totalLength = sections.map((s)=>s.length).fold(totalLength,(v,e){return v+=e;});
-    return new Section(length: totalLength,color: new Color(0x33000000), sessionType: SectionType.WORK);
+    return new Section(length: totalLength,foregroundPaint: defaultShadowPaint(), sessionType: SectionType.WORK);
 
   }
 
-  void drawSection(Canvas canvas, Section session,Paint paint, double initAngle, double initOuterRadius, double initInnerRadius) {
+  void drawSection(Canvas canvas, Section session, double initAngle, double initOuterRadius, double initInnerRadius) {
 
     int numberOfStripes = calculateNumberOfStripes(session);
     double stripeAngle = session.length / numberOfStripes * MILLIS_TO_ANGLE;
@@ -62,7 +62,7 @@ class SessionPainter extends CustomPainter {
       stripes.add(calculateStripe(initAngle + stripeAngle * i, stripeAngle, initOuterRadius - radiusDeduction * i, initOuterRadius - radiusDeduction * (i + 1)));
     }
     Path path = stripePathBuilder(stripes);
-    canvas.drawPath(path, paint);
+    canvas.drawPath(path, session.backgroundPaint);
 
   }
 
@@ -133,15 +133,6 @@ class SessionPainter extends CustomPainter {
     return section.length * MILLIS_TO_ANGLE;
   }
 
-  Paint _paintForColors(Color primary) {
-    Paint paint = new Paint();
-    paint.color = primary;
-    paint.strokeWidth = 2.0;
-    paint.style = PaintingStyle.stroke;
-    paint.strokeCap = StrokeCap.square;
-    return paint;
-  }
-
   void _debug() {
     print("Drawing SessionPainter");
     print("dialOuterRadius $dialOuterRadius");
@@ -166,7 +157,7 @@ Stripe calculateStripe(double initAngle, double stripeAngle, double radiusTop, d
       path.lineTo(stripeList[i].endTop.x,stripeList[i].endTop.y);
     }
     path.lineTo(stripeList[stripeList.length - 1].endBottom.x, stripeList[stripeList.length - 1].endBottom.y);
-    for(var i = stripeList.length -1; i > 0; i--) {
+    for(var i = stripeList.length -1; i >= 0; i--) {
       path.lineTo(stripeList[i].beginBottom.x, stripeList[i].beginBottom.y);
     }
 

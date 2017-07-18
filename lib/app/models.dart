@@ -7,15 +7,18 @@ enum SectionType {
 class Section {
   int length;
   SectionType sessionType;
-  Color color;
+  Paint backgroundPaint;
+  Paint foregroundPaint;
   Section({
     this.length,
     this.sessionType,
-    this.color,
+    this.backgroundPaint,
+    this.foregroundPaint,
   }):
     assert(length > 0),
     assert(sessionType != null),
-    assert(color != null);
+    assert(backgroundPaint != null),
+    assert(foregroundPaint != null);
 }
 
 class Session {

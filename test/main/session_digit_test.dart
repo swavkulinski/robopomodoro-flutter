@@ -9,28 +9,30 @@ void main(){
   const double OUTER_RADIUS = 100.0;
   const double INNER_RADIUS = 50.0;
 
-  Color mockSectionOneColor = new Color(0xFFFF0000);
-  Color mockSectionTwoColor = new Color(0xFF00FF00);
-  Color mockSectionThreeColor = new Color(0xFFFF00FF);
+  Paint mockForegroundPaint = new Paint();
+  Paint mockBackgroundPaint = new Paint();
 
   Section mockSectionOne = new Section(
             length: 1000 * 60 * 25,
             sessionType: SectionType.WORK,
-            color: mockSectionOneColor,
+            foregroundPaint: mockForegroundPaint,
+            backgroundPaint: mockBackgroundPaint,
           );
 
 
 Section mockSectionTwo = new Section(
             length: 1000 * 60 * 15,
             sessionType: SectionType.WORK,
-            color: mockSectionTwoColor,
+            foregroundPaint: mockForegroundPaint,
+            backgroundPaint: mockBackgroundPaint,
           );
 
 
 Section mockSectionThree = new Section(
             length: 1000 * 60 * 5,
             sessionType: SectionType.WORK,
-            color: mockSectionThreeColor,
+            foregroundPaint: mockForegroundPaint,
+            backgroundPaint: mockBackgroundPaint,
           );
 
 

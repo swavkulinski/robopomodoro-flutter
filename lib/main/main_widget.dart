@@ -11,8 +11,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  static const DIAL_CENTER = 240.0;
-  static const DIAL_RADIUS = 120.0;
+  static const DIAL_CENTER = 200.0;
+  static const DIAL_RADIUS = 140.0;
   static const DEFAULT_COLOR = 0xFFA4C639;
   static const double radius = 45.0;
 
@@ -29,6 +29,8 @@ class _MyHomePageState extends State<MyHomePage> {
         painter: new TimerPainter(
             dialCenter: DIAL_CENTER,
             dialRadius: DIAL_RADIUS,
+            dialColor: dialColor,
+            platePaint: platePaint(),
             shadowPaint: defaultShadowPaint()),
       ),
       new Transform(
@@ -37,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: new CustomPaint(
             size: new Size(radius * 2, radius * 2),
             painter:
-                new CentralButtonPainter(defaultPaint(), defaultShadowPaint())),
+                new CentralButtonPainter(platePaint(), defaultShadowPaint())),
       ),
       new Transform(
           transform: new Matrix4.translationValues(
@@ -48,16 +50,18 @@ class _MyHomePageState extends State<MyHomePage> {
               sections: <Section>[
                 new Section(
                   length: 1000 * 60 * 25,
-                  color: darkerDialColor(),
+                  foregroundPaint: workSectionCompletePaint,
+                  backgroundPaint: workSectionIncompletePaint,
                   sessionType: SectionType.WORK,
                 ),
                 new Section(
                   length: 1000 * 60 * 15,
-                  color: brighterDialColor(),
+                  foregroundPaint: breakSectionCompletePaint,
+                  backgroundPaint: breakSectionIncompletePaint,
                   sessionType: SectionType.BREAK,
                 )
               ],
-              dialOuterRadius: 115.0,
+              dialOuterRadius: 135.0,
               dialInnerRadius: 50.0,
             ),
           ))
