@@ -48,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
               sections: <Section>[
                 new Section(
                   length: 1000 * 60 * 25,
-                  color: new Color(0xFFDDDDDD),
+                  color: darkerDialColor(),
                   sessionType: SectionType.WORK,
                 ),
                 new Section(

@@ -31,7 +31,7 @@ class SessionPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     _debug();
-    drawSection(canvas,calculateSessionTotal(),defaultShadowPaint(),0.0,dialOuterRadius - dialInnerRadius,0.0);
+    //drawSection(canvas,calculateSessionTotal(),defaultShadowPaint(),0.0,dialOuterRadius - dialInnerRadius,0.0);
     for(Section section in sections) {
       double initAngle = calculateAngleBeforeSection(section);
       double initOuterRadius = dialOuterRadius - dialInnerRadius - calculateInitRadius(section);
@@ -137,7 +137,8 @@ class SessionPainter extends CustomPainter {
     Paint paint = new Paint();
     paint.color = primary;
     paint.strokeWidth = 2.0;
-    paint.style = PaintingStyle.fill;
+    paint.style = PaintingStyle.stroke;
+    paint.strokeCap = StrokeCap.square;
     return paint;
   }
 
