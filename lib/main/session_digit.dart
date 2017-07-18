@@ -11,10 +11,10 @@ class SessionPainter extends CustomPainter {
   static const MILLIS_TO_ANGLE =  2 * PI / (60 * 60 * 1000);
   static const double STRIPES_FACTOR = PI / (6 / 60 / 1000);
 
-  List<Paint> sectionPaints;
-
   double dialInnerRadius;
   double dialOuterRadius;
+
+  int elapsedLength;
 
   List<Section> sections;
 
@@ -22,6 +22,7 @@ class SessionPainter extends CustomPainter {
     this.sections,
     this.dialInnerRadius,
     this.dialOuterRadius,
+    this.elapsedLength,
   }): assert (sections != null),
       assert (sections.length > 0),
       assert (dialInnerRadius < dialOuterRadius),
@@ -30,13 +31,60 @@ class SessionPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    _debug();
-    //drawSection(canvas,calculateSessionTotal(),defaultShadowPaint(),0.0,dialOuterRadius - dialInnerRadius,0.0);
+    int lengthCounter = 0;
     for(Section section in sections) {
       double initAngle = calculateAngleBeforeSection(section);
       double initOuterRadius = dialOuterRadius - dialInnerRadius - calculateInitRadius(section);
       double initInnerRadius = dialOuterRadius - dialInnerRadius - calculateEndRadius(section);
-      drawSection(canvas,section,initAngle, initOuterRadius, initInnerRadius);
+      if(lengthCounter + section.length <= elapsedLength) {
+          drawSection(
+            canvas,
+            section,
+            initAngle: initAngle,
+            initOuterRadius: initOuterRadius,
+            initInnerRadius: initInnerRadius,
+            paintType: _PaintType.FOREGROUND,
+          );
+      } else if (lengthCounter >= elapsedLength) {
+          drawSection(
+            canvas,
+            section,
+            initAngle: initAngle,
+            initOuterRadius: initOuterRadius,
+            initInnerRadius: initInnerRadius,
+            paintType: _PaintType.BACKGROUND,
+          );
+      } else {
+          Section completedSection = new Section(
+            length: elapsedLength - lengthCounter,
+            sessionType: section.sessionType,
+            foregroundPaint: section.foregroundPaint,
+            backgroundPaint: section.backgroundPaint,
+          );
+          Section incompleteSection = new Section(
+            length: section.length - (elapsedLength - lengthCounter),
+            sessionType: section.sessionType,
+            foregroundPaint: section.foregroundPaint,
+            backgroundPaint: section.backgroundPaint,
+          );
+          drawSection(
+            canvas,
+            completedSection,
+            initAngle: initAngle,
+            initOuterRadius: initOuterRadius,
+            initInnerRadius: initInnerRadius + (initOuterRadius - initInnerRadius) * (1 - completedSection.length / section.length),
+            paintType: _PaintType.FOREGROUND,
+          );
+          drawSection(
+            canvas,
+            incompleteSection,
+            initAngle: initAngle + completedSection.length * MILLIS_TO_ANGLE,
+            initOuterRadius: initInnerRadius + (initOuterRadius - initInnerRadius) * (1 - completedSection.length / section.length),
+            initInnerRadius: initInnerRadius,
+            paintType: _PaintType.BACKGROUND,
+          );
+      }
+      lengthCounter += section.length;
     }
 
   }
@@ -48,11 +96,11 @@ class SessionPainter extends CustomPainter {
   Section calculateSessionTotal() {
     int totalLength = 0;
     totalLength = sections.map((s)=>s.length).fold(totalLength,(v,e){return v+=e;});
-    return new Section(length: totalLength,foregroundPaint: defaultShadowPaint(), sessionType: SectionType.WORK);
+    return new Section(length: totalLength,foregroundPaint: defaultShadowPaint(), backgroundPaint: defaultShadowPaint(), sessionType: SectionType.WORK);
 
   }
 
-  void drawSection(Canvas canvas, Section session, double initAngle, double initOuterRadius, double initInnerRadius) {
+  void drawSection(Canvas canvas, Section session, {double initAngle, double initOuterRadius, double initInnerRadius, _PaintType paintType}) {
 
     int numberOfStripes = calculateNumberOfStripes(session);
     double stripeAngle = session.length / numberOfStripes * MILLIS_TO_ANGLE;
@@ -62,7 +110,8 @@ class SessionPainter extends CustomPainter {
       stripes.add(calculateStripe(initAngle + stripeAngle * i, stripeAngle, initOuterRadius - radiusDeduction * i, initOuterRadius - radiusDeduction * (i + 1)));
     }
     Path path = stripePathBuilder(stripes);
-    canvas.drawPath(path, session.backgroundPaint);
+    Paint selectedPaint = paintType == _PaintType.FOREGROUND ? session.foregroundPaint : session.backgroundPaint;
+    canvas.drawPath(path, selectedPaint);
 
   }
 
@@ -133,13 +182,6 @@ class SessionPainter extends CustomPainter {
     return section.length * MILLIS_TO_ANGLE;
   }
 
-  void _debug() {
-    print("Drawing SessionPainter");
-    print("dialOuterRadius $dialOuterRadius");
-    print("dialInnerRadius $dialInnerRadius");
-  }
-
-
 Stripe calculateStripe(double initAngle, double stripeAngle, double radiusTop, double radiusBottom) {
     return new Stripe(
       beginBottom: new Point(cos(initAngle) * dialInnerRadius,sin(initAngle) * dialInnerRadius),
@@ -182,4 +224,8 @@ class Stripe {
   assert(beginTop != null),
   assert(endTop != null),
   assert(endBottom != null);
+}
+
+enum _PaintType {
+  FOREGROUND,BACKGROUND,
 }

@@ -1,36 +1,35 @@
 import 'package:flutter/material.dart';
 
 Paint platePaint() {
-    var paint = new Paint();
-    paint.color = new Color(0xFFFFFFFF);
-    return paint;
-  }
-
-Paint defaultShadowPaint() {
-      var paint = new Paint();
-      paint.color = new Color(0x66000000);
-      paint.maskFilter = new MaskFilter.blur(BlurStyle.normal, 2.0);
-      return paint;
+  var paint = new Paint();
+  paint.color = new Color(0xFFFFFFFF);
+  return paint;
 }
 
-Paint workSectionIncompletePaint = defaultStrokePaint(workSectionIncompleteColor, 1.0);
+Paint defaultShadowPaint() {
+  var paint = new Paint();
+  paint.color = new Color(0x66000000);
+  paint.maskFilter = new MaskFilter.blur(BlurStyle.normal, 2.0);
+  return paint;
+}
 
+Paint workSectionIncompletePaint =
+    defaultStrokePaint(workSectionIncompleteColor, 1.0);
 
 Paint workSectionCompletePaint = defaultFillPaint(workSectionCompleteColor);
 
-
-Paint breakSectionIncompletePaint = defaultStrokePaint(breakSectionIncompleteColor, 1.0);
-
+Paint breakSectionIncompletePaint =
+    defaultStrokePaint(breakSectionIncompleteColor, 1.0);
 
 Paint breakSectionCompletePaint = defaultFillPaint(breakSectionCompleteColor);
 
 Paint centralButtonPaint = defaultFillPaint(centralButtonColor);
 
 Paint defaultFillPaint(Color color) {
-    Paint paint = new Paint();
-    paint.style = PaintingStyle.fill;
-    paint.color = color;
-    return paint;
+  Paint paint = new Paint();
+  paint.style = PaintingStyle.fill;
+  paint.color = color;
+  return paint;
 }
 
 Paint defaultStrokePaint(Color color, double width) {
@@ -43,8 +42,7 @@ Paint defaultStrokePaint(Color color, double width) {
 }
 
 Color workSectionIncompleteColor = new Color(0x88A4C639);
-Color workSectionCompleteColor =  new Color(0xFFA4C639);
-
+Color workSectionCompleteColor = new Color(0xFFA4C639);
 
 Color breakSectionIncompleteColor = new Color(0x88A8CF2B);
 Color breakSectionCompleteColor = new Color(0xFFA8CF2B);
@@ -54,13 +52,13 @@ Color dialColor = new Color(0xFFF0F0F0);
 Color centralButtonColor = workSectionCompleteColor;
 
 void drawDebug(Canvas canvas, Size size) {
-    var increment = 20.0;
-    Paint debugPaint = new Paint();
-    debugPaint.color = new Color(0xFF000000);
-    for(var x = 0.0; x < size.width; x+=increment) {
-      canvas.drawLine(new Offset(x,0.0), new Offset(x,size.height), debugPaint);
-    }
-    for(var y = 0.0; y < size.height; y+=increment) {
-      canvas.drawLine(new Offset(0.0,y), new Offset(size.width,y), debugPaint);
-    }
+  var increment = 20.0;
+  Paint debugPaint = new Paint();
+  debugPaint.color = new Color(0xFF000000);
+  for (var x = 0.0; x < size.width; x += increment) {
+    canvas.drawLine(new Offset(x, 0.0), new Offset(x, size.height), debugPaint);
+  }
+  for (var y = 0.0; y < size.height; y += increment) {
+    canvas.drawLine(new Offset(0.0, y), new Offset(size.width, y), debugPaint);
+  }
 }

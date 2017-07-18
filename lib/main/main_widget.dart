@@ -16,6 +16,8 @@ class _MyHomePageState extends State<MyHomePage> {
   static const DEFAULT_COLOR = 0xFFA4C639;
   static const double radius = 45.0;
 
+  var elapsedTime = 0;
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -36,14 +38,16 @@ class _MyHomePageState extends State<MyHomePage> {
       new Transform(
         transform: new Matrix4.translationValues(
             size.width / 2 - radius, DIAL_CENTER - radius, 0.0),
-        child: new CustomPaint(
-            size: new Size(radius * 2, radius * 2),
-            painter:
-                new CentralButtonPainter(platePaint(), defaultShadowPaint())),
+        child: new GestureDetector(
+            onTap: ()=> setState(()=> elapsedTime += 5000),
+            child: new CustomPaint(
+                size: new Size(radius * 2, radius * 2),
+                painter: new CentralButtonPainter(
+                    platePaint(), defaultShadowPaint()))),
       ),
       new Transform(
-          transform: new Matrix4.translationValues(
-              size.width/2, DIAL_CENTER, 0.0),
+          transform:
+              new Matrix4.translationValues(size.width / 2, DIAL_CENTER, 0.0),
           child: new CustomPaint(
             size: new Size(radius * 2, radius * 2),
             painter: new SessionPainter(
@@ -63,6 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
               dialOuterRadius: 135.0,
               dialInnerRadius: 50.0,
+              elapsedLength: elapsedTime,
             ),
           ))
     ]);
