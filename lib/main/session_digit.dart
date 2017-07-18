@@ -31,14 +31,16 @@ class SessionPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     _debug();
-    drawSection(canvas,calculateSessionTotal(),defaultShadowPaint());
+    drawSection(canvas,calculateSessionTotal(),defaultShadowPaint(),0.0,dialOuterRadius - dialInnerRadius,0.0);
     for(Section section in sections) {
-      drawSection(canvas,section,_paintForColors(section.color));
+      double initAngle = calculateAngleBeforeSection(section);
+      double initOuterRadius = dialOuterRadius - dialInnerRadius - calculateInitRadius(section);
+      double initInnerRadius = dialOuterRadius - dialInnerRadius - calculateEndRadius(section);
+      drawSection(canvas,section,_paintForColors(section.color),initAngle, initOuterRadius, initInnerRadius);
     }
 
   }
 
-  @override
   bool shouldRepaint(SessionPainter oldDelegate) {
     return false;
   }
@@ -50,17 +52,16 @@ class SessionPainter extends CustomPainter {
 
   }
 
-  void drawSection(Canvas canvas, Section session,Paint paint) {
+  void drawSection(Canvas canvas, Section session,Paint paint, double initAngle, double initOuterRadius, double initInnerRadius) {
 
     int numberOfStripes = calculateNumberOfStripes(session);
     double stripeAngle = session.length / numberOfStripes * MILLIS_TO_ANGLE;
-    double radiusDeduction = (dialOuterRadius - dialInnerRadius)/numberOfStripes;
-    double initRadius = 0.0;
+    double radiusDeduction = (initOuterRadius - initInnerRadius)/numberOfStripes;
     List<Stripe> stripes = new List();
     for(int i = 0; i < numberOfStripes; i ++) {
-      stripes.add(calculateStripe(stripeAngle * i, stripeAngle,initRadius,radiusDeduction * i, radiusDeduction * (i + 1)));
+      stripes.add(calculateStripe(initAngle + stripeAngle * i, stripeAngle, initOuterRadius - radiusDeduction * i, initOuterRadius - radiusDeduction * (i + 1)));
     }
-    Path path = stripePathBuilder(stripes, stripeAngle);
+    Path path = stripePathBuilder(stripes);
     canvas.drawPath(path, paint);
 
   }
@@ -109,6 +110,12 @@ class SessionPainter extends CustomPainter {
       .fold(initialValue,(v,e){v +=e.length; return v;});
   }
 
+  double calculateAngleBeforeSection(Section section) {
+    int indexOfSection = sections.indexOf(section);
+    int totalLengthBefore = calculateTotalLengthForSection(indexOfSection);
+    return totalLengthBefore * MILLIS_TO_ANGLE;
+  }
+
 
 
   void drawStripe(Canvas canvas, Stripe stripe, Paint paint){
@@ -141,16 +148,16 @@ class SessionPainter extends CustomPainter {
   }
 
 
-Stripe calculateStripe(double initAngle, double stripeAngle, double initRadius, double radiusDeductionTop, double radiusDeductionBottom) {
+Stripe calculateStripe(double initAngle, double stripeAngle, double radiusTop, double radiusBottom) {
     return new Stripe(
       beginBottom: new Point(cos(initAngle) * dialInnerRadius,sin(initAngle) * dialInnerRadius),
-      beginTop: new Point(cos(initAngle) * (dialOuterRadius - initRadius - radiusDeductionTop), sin(initAngle) * (dialOuterRadius - initRadius - radiusDeductionTop)),
-      endTop: new Point(cos(stripeAngle + initAngle) * (dialOuterRadius - initRadius - radiusDeductionBottom), sin(stripeAngle + initAngle) * (dialOuterRadius - initRadius - radiusDeductionBottom)),
+      beginTop: new Point(cos(initAngle) * (dialInnerRadius + radiusTop), sin(initAngle) * (dialInnerRadius + radiusTop)),
+      endTop: new Point(cos(stripeAngle + initAngle) * (dialInnerRadius + radiusBottom), sin(stripeAngle + initAngle) * (dialInnerRadius + radiusBottom)),
       endBottom: new Point(cos(stripeAngle + initAngle) * dialInnerRadius, sin(stripeAngle + initAngle) * dialInnerRadius),
     );
   }
 
-  Path stripePathBuilder(List<Stripe> stripeList, double stripeRotation) {
+  Path stripePathBuilder(List<Stripe> stripeList) {
     Path path = new Path();
     path.moveTo(stripeList[0].beginBottom.x, stripeList[0].beginBottom.y);
     path.lineTo(stripeList[0].beginTop.x, stripeList[0].beginTop.y);

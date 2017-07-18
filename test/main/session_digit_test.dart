@@ -80,7 +80,7 @@ Section mockSectionThree = new Section(
     "GIVEN stripe angle WHEN stripe is calculated THEN returned stripe consist four corners of the stripe defined by angle and inner and outer radius",
     (){
 
-      Stripe stripe = sessionPainterUnderTest.calculateStripe(0.0, PI/2,10.0, 0.0, 0.0);
+      Stripe stripe = sessionPainterUnderTest.calculateStripe(0.0, PI/2, 10.0, 5.0);
 
       expect(stripe.beginBottom.x,INNER_RADIUS);
       expect(stripe.beginBottom.y,0.0);
