@@ -1,5 +1,18 @@
 import 'package:flutter/material.dart';
 
+TextPainter textPainter(String label) => new TextPainter(
+      text: new TextSpan(
+       style: new TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.normal,
+          color: new Color(0xFF000000),
+       ),
+       text: label,
+    ),
+      textAlign: TextAlign.center,
+      maxLines: 1,
+    );
+
 Paint platePaint() {
   var paint = new Paint();
   paint.color = new Color(0xFFFFFFFF);

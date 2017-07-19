@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'main_module.dart';
 
 
 class CentralButtonPainter extends CustomPainter {
@@ -19,20 +20,10 @@ class CentralButtonPainter extends CustomPainter {
     shadowPath.addOval(rectangle);
     canvas.drawPath(shadowPath, shadowPaint);
     canvas.drawPath(shadowPath, bodyPaint);
-    TextPainter textPainter = new TextPainter(
-      text: new TextSpan(
-       style: new TextStyle(
-          fontSize: 20.0,
-          fontWeight: FontWeight.normal,
-          color: new Color(0xFF000000),
-       ),
-       text: label,
-    ),
-      textAlign: TextAlign.center,
-      maxLines: 1,
-    );
-    textPainter.layout();
-    textPainter.paint(canvas, new Offset((size.width - textPainter.width)/2, (size.height - textPainter.height)/2));
+
+    var text = textPainter(label);
+    text.layout();
+    text.paint(canvas, new Offset((size.width - text.width)/2, (size.height - text.height)/2));
 
     //drawDebug(canvas,size);
   }

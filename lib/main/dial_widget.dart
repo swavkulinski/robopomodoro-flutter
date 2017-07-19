@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'timer_painter.dart';
 import 'main_module.dart';
-import 'central_button.dart';
+import 'central_button_painter.dart';
 import 'session_digit.dart';
 import '../app/models.dart';
 
@@ -45,7 +45,7 @@ class DialWidget extends StatelessWidget {
                 painter: new CentralButtonPainter(
                     bodyPaint: platePaint(),
                     shadowPaint: defaultShadowPaint(),
-                    label: paused ? "RESUME" : "PAUSE" 
+                    label: paused ? "RESUME" : "PAUSE"
                 ),
             ),
         ),
