@@ -28,6 +28,5 @@ class _MinuteDigitPainter extends CustomPainter {
     var p1 = new Offset(0.0,0.0);
     var p2 = new Offset(cos(DEFAULT_ANGLE_CORRECTION + minute / 30 * PI) * size.width/2,sin(DEFAULT_ANGLE_CORRECTION + minute / 30 * PI) * size.width/2);
     canvas.drawLine(p1, p2, minuteDigitPaint);
-
   }
 }

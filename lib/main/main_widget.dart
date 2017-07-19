@@ -11,6 +11,7 @@ class _MainWidgetState extends State<MainWidget> {
   var elapsedTime = 0;
   bool isPaused = true;
   int minute = 0;
+  TimeOfDay startTime;
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +29,12 @@ class _MainWidgetState extends State<MainWidget> {
       onTapListener: _handleOnTap,
       paused: isPaused,
       minute: minute,
+      startTime: startTime,
     );
   }
 
-  void _handleOnTap () => setState(()=> isPaused = !isPaused);
+  void _handleOnTap () => setState((){
+    isPaused = !isPaused;
+    startTime = new TimeOfDay.now();
+  });
 }

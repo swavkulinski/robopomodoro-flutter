@@ -17,12 +17,14 @@ class DialWidget extends StatelessWidget {
   final VoidCallback onTapListener;
   final bool paused;
   final int minute;
+  final TimeOfDay startTime;
 
   DialWidget({
     this.elapsedTime,
     this.onTapListener,
     this.paused,
     this.minute,
+    this.startTime,
   }):assert(onTapListener != null);
 
   Widget build(BuildContext context) {
