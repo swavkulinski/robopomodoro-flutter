@@ -39,12 +39,12 @@ class AppState extends State<RobopomodoroApp> {
         primarySwatch: Colors.blue,
       ),
       home: _onboardingCompleted
-          ? new MyHomePage()
+          ? new MainWidget()
           : onboardingWidget(() {
               onOnboardingCompleted();
             }),
       routes: <String, WidgetBuilder>{
-        '/home': (BuildContext context) => new MyHomePage(),
+        '/home': (BuildContext context) => new MainWidget(),
       },
     );
   }
