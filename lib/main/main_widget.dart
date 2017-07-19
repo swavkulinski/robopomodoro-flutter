@@ -16,7 +16,7 @@ class _MainWidgetState extends State<MainWidget> {
     if(!isPaused){
       new Future.delayed(new Duration(milliseconds: 100)).whenComplete(()=> setState(()=> elapsedTime +=100));
     }
-    return new DialWidget(elapsedTime: elapsedTime,onTapListener: _handleOnTap);
+    return new DialWidget(elapsedTime: elapsedTime,onTapListener: _handleOnTap, paused: isPaused);
   }
 
   void _handleOnTap () => setState(()=> isPaused = !isPaused);

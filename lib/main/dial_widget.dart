@@ -14,10 +14,12 @@ class DialWidget extends StatelessWidget {
   static const double radius = 45.0;
   final int elapsedTime;
   final VoidCallback onTapListener;
+  final bool paused;
 
   DialWidget({
     this.elapsedTime,
     this.onTapListener,
+    this.paused,
   }):assert(onTapListener != null);
 
   Widget build(BuildContext context) {
@@ -41,7 +43,12 @@ class DialWidget extends StatelessWidget {
             child: new CustomPaint(
                 size: new Size(radius * 2, radius * 2),
                 painter: new CentralButtonPainter(
-                    platePaint(), defaultShadowPaint()))),
+                    bodyPaint: platePaint(),
+                    shadowPaint: defaultShadowPaint(),
+                    label: paused ? "RESUME" : "PAUSE" 
+                ),
+            ),
+        ),
       ),
       new Transform(
           transform:
