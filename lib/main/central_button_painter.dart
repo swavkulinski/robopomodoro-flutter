@@ -6,6 +6,7 @@ class CentralButtonPainter extends CustomPainter {
   Paint bodyPaint;
   Paint shadowPaint;
   String label;
+
   CentralButtonPainter({this.bodyPaint,this.shadowPaint,this.label});
 
   @override
@@ -25,6 +26,5 @@ class CentralButtonPainter extends CustomPainter {
     text.layout();
     text.paint(canvas, new Offset((size.width - text.width)/2, (size.height - text.height)/2));
 
-    //drawDebug(canvas,size);
   }
 }
