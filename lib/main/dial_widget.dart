@@ -4,6 +4,7 @@ import 'main_module.dart';
 import 'central_button.dart';
 import 'session_digit.dart';
 import '../app/models.dart';
+import 'minute_digit.dart';
 
 class DialWidget extends StatelessWidget {
 
@@ -14,10 +15,14 @@ class DialWidget extends StatelessWidget {
   static const double radius = 45.0;
   final int elapsedTime;
   final VoidCallback onTapListener;
+  final bool paused;
+  final int minute;
 
   DialWidget({
     this.elapsedTime,
     this.onTapListener,
+    this.paused,
+    this.minute,
   }):assert(onTapListener != null);
 
   Widget build(BuildContext context) {
@@ -34,14 +39,14 @@ class DialWidget extends StatelessWidget {
             shadowPaint: defaultShadowPaint()),
       ),
       new Transform(
+          transform:
+              new Matrix4.translationValues(size.width / 2, DIAL_CENTER, 0.0),
+              child: new MinuteDigit(minute: minute, radius: DIAL_RADIUS - 10.0),
+        ),
+      new Transform(
         transform: new Matrix4.translationValues(
             size.width / 2 - radius, DIAL_CENTER - radius, 0.0),
-        child: new GestureDetector(
-            onTap: onTapListener,
-            child: new CustomPaint(
-                size: new Size(radius * 2, radius * 2),
-                painter: new CentralButtonPainter(
-                    platePaint(), defaultShadowPaint()))),
+        child: new CentralButton(onTapListener: onTapListener,radius: radius, paused: paused),
       ),
       new Transform(
           transform:
@@ -67,7 +72,10 @@ class DialWidget extends StatelessWidget {
               dialInnerRadius: 50.0,
               elapsedLength: elapsedTime,
             ),
-          ))
+          ),
+        ),
+
+
     ]);
   }
 }

@@ -1,4 +1,18 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
+
+TextPainter textPainter(String label) => new TextPainter(
+      text: new TextSpan(
+       style: new TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.normal,
+          color: new Color(0xFF000000),
+       ),
+       text: label,
+    ),
+      textAlign: TextAlign.center,
+      maxLines: 1,
+    );
 
 Paint platePaint() {
   var paint = new Paint();
@@ -22,6 +36,8 @@ Paint breakSectionIncompletePaint =
     defaultStrokePaint(breakSectionIncompleteColor, 0.4);
 
 Paint breakSectionCompletePaint = defaultFillPaint(breakSectionCompleteColor);
+
+Paint minuteDigitPaint = defaultStrokePaint(darkDialColor, 2.0);
 
 Paint centralButtonPaint = defaultFillPaint(centralButtonColor);
 
@@ -49,6 +65,8 @@ Color breakSectionCompleteColor = new Color(0xFFA8CF2B);
 
 Color dialColor = new Color(0xFFF0F0F0);
 
+Color darkDialColor = new Color(0x20202020);
+
 Color centralButtonColor = workSectionCompleteColor;
 
 void drawDebug(Canvas canvas, Size size) {
@@ -62,3 +80,5 @@ void drawDebug(Canvas canvas, Size size) {
     canvas.drawLine(new Offset(0.0, y), new Offset(size.width, y), debugPaint);
   }
 }
+
+double DEFAULT_ANGLE_CORRECTION = -PI/2;

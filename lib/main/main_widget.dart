@@ -10,13 +10,25 @@ class MainWidget extends StatefulWidget {
 class _MainWidgetState extends State<MainWidget> {
   var elapsedTime = 0;
   bool isPaused = true;
+  int minute = 0;
 
   @override
   Widget build(BuildContext context) {
-    if(!isPaused){
-      new Future.delayed(new Duration(milliseconds: 100)).whenComplete(()=> setState(()=> elapsedTime +=100));
-    }
-    return new DialWidget(elapsedTime: elapsedTime,onTapListener: _handleOnTap);
+      new Future.delayed(
+        new Duration(milliseconds: 100))
+        .whenComplete(()=> setState(() {
+          if(!isPaused) {
+            elapsedTime +=100;
+          }
+          minute = new TimeOfDay.now().minute;
+        }),
+      );
+    return new DialWidget(
+      elapsedTime: elapsedTime,
+      onTapListener: _handleOnTap,
+      paused: isPaused,
+      minute: minute,
+    );
   }
 
   void _handleOnTap () => setState(()=> isPaused = !isPaused);
