@@ -6,7 +6,7 @@ import 'dart:math';
 import '../app/models.dart';
 import '../main/main_module.dart';
 
-class SessionPainter extends CustomPainter {
+class SessionDigitPainter extends CustomPainter {
 
   static const MILLIS_TO_ANGLE =  2 * PI / (60 * 60 * 1000);
   static const double STRIPES_FACTOR = PI / (6 / 60 / 1000);
@@ -18,7 +18,7 @@ class SessionPainter extends CustomPainter {
 
   List<Section> sections;
 
-  SessionPainter({
+  SessionDigitPainter({
     this.sections,
     this.dialInnerRadius,
     this.dialOuterRadius,
@@ -89,7 +89,7 @@ class SessionPainter extends CustomPainter {
 
   }
 
-  bool shouldRepaint(SessionPainter oldDelegate) {
+  bool shouldRepaint(SessionDigitPainter oldDelegate) {
     return false;
   }
 

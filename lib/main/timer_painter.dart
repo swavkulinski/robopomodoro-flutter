@@ -36,7 +36,6 @@ class TimerPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    print("timer_painter size: $size, radius:$dialRadius");
     canvas.drawColor(dialColor, BlendMode.src);
     var shadowPath = _frontPlate(size, dialCenter, dialRadius)
         .transform(shadowTranslation.storage);

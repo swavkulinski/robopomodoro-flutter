@@ -32,7 +32,7 @@ void main() {
     backgroundPaint: mockBackgroundPaint,
   );
 
-  SessionPainter sessionPainterUnderTest = new SessionPainter(
+  SessionDigitPainter sessionPainterUnderTest = new SessionDigitPainter(
       dialInnerRadius: INNER_RADIUS,
       dialOuterRadius: OUTER_RADIUS,
       sections: <Section>[
