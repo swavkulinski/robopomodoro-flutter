@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import '../../lib/main/session_digit_painter.dart';
+import '../../lib/main/digit/session_digit_painter.dart';
 import '../../lib/app/models.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';

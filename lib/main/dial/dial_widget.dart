@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'timer_painter.dart';
-import 'main_module.dart';
+import '../di/main_module.dart';
 import 'central_button.dart';
-import 'session_digit.dart';
-import 'minute_digit.dart';
+import '../digit/session_digit.dart';
+import '../digit/minute_digit.dart';
 
 class DialWidget extends StatelessWidget {
 
@@ -37,7 +37,9 @@ class DialWidget extends StatelessWidget {
             dialRadius: DIAL_RADIUS,
             dialColor: dialColor,
             platePaint: platePaint(),
-            shadowPaint: defaultShadowPaint()),
+            shadowPaint: defaultShadowPaint(),
+            shadowTranslation: new Matrix4.translationValues(0.0, 2.0, 0.0),
+        )
       ),
       new Transform(
           transform:

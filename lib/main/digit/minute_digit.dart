@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'main_module.dart';
+import '../di/main_module.dart';
 import 'dart:math';
 
 class MinuteDigit extends StatelessWidget {

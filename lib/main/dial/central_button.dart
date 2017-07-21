@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'central_button_painter.dart';
-import 'main_module.dart';
+import '../di/main_module.dart';
 
 class CentralButton extends StatelessWidget {
   final VoidCallback onTapListener;

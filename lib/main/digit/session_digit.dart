@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'session_digit_painter.dart';
-import '../app/models.dart';
-import 'main_module.dart';
+import '../../app/models.dart';
+import '../di/main_module.dart';
 
 class SessionDigit extends StatelessWidget {
 

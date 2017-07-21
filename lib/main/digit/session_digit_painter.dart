@@ -3,8 +3,8 @@ import 'package:flutter/painting.dart';
 import 'dart:ui';
 import 'dart:math';
 
-import '../app/models.dart';
-import '../main/main_module.dart';
+import '../../app/models.dart';
+import '../di/main_module.dart';
 
 class SessionDigitPainter extends CustomPainter {
 

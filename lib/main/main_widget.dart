@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'dial_widget.dart';
+import 'dial/dial_widget.dart';
 
 class MainWidget extends StatefulWidget {
   @override
@@ -16,6 +16,7 @@ class _MainWidgetState extends State<MainWidget> {
   @override
   void initState() {
     startTime = new DateTime.now();
+    currentTime = new DateTime.now();
     super.initState();
   }
 
