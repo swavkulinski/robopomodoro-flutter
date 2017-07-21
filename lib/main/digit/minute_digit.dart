@@ -39,6 +39,6 @@ class MinuteDigitPainter extends CustomPainter {
   }
 
   Offset calculateDigitRotation(int timestamp, Size size) {
-    return new Offset(cos(DEFAULT_ANGLE_CORRECTION + timestamp / 60 / 30 * PI) * size.width/2,sin(DEFAULT_ANGLE_CORRECTION + timestamp / 60 / 30 * PI) * size.width/2);
+    return new Offset(cos(DEFAULT_ANGLE_CORRECTION + timestamp / 60 / 30 * PI) * size.width/2,sin(DEFAULT_ANGLE_CORRECTION + timestamp / 60 / 30 * PI) * size.height/2);
   }
 }
