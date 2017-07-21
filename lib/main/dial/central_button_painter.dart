@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'main_module.dart';
+import '../di/main_module.dart';
 
 
 class CentralButtonPainter extends CustomPainter {

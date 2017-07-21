@@ -3,8 +3,8 @@ import 'package:flutter/painting.dart';
 import 'dart:ui';
 import 'dart:math';
 
-import '../app/models.dart';
-import '../main/main_module.dart';
+import '../../app/models.dart';
+import '../di/main_module.dart';
 
 class SessionDigitPainter extends CustomPainter {
 
@@ -18,11 +18,14 @@ class SessionDigitPainter extends CustomPainter {
 
   List<Section> sections;
 
+  int baseRotation;
+
   SessionDigitPainter({
     this.sections,
     this.dialInnerRadius,
     this.dialOuterRadius,
     this.elapsedLength,
+    this.baseRotation,
   }): assert (sections != null),
       assert (sections.length > 0),
       assert (dialInnerRadius < dialOuterRadius),
@@ -162,7 +165,7 @@ class SessionDigitPainter extends CustomPainter {
   double calculateAngleBeforeSection(Section section) {
     int indexOfSection = sections.indexOf(section);
     int totalLengthBefore = calculateTotalLengthForSection(indexOfSection);
-    return totalLengthBefore * MILLIS_TO_ANGLE;
+    return (baseRotation + totalLengthBefore) * MILLIS_TO_ANGLE;
   }
 
 

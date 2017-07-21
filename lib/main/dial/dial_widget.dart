@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'timer_painter.dart';
-import 'main_module.dart';
+import '../di/main_module.dart';
 import 'central_button.dart';
-import 'session_digit.dart';
-import '../app/models.dart';
-import 'minute_digit.dart';
+import '../digit/session_digit.dart';
+import '../digit/minute_digit.dart';
 
 class DialWidget extends StatelessWidget {
 
@@ -16,13 +15,15 @@ class DialWidget extends StatelessWidget {
   final int elapsedTime;
   final VoidCallback onTapListener;
   final bool paused;
-  final int minute;
+  final DateTime currentTime;
+  final DateTime startTime;
 
   DialWidget({
     this.elapsedTime,
     this.onTapListener,
     this.paused,
-    this.minute,
+    this.currentTime,
+    this.startTime,
   }):assert(onTapListener != null);
 
   Widget build(BuildContext context) {
@@ -36,12 +37,14 @@ class DialWidget extends StatelessWidget {
             dialRadius: DIAL_RADIUS,
             dialColor: dialColor,
             platePaint: platePaint(),
-            shadowPaint: defaultShadowPaint()),
+            shadowPaint: defaultShadowPaint(),
+            shadowTranslation: new Matrix4.translationValues(0.0, 2.0, 0.0),
+        )
       ),
       new Transform(
           transform:
               new Matrix4.translationValues(size.width / 2, DIAL_CENTER, 0.0),
-              child: new MinuteDigit(minute: minute, radius: DIAL_RADIUS - 10.0),
+              child: new MinuteDigit(currentTime: currentTime, radius: DIAL_RADIUS - 10.0),
         ),
       new Transform(
         transform: new Matrix4.translationValues(
@@ -51,27 +54,10 @@ class DialWidget extends StatelessWidget {
       new Transform(
           transform:
               new Matrix4.translationValues(size.width / 2, DIAL_CENTER, 0.0),
-          child: new CustomPaint(
-            size: new Size(radius * 2, radius * 2),
-            painter: new SessionDigitPainter(
-              sections: <Section>[
-                new Section(
-                  length: 1000 * 60 * 25,
-                  foregroundPaint: workSectionCompletePaint,
-                  backgroundPaint: workSectionIncompletePaint,
-                  sessionType: SectionType.WORK,
-                ),
-                new Section(
-                  length: 1000 * 60 * 5,
-                  foregroundPaint: breakSectionCompletePaint,
-                  backgroundPaint: breakSectionIncompletePaint,
-                  sessionType: SectionType.BREAK,
-                )
-              ],
-              dialOuterRadius: 135.0,
-              dialInnerRadius: 50.0,
-              elapsedLength: elapsedTime,
-            ),
+          child: new SessionDigit(
+            radius: radius,
+            elapsedTime: elapsedTime,
+            startTime: startTime,
           ),
         ),
 

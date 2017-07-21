@@ -81,4 +81,4 @@ void drawDebug(Canvas canvas, Size size) {
   }
 }
 
-double DEFAULT_ANGLE_CORRECTION = -PI/2;
+const double DEFAULT_ANGLE_CORRECTION = -PI/2;

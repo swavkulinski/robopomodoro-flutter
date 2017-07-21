@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'dial_widget.dart';
+import 'dial/dial_widget.dart';
 
 class MainWidget extends StatefulWidget {
   @override
@@ -10,7 +10,15 @@ class MainWidget extends StatefulWidget {
 class _MainWidgetState extends State<MainWidget> {
   var elapsedTime = 0;
   bool isPaused = true;
-  int minute = 0;
+  DateTime currentTime;
+  DateTime startTime;
+
+  @override
+  void initState() {
+    startTime = new DateTime.now();
+    currentTime = new DateTime.now();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,16 +28,20 @@ class _MainWidgetState extends State<MainWidget> {
           if(!isPaused) {
             elapsedTime +=100;
           }
-          minute = new TimeOfDay.now().minute;
+          currentTime = new DateTime.now();
         }),
       );
     return new DialWidget(
       elapsedTime: elapsedTime,
       onTapListener: _handleOnTap,
       paused: isPaused,
-      minute: minute,
+      currentTime: currentTime,
+      startTime: startTime,
     );
   }
 
-  void _handleOnTap () => setState(()=> isPaused = !isPaused);
+  void _handleOnTap () => setState((){
+    isPaused = !isPaused;
+    startTime = new DateTime.now();
+  });
 }
