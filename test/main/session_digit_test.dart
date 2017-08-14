@@ -44,17 +44,17 @@ void main() {
   test(
       "GIVEN array of sections WHEN total length is calculated THEN sum of lengths in milliseconds is returned",
       () {
-    expect(sessionPainterUnderTest.calculateTotalLengthForSection(0), 0);
-    expect(sessionPainterUnderTest.calculateTotalLengthForSection(1),
+    expect(sessionPainterUnderTest.totalLengthBeforeSection(0), 0);
+    expect(sessionPainterUnderTest.totalLengthBeforeSection(1),
         25 * 60 * 1000);
-    expect(sessionPainterUnderTest.calculateTotalLengthForSection(2),
+    expect(sessionPainterUnderTest.totalLengthBeforeSection(2),
         40 * 60 * 1000);
   });
 
   test(
       "GIVEN a section WHEN deduction is calculated THEN returned value is a total length of all sections divided by the difference in outer and inner radius",
       () {
-    expect(sessionPainterUnderTest.calculateRadiusDeduction(),
+    expect(sessionPainterUnderTest.radiusDeduction(),
         45 * 60 * 1000 / 50.0);
   });
 
@@ -62,13 +62,13 @@ void main() {
       "GIVEN a section WHEN number of stripes is calculated THEN returned value is high enough for stripes to be smaller than STRIPES_FACTOR",
       () {
     expect(
-        sessionPainterUnderTest.calculateNumberOfStripes(mockSectionOne), 85);
+        sessionPainterUnderTest.stripeCount(mockSectionOne), 85);
   });
 
   test(
       "GIVEN a section WHEN stripe length is calculated THEN returned valus is equal to total length of the section divided by calculated number of stripes",
       () {
-    expect(sessionPainterUnderTest.calculateStripeWidth(mockSectionOne),
+    expect(sessionPainterUnderTest.stripeWidth(mockSectionOne),
         mockSectionOne.length / 85);
   });
 
@@ -76,7 +76,7 @@ void main() {
       "GIVEN stripe angle WHEN stripe is calculated THEN returned stripe consist four corners of the stripe defined by angle and inner and outer radius",
       () {
     Stripe stripe =
-        sessionPainterUnderTest.calculateStripe(0.0, PI / 2, 50.0, 40.0);
+        sessionPainterUnderTest.createStripe(0.0, PI / 2, 50.0, 40.0);
 
     expect(stripe.beginBottom.x, INNER_RADIUS);
     expect(stripe.beginBottom.y, 0.0);
