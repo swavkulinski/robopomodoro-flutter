@@ -21,7 +21,7 @@ class SessionDigit extends StatelessWidget {
       return new CustomPaint(
             size: new Size(radius * 2, radius * 2),
             painter: new SessionDigitPainter(
-              baseRotation: (startTime.minute - 15) * 1000 * 60 ,
+              baseRotation: calculateStartRotation(startTime),
               sections: <Section>[
                 new Section(
                   length: 1000 * 60 * 25,
@@ -41,5 +41,9 @@ class SessionDigit extends StatelessWidget {
               elapsedLength: elapsedTime,
             ),
           );
+  }
+
+  int calculateStartRotation(DateTime startTime) {
+    return (startTime.minute - 15) * 1000 * 60 + (startTime.second * 1000);
   }
 }

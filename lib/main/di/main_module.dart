@@ -82,3 +82,6 @@ void drawDebug(Canvas canvas, Size size) {
 }
 
 const double DEFAULT_ANGLE_CORRECTION = -PI/2;
+
+
+var timeProvider = () => new DateTime.now();
