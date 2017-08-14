@@ -9,10 +9,10 @@ class MainWidget extends StatefulWidget {
 }
 
 class _MainWidgetState extends State<MainWidget> {
-  var elapsedTime = 0;
   bool isPaused = true;
   DateTime currentTime;
   DateTime startTime;
+  DateTime lastTime;
 
   @override
   void initState() {
@@ -27,13 +27,13 @@ class _MainWidgetState extends State<MainWidget> {
         new Duration(milliseconds: 100))
         .whenComplete(()=> setState(() {
           if(!isPaused) {
-            elapsedTime +=100;
+        //    elapsedTime +=100;
           }
           currentTime = timeProvider(); 
         }),
       );
     return new DialWidget(
-      elapsedTime: elapsedTime,
+      elapsedTime: currentTime.millisecondsSinceEpoch - startTime.millisecondsSinceEpoch,
       onTapListener: _handleOnTap,
       paused: isPaused,
       currentTime: currentTime,
