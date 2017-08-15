@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'session_digit_painter.dart';
 import '../../app/models.dart';
+import 'models.dart';
+import 'path_builder.dart';
 import '../di/main_module.dart';
 
 class SessionDigit extends StatelessWidget {
@@ -18,11 +20,10 @@ class SessionDigit extends StatelessWidget {
 
 
   Widget build(BuildContext context) {
-      return new CustomPaint(
-            size: new Size(radius * 2, radius * 2),
-            painter: new SessionDigitPainter(
-              baseRotation: calculateStartRotation(startTime),
-              sections: <Section>[
+      var sessionDigitConfig = new SessionDigitConfig(dialOuterRadius : 135.0,dialInnerRadius : 50.0);
+      var sessionWidgetModel = new SessionWidgetModel()
+              ..baseRotation = calculateStartRotation(startTime)
+              ..sections = <Section>[
                 new Section(
                   length: 1000 * 60 * 25,
                   foregroundPaint: workSectionCompletePaint,
@@ -35,12 +36,15 @@ class SessionDigit extends StatelessWidget {
                   backgroundPaint: breakSectionIncompletePaint,
                   sessionType: SectionType.BREAK,
                 )
-              ],
-              dialOuterRadius: 135.0,
-              dialInnerRadius: 50.0,
-              elapsedLength: elapsedTime,
-            ),
-          );
+              ]
+
+              ..elapsed = elapsedTime
+              ..config = sessionDigitConfig;
+
+      return new CustomPaint(
+            size: new Size(radius * 2, radius * 2),
+            painter: new SessionDigitPainter(sessionWidgetModel,new PathBuilder(sessionDigitConfig, sessionWidgetModel)),
+            );
   }
 
   int calculateStartRotation(DateTime startTime) {

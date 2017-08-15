@@ -85,3 +85,7 @@ const double DEFAULT_ANGLE_CORRECTION = -PI/2;
 
 
 var timeProvider = () => new DateTime.now();
+
+const MILLIS_TO_ANGLE =  2 * PI / (60 * 60 * 1000);
+const double STRIPES_FACTOR = PI / (6 / 60 / 1000);
+

@@ -1,6 +1,7 @@
 import 'package:test/test.dart';
 import '../../lib/main/digit/session_digit_painter.dart';
 import '../../lib/app/models.dart';
+import '../../lib/main/digit/models.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
@@ -35,7 +36,7 @@ void main() {
   SessionDigitPainter sessionPainterUnderTest = new SessionDigitPainter(
       dialInnerRadius: INNER_RADIUS,
       dialOuterRadius: OUTER_RADIUS,
-      sections: <Section>[
+      _sections: <Section>[
         mockSectionOne,
         mockSectionTwo,
         mockSectionThree,
@@ -68,7 +69,7 @@ void main() {
   test(
       "GIVEN a section WHEN stripe length is calculated THEN returned valus is equal to total length of the section divided by calculated number of stripes",
       () {
-    expect(sessionPainterUnderTest.stripeWidth(mockSectionOne),
+    expect(sessionPainterUnderTest._stripeWidth(mockSectionOne),
         mockSectionOne.length / 85);
   });
 
