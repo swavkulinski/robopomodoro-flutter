@@ -48,14 +48,14 @@ class SessionWidgetModel {
                                             .map((s)=> s.length)
                                             .reduce((collector,value)=> collector += value);
 
-  double initRadius (Section section) => totalLengthBefore(section)/radiusDeduction();
+  double initRadius (Section section) => totalLengthBefore(section)*radiusDeduction();
 
   double endRadius (Section section) => sections
                                             .where((s)=> sections.indexOf(s) <= sections.indexOf(section))
                                             .map((s)=> s.length)
-                                            .reduce((collector,value)=> collector += value)/radiusDeduction();
+                                            .reduce((collector,value)=> collector += value)*radiusDeduction();
 
-  double radiusDeduction() => totalLength()/config.delta();
+  double radiusDeduction() => config.delta()/totalLength();
 
   double angleBeforeSection (Section section) => (totalLengthBefore(section) + calculateStartRotation(startTime)) * MILLIS_TO_ANGLE;
 

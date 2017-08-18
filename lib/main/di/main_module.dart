@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:intl/intl.dart';
 
 TextPainter textPainter(String label) => new TextPainter(
       text: new TextSpan(
-       style: new TextStyle(
-          fontSize: 20.0,
-          fontWeight: FontWeight.normal,
-          color: new Color(0xFF000000),
-       ),
+       style: defaultTextStyle,
        text: label,
     ),
       textAlign: TextAlign.center,
       maxLines: 1,
     );
+
+TextStyle defaultTextStyle = new TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.normal,
+          color: new Color(0xFF000000),
+       );
+
+DateFormat currentTimeFormat = new DateFormat('mm:ss');
 
 Paint platePaint() {
   var paint = new Paint();
@@ -82,8 +87,9 @@ void drawDebug(Canvas canvas, Size size) {
 
 const double DEFAULT_ANGLE_CORRECTION = -PI/2;
 
-
-var timeProvider = () => new DateTime.now();
+var wrapTime = 0;
+Duration warp() => new Duration(milliseconds: wrapTime += 5000);
+var timeProvider = () => new DateTime.now().add(warp());
 
 const MILLIS_TO_ANGLE =  2 * PI / (60 * 60 * 1000);
 const double STRIPES_FACTOR = PI / (6 / 60 / 1000);

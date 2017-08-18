@@ -26,6 +26,16 @@ class SessionDigitPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     int lengthCounter = 0;
+
+    Section shadowSection = new Section(length:_model.totalLength(),sessionType:SectionType.COFFEE,foregroundPaint:workSectionCompletePaint,backgroundPaint:workSectionCompletePaint);
+    canvas.drawPath(_pathBuilder.buildPath(
+        shadowSection,
+        initAngle: _model.startTime.millisecondsSinceEpoch * MILLIS_TO_ANGLE + DEFAULT_ANGLE_CORRECTION,
+        initOuterRadius: _model.config.delta(),
+        initInnerRadius:  0.0,
+        ),
+      defaultShadowPaint());
+
     for(Section section in _model.sections) {
       double initAngle = _model.angleBeforeSection(section);
       double initOuterRadius = _model.config.delta() - _model.initRadius(section);
@@ -59,7 +69,7 @@ class SessionDigitPainter extends CustomPainter {
             backgroundPaint: section.backgroundPaint,
           );
           Section incompleteSection = new Section(
-            length: section.length - (_model.elapsed- lengthCounter),
+            length: section.length - (_model.elapsed - lengthCounter),
             sessionType: section.sessionType,
             foregroundPaint: section.foregroundPaint,
             backgroundPaint: section.backgroundPaint,
@@ -70,14 +80,14 @@ class SessionDigitPainter extends CustomPainter {
             completedSection,
             initAngle: initAngle,
             initOuterRadius: initOuterRadius,
-            initInnerRadius: initOuterRadius * (1 - completedSection.length / section.length),
+            initInnerRadius: initInnerRadius + (initOuterRadius - initInnerRadius) * (1 - completedSection.length / section.length),
             paintType: _PaintType.FOREGROUND,
           );
           drawSection(
             canvas,
             incompleteSection,
             initAngle: initAngle + completedSection.length * MILLIS_TO_ANGLE,
-            initOuterRadius: initOuterRadius * (1 - completedSection.length / section.length),
+            initOuterRadius: initInnerRadius + (initOuterRadius - initInnerRadius) * (1 - completedSection.length / section.length),
             initInnerRadius: initInnerRadius,
             paintType: _PaintType.BACKGROUND,
           );

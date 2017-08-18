@@ -14,27 +14,33 @@ class _MainWidgetState extends State<MainWidget> {
   DateTime startTime;
   DateTime lastTime;
 
-  int wrap = 1000;
+  bool isScheduling = false;
 
-  @override
+  
   void initState() {
     startTime = timeProvider();
-    currentTime = timeProvider();
+    currentTime = startTime;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-      new Future.delayed(
-        new Duration(milliseconds: 1000))
-        .whenComplete(()=> setState(() {
-          if(!isPaused) {
-        //    elapsedTime +=100;
-          }
-          currentTime = timeProvider(); 
-        }),
+      if(!isScheduling) {
+          isScheduling = true;
+          new Future.delayed(
+            new Duration(milliseconds: 1000))
+            .whenComplete(()=> setState(() {
+              var newTime = timeProvider();
+              if(isPaused) {
+                startTime = startTime.add(new Duration(milliseconds: newTime.millisecondsSinceEpoch - currentTime.millisecondsSinceEpoch));
+              }
+              currentTime = newTime;
+              isScheduling = false; 
+            }),
       );
-    return new DialWidget(
+ 
+      }
+      return new DialWidget(
       elapsedTime: currentTime.millisecondsSinceEpoch - startTime.millisecondsSinceEpoch,
       onTapListener: _handleOnTap,
       paused: isPaused,
@@ -45,6 +51,6 @@ class _MainWidgetState extends State<MainWidget> {
 
   void _handleOnTap () => setState((){
     isPaused = !isPaused;
-    startTime = timeProvider(); 
+    startTime = currentTime; 
   });
 }

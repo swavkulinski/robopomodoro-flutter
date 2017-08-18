@@ -25,13 +25,13 @@ class SessionDigit extends StatelessWidget {
               ..startTime = startTime
               ..sections = <Section>[
                 new Section(
-                  length: 1000 * 60 * 25,
+                  length: 1000 * 60 * 10,
                   foregroundPaint: workSectionCompletePaint,
                   backgroundPaint: workSectionIncompletePaint,
                   sessionType: SectionType.WORK,
                 ),
                 new Section(
-                  length: 1000 * 60 * 5,
+                  length: 1000 * 60 * 10,
                   foregroundPaint: breakSectionCompletePaint,
                   backgroundPaint: breakSectionIncompletePaint,
                   sessionType: SectionType.BREAK,

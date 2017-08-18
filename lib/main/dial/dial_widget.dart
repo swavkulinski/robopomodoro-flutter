@@ -60,6 +60,10 @@ class DialWidget extends StatelessWidget {
             startTime: startTime,
           ),
         ),
+      new Transform(
+        transform: new Matrix4.translationValues(size.width / 2, DIAL_CENTER + DIAL_RADIUS + 20.0, 0.0),
+        child: new Text(currentTimeFormat.format(new DateTime.fromMillisecondsSinceEpoch(elapsedTime)),style: defaultTextStyle),
+      )
 
 
     ]);
