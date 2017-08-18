@@ -27,13 +27,12 @@ Paint defaultShadowPaint() {
   return paint;
 }
 
-Paint workSectionIncompletePaint =
-    defaultStrokePaint(workSectionIncompleteColor, 0.4);
+Paint workSectionIncompletePaint = platePaint();
 
 Paint workSectionCompletePaint = defaultFillPaint(workSectionCompleteColor);
 
-Paint breakSectionIncompletePaint =
-    defaultStrokePaint(breakSectionIncompleteColor, 0.4);
+Paint breakSectionIncompletePaint = defaultFillPaint(breakSectionIncompleteColor);
+    
 
 Paint breakSectionCompletePaint = defaultFillPaint(breakSectionCompleteColor);
 
