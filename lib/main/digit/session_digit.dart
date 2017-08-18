@@ -22,7 +22,7 @@ class SessionDigit extends StatelessWidget {
   Widget build(BuildContext context) {
       var sessionDigitConfig = new SessionDigitConfig(dialOuterRadius : 135.0,dialInnerRadius : 50.0);
       var sessionWidgetModel = new SessionWidgetModel()
-              ..baseRotation = calculateStartRotation(startTime)
+              ..startTime = startTime
               ..sections = <Section>[
                 new Section(
                   length: 1000 * 60 * 25,
@@ -47,7 +47,5 @@ class SessionDigit extends StatelessWidget {
             );
   }
 
-  int calculateStartRotation(DateTime startTime) {
-    return (startTime.minute - 15) * 1000 * 60 + (startTime.second * 1000);
-  }
+  
 }

@@ -70,14 +70,14 @@ class SessionDigitPainter extends CustomPainter {
             completedSection,
             initAngle: initAngle,
             initOuterRadius: initOuterRadius,
-            initInnerRadius: initInnerRadius + (initOuterRadius - initInnerRadius) * (1 - completedSection.length / section.length),
+            initInnerRadius: initOuterRadius * (1 - completedSection.length / section.length),
             paintType: _PaintType.FOREGROUND,
           );
           drawSection(
             canvas,
             incompleteSection,
             initAngle: initAngle + completedSection.length * MILLIS_TO_ANGLE,
-            initOuterRadius: initInnerRadius + (initOuterRadius - initInnerRadius) * (1 - completedSection.length / section.length),
+            initOuterRadius: initOuterRadius * (1 - completedSection.length / section.length),
             initInnerRadius: initInnerRadius,
             paintType: _PaintType.BACKGROUND,
           );

@@ -14,6 +14,8 @@ class _MainWidgetState extends State<MainWidget> {
   DateTime startTime;
   DateTime lastTime;
 
+  int wrap = 1000;
+
   @override
   void initState() {
     startTime = timeProvider();
@@ -24,7 +26,7 @@ class _MainWidgetState extends State<MainWidget> {
   @override
   Widget build(BuildContext context) {
       new Future.delayed(
-        new Duration(milliseconds: 100))
+        new Duration(milliseconds: 1000))
         .whenComplete(()=> setState(() {
           if(!isPaused) {
         //    elapsedTime +=100;

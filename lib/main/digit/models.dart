@@ -34,16 +34,16 @@ class SessionDigitConfig {
 class SessionWidgetModel {
 
   List<Section> sections;
-  int baseRotation;
   int elapsed;
   SessionDigitConfig config;
-
+  DateTime startTime;
   
   int totalLength() => sections
                           .map((section) => section.length)
                           .reduce((collector,section){ collector += section; return collector;});
 
-  int totalLengthBefore(Section section) => sections
+   int totalLengthBefore(Section section) => sections.indexOf(section) == 0 ? 0 :
+                                            sections
                                             .where((s)=> sections.indexOf(s) < sections.indexOf(section))
                                             .map((s)=> s.length)
                                             .reduce((collector,value)=> collector += value);
@@ -57,5 +57,8 @@ class SessionWidgetModel {
 
   double radiusDeduction() => totalLength()/config.delta();
 
-  double angleBeforeSection (Section section) => (totalLengthBefore(section) + baseRotation) * MILLIS_TO_ANGLE;
+  double angleBeforeSection (Section section) => (totalLengthBefore(section) + calculateStartRotation(startTime)) * MILLIS_TO_ANGLE;
+
+  int calculateStartRotation(DateTime startTime) => (startTime.minute - 15) * 1000 * 60 + (startTime.second * 1000);
+  
 }

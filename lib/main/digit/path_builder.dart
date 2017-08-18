@@ -34,7 +34,7 @@ class PathBuilder {
 
   List<Stripe> _stripes (Section section,{double initAngle, double initOuterRadius, double initInnerRadius}) {
     int numberOfStripes = stripeCount(section);
-    double rD = _sessionWidgetModel.radiusDeduction();
+    double rD = (initOuterRadius - initInnerRadius)/numberOfStripes; 
     double sA = stripeAngle(section);
     List<Stripe> stripes = new List();
     for(int i = 0; i < numberOfStripes; i ++) {
