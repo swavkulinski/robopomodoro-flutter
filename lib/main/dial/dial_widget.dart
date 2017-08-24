@@ -29,6 +29,7 @@ class DialWidget extends StatelessWidget {
   Widget build(BuildContext context) {
 
   var size = MediaQuery.of(context).size;
+  var sessionState = paused ? '' : 'Session in progress';
    return new Stack(children: <Widget>[
       new CustomPaint(
         size: size,
@@ -60,9 +61,20 @@ class DialWidget extends StatelessWidget {
             startTime: startTime,
           ),
         ),
-      new Transform(
-        transform: new Matrix4.translationValues(size.width / 2, DIAL_CENTER + DIAL_RADIUS + 20.0, 0.0),
-        child: new Text(currentTimeFormat.format(new DateTime.fromMillisecondsSinceEpoch(elapsedTime)),style: defaultTextStyle),
+      new Align(
+        alignment:new FractionalOffset(0.5, 0.6),
+        child: 
+        new Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+              new Text(sessionTimeFormat.format(new DateTime.fromMillisecondsSinceEpoch(elapsedTime)),style: sessionTimeTextStyle,),
+              new Text(currentTimeFormat.format(new DateTime.now()),style: currentTimeTextStyle,),
+              new Padding(
+                padding: new EdgeInsets.all(8.0),
+                child: new Text(sessionState,style: currentTimeTextStyle,),
+              )
+          ],
+        ),
       )
 
 

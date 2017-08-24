@@ -11,13 +11,35 @@ TextPainter textPainter(String label) => new TextPainter(
       maxLines: 1,
     );
 
+
+TextDecoration defaultTextDecoration = TextDecoration.none;
+
 TextStyle defaultTextStyle = new TextStyle(
           fontSize: 20.0,
           fontWeight: FontWeight.normal,
           color: new Color(0xFF000000),
+          decoration: defaultTextDecoration,
        );
 
-DateFormat currentTimeFormat = new DateFormat('mm:ss');
+TextStyle sessionTimeTextStyle = new TextStyle(
+          fontSize: 32.0,
+          fontWeight: FontWeight.normal,
+          color: new Color(0xFF000000),
+          decoration: defaultTextDecoration,
+
+);
+
+TextStyle currentTimeTextStyle = new TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.normal,
+          color: new Color(0xFF000000),
+          decoration: defaultTextDecoration,
+
+);
+
+
+DateFormat sessionTimeFormat = new DateFormat('mm:ss');
+DateFormat currentTimeFormat = new DateFormat('h:mm:ss a');
 
 Paint platePaint() {
   var paint = new Paint();
@@ -89,7 +111,7 @@ const double DEFAULT_ANGLE_CORRECTION = -PI/2;
 
 var wrapTime = 0;
 Duration warp() => new Duration(milliseconds: wrapTime += 5000);
-var timeProvider = () => new DateTime.now().add(warp());
+var timeProvider = () => new DateTime.now();//.add(warp());
 
 const MILLIS_TO_ANGLE =  2 * PI / (60 * 60 * 1000);
 const double STRIPES_FACTOR = PI / (6 / 60 / 1000);

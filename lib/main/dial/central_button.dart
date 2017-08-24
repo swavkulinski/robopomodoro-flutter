@@ -26,7 +26,7 @@ class CentralButton extends StatelessWidget {
                 painter: new CentralButtonPainter(
                     bodyPaint: platePaint(),
                     shadowPaint: defaultShadowPaint(),
-                    label: paused ? "RESUME" : "PAUSE"
+                    label: paused ? "Start" : "Reset"
                 ),
             ),
         );
