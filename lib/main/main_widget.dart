@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dial/dial_widget.dart';
 import 'di/main_module.dart';
+import 'digit/models.dart';
+import '../app/models.dart';
 
 class MainWidget extends StatefulWidget {
   @override
@@ -15,6 +17,28 @@ class _MainWidgetState extends State<MainWidget> {
   DateTime lastTime;
 
   bool isScheduling = false;
+
+  SessionDigitConfig sessionDigitConfig() => new SessionDigitConfig(dialOuterRadius : 135.0,dialInnerRadius : 50.0);
+  SessionWidgetModel sessionWidgetModel() => new SessionWidgetModel()
+              ..startTime = startTime
+              ..sections = <Section>[
+                new Section(
+                  length: 1000 * 60 * 10,
+                  foregroundPaint: workSectionCompletePaint,
+                  backgroundPaint: workSectionIncompletePaint,
+                  sessionType: SectionType.WORK,
+                ),
+                new Section(
+                  length: 1000 * 60 * 10,
+                  foregroundPaint: breakSectionCompletePaint,
+                  backgroundPaint: breakSectionIncompletePaint,
+                  sessionType: SectionType.BREAK,
+                )
+              ]
+              ..config = sessionDigitConfig()
+              ..elapsed = currentTime.millisecondsSinceEpoch - startTime.millisecondsSinceEpoch;
+
+
 
   
   void initState() {
@@ -46,6 +70,7 @@ class _MainWidgetState extends State<MainWidget> {
       paused: isPaused,
       currentTime: currentTime,
       startTime: startTime,
+      sessionWidgetModel: sessionWidgetModel(),
     );
   }
 

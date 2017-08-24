@@ -4,6 +4,7 @@ import '../di/main_module.dart';
 import 'central_button.dart';
 import '../digit/session_digit.dart';
 import '../digit/minute_digit.dart';
+import '../digit/models.dart';
 
 class DialWidget extends StatelessWidget {
 
@@ -17,6 +18,7 @@ class DialWidget extends StatelessWidget {
   final bool paused;
   final DateTime currentTime;
   final DateTime startTime;
+  final SessionWidgetModel sessionWidgetModel;
 
   DialWidget({
     this.elapsedTime,
@@ -24,6 +26,7 @@ class DialWidget extends StatelessWidget {
     this.paused,
     this.currentTime,
     this.startTime,
+    this.sessionWidgetModel,
   }):assert(onTapListener != null);
 
   Widget build(BuildContext context) {
@@ -59,6 +62,7 @@ class DialWidget extends StatelessWidget {
             radius: radius,
             elapsedTime: elapsedTime,
             startTime: startTime,
+            sessionWidgetModel: sessionWidgetModel,
           ),
         ),
       new Align(
