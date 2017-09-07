@@ -14,11 +14,7 @@ class Section {
     this.sessionType,
     this.backgroundPaint,
     this.foregroundPaint,
-  }):
-    assert(length > 0),
-    assert(sessionType != null),
-    assert(backgroundPaint != null),
-    assert(foregroundPaint != null);
+  });
 }
 
 class Session {

@@ -3,9 +3,14 @@ import 'dart:async';
 import 'dial/dial_widget.dart';
 import 'di/main_module.dart';
 import 'digit/models.dart';
-import '../app/models.dart';
+import 'session_controller/session_controller.dart';
 
 class MainWidget extends StatefulWidget {
+
+  final SessionController sessionController = new SessionController();
+
+  MainWidget();
+
   @override
   _MainWidgetState createState() => new _MainWidgetState();
 }
@@ -17,29 +22,15 @@ class _MainWidgetState extends State<MainWidget> {
   DateTime lastTime;
 
   bool isScheduling = false;
+  _MainWidgetState();
+
 
   SessionDigitConfig sessionDigitConfig() => new SessionDigitConfig(dialOuterRadius : 135.0,dialInnerRadius : 50.0);
   SessionWidgetModel sessionWidgetModel() => new SessionWidgetModel()
               ..startTime = startTime
-              ..sections = <Section>[
-                new Section(
-                  length: 1000 * 60 * 10,
-                  foregroundPaint: workSectionCompletePaint,
-                  backgroundPaint: workSectionIncompletePaint,
-                  sessionType: SectionType.WORK,
-                ),
-                new Section(
-                  length: 1000 * 60 * 10,
-                  foregroundPaint: breakSectionCompletePaint,
-                  backgroundPaint: breakSectionIncompletePaint,
-                  sessionType: SectionType.BREAK,
-                )
-              ]
+              ..session = sessionController.getCurrentSession()              
               ..config = sessionDigitConfig()
               ..elapsed = currentTime.millisecondsSinceEpoch - startTime.millisecondsSinceEpoch;
-
-
-
   
   void initState() {
     startTime = timeProvider();
@@ -55,6 +46,10 @@ class _MainWidgetState extends State<MainWidget> {
             new Duration(milliseconds: 1000))
             .whenComplete(()=> setState(() {
               var newTime = timeProvider();
+              if(sessionWidgetModel().session == null) {
+                isPaused = true;
+                startTime = currentTime;
+              }
               if(isPaused) {
                 startTime = startTime.add(new Duration(milliseconds: newTime.millisecondsSinceEpoch - currentTime.millisecondsSinceEpoch));
               }
@@ -76,6 +71,9 @@ class _MainWidgetState extends State<MainWidget> {
 
   void _handleOnTap () => setState((){
     isPaused = !isPaused;
-    startTime = currentTime; 
+    startTime = currentTime;
+    if(isPaused && sessionWidgetModel().session != null) {
+      sessionController.pop(); 
+    }
   });
 }

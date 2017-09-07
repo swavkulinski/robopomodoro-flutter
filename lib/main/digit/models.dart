@@ -33,25 +33,25 @@ class SessionDigitConfig {
 
 class SessionWidgetModel {
 
-  List<Section> sections;
+  Session session;
   int elapsed;
   SessionDigitConfig config;
   DateTime startTime;
-  
-  int totalLength() => sections
+
+  int totalLength() => session.sections 
                           .map((section) => section.length)
                           .reduce((collector,section){ collector += section; return collector;});
 
-   int totalLengthBefore(Section section) => sections.indexOf(section) == 0 ? 0 :
-                                            sections
-                                            .where((s)=> sections.indexOf(s) < sections.indexOf(section))
+   int totalLengthBefore(Section section) => session.sections.indexOf(section) == 0 ? 0 :
+                                            session.sections
+                                            .where((s)=> session.sections.indexOf(s) < session.sections.indexOf(section))
                                             .map((s)=> s.length)
                                             .reduce((collector,value)=> collector += value);
 
   double initRadius (Section section) => totalLengthBefore(section)*radiusDeduction();
 
-  double endRadius (Section section) => sections
-                                            .where((s)=> sections.indexOf(s) <= sections.indexOf(section))
+  double endRadius (Section section) => session.sections
+                                            .where((s)=> session.sections.indexOf(s) <= session.sections.indexOf(section))
                                             .map((s)=> s.length)
                                             .reduce((collector,value)=> collector += value)*radiusDeduction();
 

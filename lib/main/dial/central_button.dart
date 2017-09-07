@@ -6,14 +6,15 @@ class CentralButton extends StatelessWidget {
   final VoidCallback onTapListener;
   final double radius;
   final bool paused;
+  final bool noSession;
 
   CentralButton({
     Key key,
     this.onTapListener,
     this.radius,
     this.paused,
+    this.noSession,
   }):
-  assert(onTapListener != null),
   assert(radius > 0.0),
   super(key:key);
 
@@ -26,9 +27,19 @@ class CentralButton extends StatelessWidget {
                 painter: new CentralButtonPainter(
                     bodyPaint: platePaint(),
                     shadowPaint: defaultShadowPaint(),
-                    label: paused ? "Start" : "Reset"
+                    label: _label(),
                 ),
             ),
         );
+  }
+
+  String _label() {
+    if(noSession) {
+      return "";
+    }
+    if(paused) {
+      return "Start";
+    }
+    return "Reset";
   }
 }

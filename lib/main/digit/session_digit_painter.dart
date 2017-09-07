@@ -18,8 +18,8 @@ class SessionDigitPainter extends CustomPainter {
   SessionDigitPainter(
     this._model,
     this._pathBuilder,
-  ): assert (_model.sections != null),
-      assert (_model.sections.length > 0),
+  ): assert (_model.session.sections != null),
+      assert (_model.session.sections.length > 0),
       assert (_model.config.dialInnerRadius < _model.config.dialOuterRadius),
       assert (_model.config.dialOuterRadius > 0.0);
 
@@ -36,7 +36,7 @@ class SessionDigitPainter extends CustomPainter {
         ),
       defaultShadowPaint());
 
-    for(Section section in _model.sections) {
+    for(Section section in _model.session.sections) {
       double initAngle = _model.angleBeforeSection(section);
       double initOuterRadius = _model.config.delta() - _model.initRadius(section);
       double initInnerRadius = _model.config.delta() - _model.endRadius(section);
