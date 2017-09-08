@@ -1,18 +1,16 @@
 import 'package:test/test.dart';
-
 import 'session_widget_model_mock.dart';
-
 import '../../lib/main/digit/models.dart';
 
 void main() {
 
- SessionWidgetModel modelUnderTest = new SessionWidgetModel()
+
+  SessionWidgetModel modelUnderTest = new SessionWidgetModel()
   ..config = mockConfig
   ..elapsed = 0
   ..startTime = mockTime
-  ..sections = [mockSectionOne,mockSectionTwo,mockSectionThree];
-
-test(
+  ..session = mockSession;
+   test(
       "GIVEN array of sections WHEN total length is calculated THEN sum of lengths in milliseconds is returned",
       () {
     expect(modelUnderTest.totalLengthBefore(mockSectionOne), 0);
@@ -26,7 +24,7 @@ test(
       "GIVEN a section WHEN deduction is calculated THEN returned value is a total length of all sections divided by the difference in outer and inner radius",
       () {
     expect(modelUnderTest.radiusDeduction(),
-        45 * 60 * 1000 / 50.0);
+        50 / (45 * 60 * 1000));
   });
 
   // TODO find a way to test internal implementation

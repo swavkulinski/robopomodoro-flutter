@@ -35,3 +35,6 @@ SessionDigitConfig mockConfig = new SessionDigitConfig(
 );
 
 DateTime mockTime = new DateTime(2017,5,10,12,0,0);
+
+Session mockSession = new Session()..sections = [mockSectionOne,mockSectionTwo,mockSectionThree]
+    ..name = "mock";

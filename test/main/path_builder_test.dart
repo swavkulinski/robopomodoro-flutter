@@ -13,7 +13,7 @@ const double INNER_RADIUS = 50.0;
         ..config = mockConfig
         ..startTime = mockTime
         ..elapsed = 0
-        ..sections = [mockSectionOne,mockSectionTwo,mockSectionThree];
+        ..session = mockSession;
 
     PathBuilder pathBuilderUnderTest = new PathBuilder(mockConfig, mockModel);
 
