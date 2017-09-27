@@ -9,8 +9,6 @@ import 'path_builder.dart';
 import 'models.dart';
 
 class SessionDigitPainter extends CustomPainter {
-
-
   SessionWidgetModel _model;
 
   PathBuilder _pathBuilder;
@@ -18,100 +16,145 @@ class SessionDigitPainter extends CustomPainter {
   SessionDigitPainter(
     this._model,
     this._pathBuilder,
-  ): assert (_model.session.sections != null),
-      assert (_model.session.sections.length > 0),
-      assert (_model.config.dialInnerRadius < _model.config.dialOuterRadius),
-      assert (_model.config.dialOuterRadius > 0.0);
+  )
+      : assert(_model.session.sections != null),
+        assert(_model.session.sections.length > 0),
+        assert(_model.config.dialInnerRadius < _model.config.dialOuterRadius),
+        assert(_model.config.dialOuterRadius > 0.0);
 
   @override
   void paint(Canvas canvas, Size size) {
     int lengthCounter = 0;
 
-    Section shadowSection = new Section(length:_model.totalLength(),sessionType:SectionType.COFFEE,foregroundPaint:workSectionCompletePaint,backgroundPaint:workSectionCompletePaint);
-    canvas.drawPath(_pathBuilder.buildPath(
-        shadowSection,
-        initAngle: _model.startTime.millisecondsSinceEpoch * MILLIS_TO_ANGLE + DEFAULT_ANGLE_CORRECTION,
-        initOuterRadius: _model.config.delta(),
-        initInnerRadius:  0.0,
+    Section shadowSection = new Section(
+        length: _model.totalLength(),
+        sessionType: SectionType.COFFEE,
+        foregroundPaint: workSectionCompletePaint,
+        backgroundPaint: workSectionCompletePaint);
+    canvas.drawPath(
+        _pathBuilder.buildPath(
+          shadowSection,
+          size: size,
+          initAngle: _model.startTime.millisecondsSinceEpoch * MILLIS_TO_ANGLE +
+              DEFAULT_ANGLE_CORRECTION,
+          initOuterRadius: _model.config.delta(),
+          initInnerRadius: 0.0,
         ),
-      defaultShadowPaint());
+        defaultShadowPaint());
 
-    for(Section section in _model.session.sections) {
+    for (Section section in _model.session.sections) {
       double initAngle = _model.angleBeforeSection(section);
-      double initOuterRadius = _model.config.delta() - _model.initRadius(section);
-      double initInnerRadius = _model.config.delta() - _model.endRadius(section);
-      if(lengthCounter + section.length <= _model.elapsed) {
-          // Completed section
-          drawSection(
-            canvas,
-            section,
-            initAngle: initAngle,
-            initOuterRadius: initOuterRadius,
-            initInnerRadius: initInnerRadius,
-            paintType: _PaintType.FOREGROUND,
-          );
+      double initOuterRadius =
+          _model.config.delta() - _model.initRadius(section);
+      double initInnerRadius =
+          _model.config.delta() - _model.endRadius(section);
+      if (lengthCounter + section.length <= _model.elapsed) {
+        // Completed section
+        drawSection(
+          canvas,
+          section,
+          size,
+          initAngle: initAngle,
+          initOuterRadius: initOuterRadius,
+          initInnerRadius: initInnerRadius,
+          paintType: _PaintType.FOREGROUND,
+        );
       } else if (lengthCounter >= _model.elapsed) {
-          // Incomplete section
-          drawSection(
-            canvas,
-            section,
-            initAngle: initAngle,
-            initOuterRadius: initOuterRadius,
-            initInnerRadius: initInnerRadius,
-            paintType: _PaintType.BACKGROUND,
-          );
+        // Incomplete section
+        drawSection(
+          canvas,
+          section,
+          size,
+          initAngle: initAngle,
+          initOuterRadius: initOuterRadius,
+          initInnerRadius: initInnerRadius,
+          paintType: _PaintType.BACKGROUND,
+        );
       } else {
-          // Split into two sections - completed and incomplete
-          Section completedSection = new Section(
-            length: _model.elapsed - lengthCounter,
-            sessionType: section.sessionType,
-            foregroundPaint: section.foregroundPaint,
-            backgroundPaint: section.backgroundPaint,
-          );
-          Section incompleteSection = new Section(
-            length: section.length - (_model.elapsed - lengthCounter),
-            sessionType: section.sessionType,
-            foregroundPaint: section.foregroundPaint,
-            backgroundPaint: section.backgroundPaint,
-          );
-          // Draw both sections
-          drawSection(
-            canvas,
-            completedSection,
-            initAngle: initAngle,
-            initOuterRadius: initOuterRadius,
-            initInnerRadius: initInnerRadius + (initOuterRadius - initInnerRadius) * (1 - completedSection.length / section.length),
-            paintType: _PaintType.FOREGROUND,
-          );
-          drawSection(
-            canvas,
-            incompleteSection,
-            initAngle: initAngle + completedSection.length * MILLIS_TO_ANGLE,
-            initOuterRadius: initInnerRadius + (initOuterRadius - initInnerRadius) * (1 - completedSection.length / section.length),
-            initInnerRadius: initInnerRadius,
-            paintType: _PaintType.BACKGROUND,
-          );
+        // Split into two sections - completed and incomplete
+        Section completedSection = new Section(
+          length: _model.elapsed - lengthCounter,
+          sessionType: section.sessionType,
+          foregroundPaint: section.foregroundPaint,
+          backgroundPaint: section.backgroundPaint,
+        );
+        Section incompleteSection = new Section(
+          length: section.length - (_model.elapsed - lengthCounter),
+          sessionType: section.sessionType,
+          foregroundPaint: section.foregroundPaint,
+          backgroundPaint: section.backgroundPaint,
+        );
+        // Draw both sections
+        drawSection(
+          canvas,
+          completedSection,
+          size,
+          initAngle: initAngle,
+          initOuterRadius: initOuterRadius,
+          initInnerRadius: initInnerRadius +
+              (initOuterRadius - initInnerRadius) *
+                  (1 - completedSection.length / section.length),
+          paintType: _PaintType.FOREGROUND,
+        );
+        drawSection(
+          canvas,
+          incompleteSection,
+          size,
+          initAngle: initAngle + completedSection.length * MILLIS_TO_ANGLE,
+          initOuterRadius: initInnerRadius +
+              (initOuterRadius - initInnerRadius) *
+                  (1 - completedSection.length / section.length),
+          initInnerRadius: initInnerRadius,
+          paintType: _PaintType.BACKGROUND,
+        );
       }
       lengthCounter += section.length;
     }
-
   }
 
   bool shouldRepaint(SessionDigitPainter oldDelegate) {
     return false;
   }
 
-  /// Draws section 
-  void drawSection(Canvas canvas, Section session, {double initAngle, double initOuterRadius, double initInnerRadius, _PaintType paintType}) {
-
-    Path path = _pathBuilder.buildPath(session,initAngle: initAngle, initInnerRadius: initInnerRadius, initOuterRadius: initOuterRadius);
-    Paint selectedPaint = paintType == _PaintType.FOREGROUND ? session.foregroundPaint : session.backgroundPaint;
+  /// Draws section
+  void drawSection(Canvas canvas, Section session,Size size,
+      {double initAngle,
+      double initOuterRadius,
+      double initInnerRadius,
+      _PaintType paintType}) {
+    Path path = _pathBuilder.buildPath(session,
+        size: size,
+        initAngle: initAngle,
+        initInnerRadius: initInnerRadius,
+        initOuterRadius: initOuterRadius);
+    Paint selectedPaint = paintType == _PaintType.FOREGROUND
+        ? session.foregroundPaint
+        : session.backgroundPaint;
     canvas.drawPath(path, selectedPaint);
-
   }
- 
+
+  void drawDebug(Canvas canvas, Size size) {
+    Path path = new Path()
+      ..addOval(new Rect.fromLTRB(0.0, 0.0, size.width, size.height));
+    Paint paint = defaultFillPaint(breakSectionCompleteColor);
+    canvas.drawPath(path, paint);
+  }
 }
 
 enum _PaintType {
-  FOREGROUND,BACKGROUND,
+  FOREGROUND,
+  BACKGROUND,
+}
+
+class DummySessionDigitPainter extends CustomPainter {
+  @override
+  bool shouldRepaint(CustomPainter old) {
+    return false;
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvas.drawCircle(new Offset(size.width / 2, size.height / 2),
+        size.width / 2, defaultFillPaint(breakSectionCompleteColor));
+  }
 }

@@ -116,3 +116,5 @@ var timeProvider = () => new DateTime.now();//.add(warp());
 const MILLIS_TO_ANGLE =  2 * PI / (60 * 60 * 1000);
 const double STRIPES_FACTOR = PI / (6 / 60 / 1000);
 
+const REFRESH_TIME_MILLISECONDS = 300;
+

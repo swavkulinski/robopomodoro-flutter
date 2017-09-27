@@ -23,8 +23,8 @@ class SessionDigit extends StatelessWidget {
            return new CustomPaint(
             size: new Size(radius * 2, radius * 2),
             painter: new SessionDigitPainter(sessionWidgetModel,new PathBuilder(sessionWidgetModel.config, sessionWidgetModel)),
+            //painter: new DummySessionDigitPainter(),
             );
   }
-
   
 }

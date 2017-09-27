@@ -1,4 +1,6 @@
 import 'dart:ui';
+import 'package:flutter/rendering.dart';
+
 import 'dart:math';
 import 'models.dart';
 import '../../app/models.dart';
@@ -13,8 +15,10 @@ class PathBuilder {
 
   PathBuilder (this._sessionDigitConfig,this._sessionWidgetModel);
 
-  Path buildPath(Section section,{double initAngle, double initOuterRadius, double initInnerRadius}) {
-      return _buildPathFromStripes(_stripes(section,initAngle: initAngle,initOuterRadius: initOuterRadius, initInnerRadius: initInnerRadius));
+  Path buildPath(Section section,{Size size, double initAngle, double initOuterRadius, double initInnerRadius}) {
+      Path path = _buildPathFromStripes(_stripes(section,initAngle: initAngle,initOuterRadius: initOuterRadius, initInnerRadius: initInnerRadius));
+      path = path.transform(new Matrix4.translationValues(size.width/2, size.height/2, 0.0).storage);
+      return path;
   }
 /// Builds path given list of Stripes
   Path _buildPathFromStripes(List<Stripe> stripeList) {

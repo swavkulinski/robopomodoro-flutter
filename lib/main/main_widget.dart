@@ -43,7 +43,7 @@ class _MainWidgetState extends State<MainWidget> {
       if(!isScheduling) {
           isScheduling = true;
           new Future.delayed(
-            new Duration(milliseconds: 1000))
+            new Duration(milliseconds: REFRESH_TIME_MILLISECONDS))
             .whenComplete(()=> setState(() {
               var newTime = timeProvider();
               if(sessionWidgetModel().session == null) {
@@ -54,7 +54,7 @@ class _MainWidgetState extends State<MainWidget> {
                 startTime = startTime.add(new Duration(milliseconds: newTime.millisecondsSinceEpoch - currentTime.millisecondsSinceEpoch));
               }
               currentTime = newTime;
-              isScheduling = false; 
+              isScheduling = false;
             }),
       );
  
