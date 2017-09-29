@@ -77,10 +77,9 @@ class _MainWidgetState extends State<MainWidget> {
   void _handleOnTap () => setState((){
     isPaused = !isPaused;
     startTime = currentTime;
-    print("_handleOnTap");
   });
 
   VoidCallback _controllerOnChangeHandler() {
-    return () => setState(() => print("A"));
+    return () => setState(() => print("SessionController change"));
   }
 }

@@ -40,7 +40,7 @@ TextStyle currentTimeTextStyle = new TextStyle(
 
 
 DateFormat sessionTimeFormat = new DateFormat('mm:ss');
-DateFormat currentTimeFormat = new DateFormat('h:mm:ss a');
+DateFormat currentTimeFormat = new DateFormat('h:mm a');
 
 Paint platePaint() {
   var paint = new Paint();

@@ -46,8 +46,8 @@ main() {
       var minuteDigitPainter = new MinuteDigitPainter(dateTime);
 
       var result = minuteDigitPainter.calculateDigitRotation(mockedTimestamp, mockSize);
-      expect(result.dx,5.0);
-      expect(result.dy,0.0);
+      expect(result.dx,10.0);
+      expect(result.dy,5.0);
   });
 
   test("GIVEN timestamp equal 30 * 60 WHEN calculateDigitRotation is called THEN it returns offset of vertical size.height / 2",
@@ -68,8 +68,8 @@ main() {
       var minuteDigitPainter = new MinuteDigitPainter(dateTime);
 
       var result = minuteDigitPainter.calculateDigitRotation(mockedTimestamp, mockSize);
-      expect(result.dx.truncate(),0);
-      expect(result.dy,5.0);
+      expect(result.dx,5.0);
+      expect(result.dy,10.0);
   });
 
   test("GIVEN timestamp equal 45 * 60 WHEN calculateDigitRotation is called THEN it returns offset of vertical - size.width / 2",
@@ -90,8 +90,8 @@ main() {
       var minuteDigitPainter = new MinuteDigitPainter(dateTime);
 
       var result = minuteDigitPainter.calculateDigitRotation(mockedTimestamp, mockSize);
-      expect(result.dx,-5.0);
-      expect(result.dy.truncate(),0);
+      expect(result.dx,0.0);
+      expect(result.dy.truncate(),5.0);
   });
 
   test("GIVEN timestamp equal 60 * 60 WHEN calculateDigitRotation is called THEN it returns offset vertical of - size.height/2",
@@ -112,7 +112,7 @@ main() {
       var minuteDigitPainter = new MinuteDigitPainter(dateTime);
 
       var result = minuteDigitPainter.calculateDigitRotation(mockedTimestamp, mockSize);
-      expect(result.dx.truncate(),0);
-      expect(result.dy,-5.0);
+      expect(result.dx.round(),5.0);
+      expect(result.dy,0.0);
   });
 }

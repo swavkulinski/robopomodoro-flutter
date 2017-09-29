@@ -35,7 +35,6 @@ class DialWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var sessionState = paused ? '' : 'Session in progress';
-    print("session: ${sessionWidgetModel.session}");
     var dial = <Widget>[
       new Center(
           child: new CustomPaint(
