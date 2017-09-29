@@ -1,13 +1,15 @@
 import '../../app/models.dart';
 import '../di/main_module.dart';
+import 'dart:ui';
 
 SessionFactory sessionFactory = new SessionFactory();
 SessionController sessionController = new SessionController();
 
 class SessionController {
 
-    List<Session> _schedule = <Session>[];
-    
+    VoidCallback onChange;
+
+    List<Session> _schedule = <Session>[sessionFactory.longPomodoro()];
 
     List<Session> getSchedule() => _schedule;
 
@@ -17,22 +19,23 @@ class SessionController {
       return null;
     }}
 
-    void removeSession(int index) => _schedule.removeAt(index);
+    void removeSession(int index) {_schedule.removeAt(index); onChange();} 
 
-    void clearSchedule() => _schedule.clear();
+    void clearSchedule() {_schedule.clear(); onChange();}
 
-    void add(Session value) => _schedule.add(value);
+    void add(Session value) {_schedule.add(value); onChange();}
 
-    void addAt(Session value, int index) => _schedule.insertAll(index, [value]);
+    void addAt(Session value, int index) {_schedule.insertAll(index, [value]);onChange();}
 
     void move({int from, int to}) { 
       Session fromSession = _schedule[from];
       Session toSession = _schedule[to];
       _schedule[from] = toSession;
       _schedule[to] = fromSession;
+      onChange();
     }
 
-    void pop() => _schedule.removeAt(0);
+    void pop() {_schedule.removeAt(0);onChange();}
 }
 
 class SessionFactory {

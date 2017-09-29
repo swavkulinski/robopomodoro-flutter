@@ -23,6 +23,7 @@ class CentralButtonPainter extends CustomPainter {
     canvas.drawPath(shadowPath, bodyPaint);
 
     var text = textPainter(label);
+    text.textDirection = TextDirection.ltr;
     text.layout();
     text.paint(canvas, new Offset((size.width - text.width)/2, (size.height - text.height)/2));
 

@@ -19,6 +19,7 @@ class DialWidget extends StatelessWidget {
   final DateTime currentTime;
   final DateTime startTime;
   final SessionWidgetModel sessionWidgetModel;
+  final SessionController sessionController;
 
   DialWidget({
     this.elapsedTime,
@@ -27,13 +28,14 @@ class DialWidget extends StatelessWidget {
     this.currentTime,
     this.startTime,
     this.sessionWidgetModel,
+    this.sessionController,
   })
       : assert(onTapListener != null);
 
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var sessionState = paused ? '' : 'Session in progress';
-
+    print("session: ${sessionWidgetModel.session}");
     var dial = <Widget>[
       new Center(
           child: new CustomPaint(
@@ -44,31 +46,23 @@ class DialWidget extends StatelessWidget {
                 shadowPaint: defaultShadowPaint(),
               ))),
       new Center(
-        //TODO redo widget
         child: new MinuteDigit(currentTime: currentTime, radius: DIAL_RADIUS),
       ),
-      /*new Transform(
-
-                  transform: new Matrix4.translationValues(
-                  size.width / 2 - radius, DIAL_CENTER - radius, 0.0),
-                  child: new CentralButton(onTapListener: _getCentralButtonOnTapListener(),radius: radius, paused: paused, noSession: sessionWidgetModel.session == null,)
-                  ),*/
     ];
     if (sessionWidgetModel.session != null) {
-      dial.add(/*new Center(
-          child: */new SessionDigit(
+      dial.add(new SessionDigit(
         radius: DIAL_RADIUS,
         elapsedTime: elapsedTime,
         startTime: startTime,
         sessionWidgetModel: sessionWidgetModel,
       )
-      /*new Container(
-        width: DIAL_RADIUS ,
-        height: DIAL_RADIUS ,
-        color: new Color.fromARGB(255, 255, 0, 0),
-      )*/
-      );//);
+      
+      );
     }
+    //TODO investigate why I have to add central button on the end. SessionDigit intercepts clicks even if it doesn't have gesture detector
+    dial.add(new Center(
+        child: new CentralButton(onTapListener: onTapListener,radius: radius, paused: paused, noSession: sessionWidgetModel.session == null,)
+      ));
 
     var children = <Widget>[
       //background
@@ -133,7 +127,4 @@ class DialWidget extends StatelessWidget {
     return new Stack(children: children);
   }
 
-  VoidCallback _getCentralButtonOnTapListener() {
-    return sessionWidgetModel.session == null ? null : onTapListener;
-  }
 }
