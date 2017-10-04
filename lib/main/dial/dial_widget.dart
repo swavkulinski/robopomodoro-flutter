@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dial_painter.dart';
-//import 'timer_painter.dart';
 import '../di/main_module.dart';
 import 'central_button.dart';
 import '../digit/session_digit.dart';
 import '../digit/minute_digit.dart';
-import '../digit/models.dart';
+import '../models.dart';
 import '../session_controller/session_controller.dart';
 
 class DialWidget extends StatelessWidget {

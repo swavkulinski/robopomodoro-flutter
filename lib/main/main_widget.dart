@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dial/dial_widget.dart';
 import 'di/main_module.dart';
-import 'digit/models.dart';
+import 'models.dart';
 import '../app/models.dart';
 import 'session_controller/session_controller.dart';
 
@@ -36,6 +36,7 @@ class _MainWidgetState extends State<MainWidget> {
               ..config = sessionDigitConfig()
               ..elapsed = currentTime.millisecondsSinceEpoch - startTime.millisecondsSinceEpoch;
   
+  @override
   void initState() {
     startTime = timeProvider();
     currentTime = startTime;

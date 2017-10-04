@@ -6,7 +6,7 @@ import '../../app/models.dart';
 import '../di/main_module.dart';
 
 import 'path_builder.dart';
-import 'models.dart';
+import '../models.dart';
 
 class SessionDigitPainter extends CustomPainter {
   SessionWidgetModel _model;

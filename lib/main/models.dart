@@ -1,6 +1,6 @@
 import 'dart:math';
-import '../../app/models.dart';
-import '../di/main_module.dart';
+import '../app/models.dart';
+import 'di/main_module.dart';
 
 class Stripe {
   Point beginBottom;

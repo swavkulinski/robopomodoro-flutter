@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 import 'session_widget_model_mock.dart';
-import '../../lib/main/digit/models.dart';
+import '../../lib/main/models.dart';
 
 void main() {
 

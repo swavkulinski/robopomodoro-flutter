@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 import '../../lib/main/digit/path_builder.dart';
-import '../../lib/main/digit/models.dart';
+import '../../lib/main/models.dart';
 import 'session_widget_model_mock.dart';
 
 

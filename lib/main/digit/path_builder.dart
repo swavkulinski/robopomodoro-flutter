@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/rendering.dart';
 
 import 'dart:math';
-import 'models.dart';
+import '../models.dart';
 import '../../app/models.dart';
 import '../di/main_module.dart';
 
