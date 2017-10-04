@@ -32,7 +32,6 @@ class DialWidget extends StatelessWidget {
       : assert(onTapListener != null);
 
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     var sessionState = paused ? '' : 'Session in progress';
     var dial = <Widget>[
       new Center(
@@ -53,14 +52,16 @@ class DialWidget extends StatelessWidget {
         elapsedTime: elapsedTime,
         startTime: startTime,
         sessionWidgetModel: sessionWidgetModel,
-      )
-      
-      );
+      ));
     }
     //TODO investigate why I have to add central button on the end. SessionDigit intercepts clicks even if it doesn't have gesture detector
     dial.add(new Center(
-        child: new CentralButton(onTapListener: onTapListener,radius: radius, paused: paused, noSession: sessionWidgetModel.session == null,)
-      ));
+        child: new CentralButton(
+      onTapListener: onTapListener,
+      radius: radius,
+      paused: paused,
+      noSession: sessionWidgetModel.session == null,
+    )));
 
     var children = <Widget>[
       //background
@@ -80,10 +81,13 @@ class DialWidget extends StatelessWidget {
                   alignment: FractionalOffsetDirectional.center,
                   children: dial,
                 ),
-                new Text(
-                  sessionTimeFormat.format(
-                      new DateTime.fromMillisecondsSinceEpoch(elapsedTime)),
-                  style: sessionTimeTextStyle,
+                new Padding(
+                  padding: new EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
+                  child: new Text(
+                    sessionTimeFormat.format(
+                        new DateTime.fromMillisecondsSinceEpoch(elapsedTime)),
+                    style: sessionTimeTextStyle,
+                  ),
                 ),
                 new Text(
                   currentTimeFormat.format(new DateTime.now()),
@@ -124,5 +128,4 @@ class DialWidget extends StatelessWidget {
 
     return new Stack(children: children);
   }
-
 }
