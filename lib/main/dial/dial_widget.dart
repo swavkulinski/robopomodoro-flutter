@@ -39,6 +39,8 @@ class DialWidget extends StatelessWidget {
               size: new Size(DIAL_RADIUS * 2, DIAL_RADIUS * 2),
               painter: new DialPainter(
                 platePaint: platePaint(),
+                tickPaint: tickDialPaint,
+                tickLength: tickLength,
                 dialColor: dialColor,
                 shadowPaint: defaultShadowPaint(),
               ))),

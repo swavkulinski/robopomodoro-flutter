@@ -66,6 +66,10 @@ Paint breakSectionCompletePaint = defaultFillPaint(breakSectionCompleteColor);
 
 Paint minuteDigitPaint = defaultStrokePaint(darkDialColor, 2.0);
 
+Paint tickDialPaint = defaultStrokePaint(deepDarkColor, 1.0);
+
+double tickLength = 5.0;
+
 Paint centralButtonPaint = defaultFillPaint(centralButtonColor);
 
 Paint defaultFillPaint(Color color) {
@@ -93,6 +97,8 @@ Color breakSectionCompleteColor = new Color(0xFFA8CF2B);
 Color dialColor = new Color(0xFFF0F0F0);
 
 Color darkDialColor = new Color(0x20202020);
+
+Color deepDarkColor = new Color(0x90050505);
 
 Color centralButtonColor = workSectionCompleteColor;
 

@@ -1,6 +1,7 @@
 import '../../app/models.dart';
 import '../di/main_module.dart';
 import 'dart:ui';
+import 'package:flutter/services.dart';
 
 SessionFactory sessionFactory = new SessionFactory();
 SessionController sessionController = new SessionController();
@@ -36,6 +37,18 @@ class SessionController {
     }
 
     void pop() {_schedule.removeAt(0);onChange();}
+
+    void updateSession(DateTime startTime, DateTime currentTime) {
+      Session session = getCurrentSession();
+      if(
+        currentTime.millisecondsSinceEpoch - startTime.millisecondsSinceEpoch > 
+        session.sections.map((s)=> s.length).reduce((collector,value)=> collector += value)
+        ) {
+        HapticFeedback.vibrate();
+      }
+
+
+    }
 }
 
 class SessionFactory {

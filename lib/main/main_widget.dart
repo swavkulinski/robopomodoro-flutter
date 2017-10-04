@@ -60,6 +60,7 @@ class _MainWidgetState extends State<MainWidget> {
               }
               currentTime = newTime;
               isScheduling = false;
+              sc.updateSession(startTime,currentTime);
             }),
       );
  

@@ -6,7 +6,6 @@ dependencies:
     sdk: flutter
   shared_preferences:
     path: ../flutter-plugins/packages/shared_preferences
-
   mockito: "^2.0.2"
 
 dev_dependencies:
