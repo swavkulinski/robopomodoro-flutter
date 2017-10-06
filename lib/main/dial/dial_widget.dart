@@ -5,7 +5,7 @@ import 'central_button.dart';
 import '../digit/session_digit.dart';
 import '../digit/minute_digit.dart';
 import '../models.dart';
-import '../session_controller/session_controller.dart';
+import '../session_state/session_state_delegate.dart';
 
 class DialWidget extends StatelessWidget {
   static const DIAL_CENTER = 200.0;
@@ -18,7 +18,7 @@ class DialWidget extends StatelessWidget {
   final DateTime currentTime;
   final DateTime startTime;
   final SessionWidgetModel sessionWidgetModel;
-  final SessionController sessionController;
+  final SessionStateDelegate sessionController;
 
   DialWidget({
     this.elapsedTime,
@@ -87,7 +87,7 @@ class DialWidget extends StatelessWidget {
                   padding: new EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
                   child: new Text(
                     sessionTimeFormat.format(
-                        new DateTime.fromMillisecondsSinceEpoch(elapsedTime)),
+                        new DateTime.fromMillisecondsSinceEpoch(sessionWidgetModel.session.length()-elapsedTime)),
                     style: sessionTimeTextStyle,
                   ),
                 ),
