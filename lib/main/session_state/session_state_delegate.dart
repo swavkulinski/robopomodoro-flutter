@@ -120,6 +120,7 @@ class SessionStateDelegate {
       startTime: startTime,
       sessionWidgetModel: sessionWidgetModel(sessionDigitConfig),
       sessionController: this,
+      iconSize: new Size.fromRadius(30.0),
     );
   }
 
@@ -144,7 +145,7 @@ class SessionFactory {
 
   Session firstCoffee() => _coffee(8, 'First coffee');
   Session secondCoffee() => _coffee(5, 'Second coffee');
-  Session thirdoffee() => _coffee(3, 'Third coffee');
+  Session thirdCoffee() => _coffee(3, 'Third coffee');
 
   Session _pomodoro(workSectionLength, breakSectionLength, name) =>
       new Session()

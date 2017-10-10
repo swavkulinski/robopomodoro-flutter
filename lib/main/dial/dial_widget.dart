@@ -6,6 +6,7 @@ import '../digit/session_digit.dart';
 import '../digit/minute_digit.dart';
 import '../models.dart';
 import '../session_state/session_state_delegate.dart';
+import '../session_icon/session_icon.dart';
 
 class DialWidget extends StatelessWidget {
   static const DIAL_CENTER = 200.0;
@@ -19,6 +20,7 @@ class DialWidget extends StatelessWidget {
   final DateTime startTime;
   final SessionWidgetModel sessionWidgetModel;
   final SessionStateDelegate sessionController;
+  final Size iconSize;
 
   DialWidget({
     this.elapsedTime,
@@ -28,6 +30,7 @@ class DialWidget extends StatelessWidget {
     this.startTime,
     this.sessionWidgetModel,
     this.sessionController,
+    this.iconSize,
   })
       : assert(onTapListener != null);
 
@@ -49,20 +52,30 @@ class DialWidget extends StatelessWidget {
       ),
     ];
     if (sessionWidgetModel.session != null) {
-      dial.add(new SessionDigit(
+      dial.add(new Center(child:new SessionDigit(
         radius: DIAL_RADIUS,
         elapsedTime: elapsedTime,
         startTime: startTime,
         sessionWidgetModel: sessionWidgetModel,
-      ));
+      )));
     }
     //TODO investigate why I have to add central button on the end. SessionDigit intercepts clicks even if it doesn't have gesture detector
     dial.add(new Center(
-        child: new CentralButton(
+        child: new ToggleButton(
       onTapListener: onTapListener,
       radius: radius,
       paused: paused,
       noSession: sessionWidgetModel.session == null,
+      primaryStateText: "Start",
+      secondaryStateText: "Cancel",
+    )));
+    dial.add(new Align(alignment: new FractionalOffset(1.0, 1.0),
+    widthFactor: 5.1,
+    heightFactor: 5.1,
+    child:new SessionIcon(
+      session: sessionFactory.firstCoffee(),
+      size: new Size(60.0,60.0),
+      onClick: ()=> sessionController.clearSchedule(),
     )));
 
     var children = <Widget>[
@@ -80,6 +93,7 @@ class DialWidget extends StatelessWidget {
               children: <Widget>[
                 //dial
                 new Stack(
+                  fit: StackFit.passthrough,
                   alignment: FractionalOffsetDirectional.center,
                   children: dial,
                 ),
@@ -87,7 +101,8 @@ class DialWidget extends StatelessWidget {
                   padding: new EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
                   child: new Text(
                     sessionTimeFormat.format(
-                        new DateTime.fromMillisecondsSinceEpoch(sessionWidgetModel.session.length()-elapsedTime)),
+                        new DateTime.fromMillisecondsSinceEpoch(
+                            sessionWidgetModel.totalLength() - elapsedTime)),
                     style: sessionTimeTextStyle,
                   ),
                 ),
@@ -110,17 +125,34 @@ class DialWidget extends StatelessWidget {
             child: new ButtonBar(
               alignment: MainAxisAlignment.center,
               children: <Widget>[
-                new FlatButton(
-                    onPressed: () =>
-                        sessionController.add(sessionFactory.longPomodoro()),
-                    child: new Text('Add Long')),
-                new FlatButton(
-                    onPressed: () =>
-                        sessionController.add(sessionFactory.shortPomodoro()),
-                    child: new Text('Add Short')),
-                new FlatButton(
-                    onPressed: () => sessionController.clearSchedule(),
-                    child: new Text('Clear')),
+                new Padding(
+                  padding: new EdgeInsets.all(6.0),
+                  child: new SessionIcon(
+                      session: sessionFactory.longPomodoro(),
+                      size: iconSize,
+                      onClick: () =>
+                          sessionController.add(sessionFactory.longPomodoro())),
+                ),
+                new SessionIcon(
+                    session: sessionFactory.shortPomodoro(),
+                    size: iconSize,
+                    onClick: () =>
+                        sessionController.add(sessionFactory.shortPomodoro())),
+                new SessionIcon(
+                    session: sessionFactory.firstCoffee(),
+                    size: iconSize,
+                    onClick: () =>
+                        sessionController.add(sessionFactory.firstCoffee())),
+                new SessionIcon(
+                    session: sessionFactory.secondCoffee(),
+                    size: iconSize,
+                    onClick: () =>
+                        sessionController.add(sessionFactory.secondCoffee())),
+                new SessionIcon(
+                    session: sessionFactory.thirdCoffee(),
+                    size: iconSize,
+                    onClick: () =>
+                        sessionController.add(sessionFactory.thirdCoffee())),
               ],
             ),
           ))

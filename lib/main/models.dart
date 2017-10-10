@@ -38,9 +38,11 @@ class SessionWidgetModel {
   SessionDigitConfig config;
   DateTime startTime;
 
-  int totalLength() => session.sections 
+  int totalLength() {
+    if(session == null || session.sections == null || session.sections.length == 0) return 0;
+    return session.sections 
                           .map((section) => section.length)
-                          .reduce((collector,section){ collector += section; return collector;});
+                          .reduce((collector,section){ collector += section; return collector;});}
 
    int totalLengthBefore(Section section) => session.sections.indexOf(section) == 0 ? 0 :
                                             session.sections

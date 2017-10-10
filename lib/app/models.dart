@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 
-enum SectionType { WORK, BREAK, COFFEE }
+enum SectionType { WORK, BREAK, COFFEE, REMAINING }
 
 class Section {
   int length;
@@ -22,9 +22,11 @@ class Section {
 class Session {
   String name;
   List<Section> sections;
-  int length() => sections
+  int length() {
+      if(sections == null) return 0;
+      return sections
       .map((s) => s.length)
-      .reduce((collector, length) => collector += length);
+      .reduce((collector, length) => collector += length);}
 
   //TODO failing to find current section
   Section currentSection(int elapsedTime) {
@@ -37,6 +39,8 @@ class Session {
     }
     return sections.last;
   }
+
+  Section remaining(Paint paint) => new Section(length: 60 * 60 * 1000 - this.length(), sessionType: SectionType.REMAINING,foregroundPaint: paint);
   
 }
 

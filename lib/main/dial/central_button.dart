@@ -2,20 +2,26 @@ import 'package:flutter/material.dart';
 import 'central_button_painter.dart';
 import '../di/main_module.dart';
 
-class CentralButton extends StatelessWidget {
+class ToggleButton extends StatelessWidget {
   final VoidCallback onTapListener;
   final double radius;
   final bool paused;
   final bool noSession;
+  final String primaryStateText;
+  final String secondaryStateText;
 
-  CentralButton({
+  ToggleButton({
     Key key,
     this.onTapListener,
     this.radius,
     this.paused,
     this.noSession,
+    this.primaryStateText,
+    this.secondaryStateText,
   }):
   assert(radius > 0.0),
+  assert(primaryStateText != null),
+  assert(secondaryStateText != null),
   super(key:key);
 
 
@@ -38,8 +44,8 @@ class CentralButton extends StatelessWidget {
       return "";
     }
     if(paused) {
-      return "Start";
+      return primaryStateText;
     }
-    return "Reset";
+    return secondaryStateText;
   }
 }
