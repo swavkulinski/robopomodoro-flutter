@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dial_painter.dart';
 import '../di/main_module.dart';
-import 'central_button.dart';
+import 'toggle_button.dart';
+import 'round_button.dart';
 import '../digit/session_digit.dart';
 import '../digit/minute_digit.dart';
 import '../models.dart';
@@ -13,8 +14,9 @@ class DialWidget extends StatelessWidget {
   static const DIAL_RADIUS = 140.0;
   static const DEFAULT_COLOR = 0xFFA4C639;
   static const double radius = 45.0;
+  static const CENTRAL_BUTTON_SIZE = const Size(90.0, 90.0);
   final int elapsedTime;
-  final VoidCallback onTapListener;
+  final ValueChanged<bool> onTapListener;
   final bool paused;
   final DateTime currentTime;
   final DateTime startTime;
@@ -52,7 +54,8 @@ class DialWidget extends StatelessWidget {
       ),
     ];
     if (sessionWidgetModel.session != null) {
-      dial.add(new Center(child:new SessionDigit(
+      dial.add(new Center(
+          child: new SessionDigit(
         radius: DIAL_RADIUS,
         elapsedTime: elapsedTime,
         startTime: startTime,
@@ -60,22 +63,43 @@ class DialWidget extends StatelessWidget {
       )));
     }
     //TODO investigate why I have to add central button on the end. SessionDigit intercepts clicks even if it doesn't have gesture detector
+    
+    dial.add(
+      new Align(
+          alignment: new FractionalOffset(1.0, 1.0),
+          widthFactor: 5.1,
+          heightFactor: 5.1,
+          child: new GestureDetector(
+              onTap: () => sessionController.clearSchedule(),
+              child: new RoundButton(
+                child: new Icon(Icons.delete),
+                size: new Size(60.0, 60.0),
+                foregroundPaint: platePaint(),
+                shadowPaint: defaultShadowPaint(),
+              ))),
+    );
     dial.add(new Center(
         child: new ToggleButton(
-      onTapListener: onTapListener,
-      radius: radius,
-      paused: paused,
-      noSession: sessionWidgetModel.session == null,
-      primaryStateText: "Start",
-      secondaryStateText: "Cancel",
-    )));
-    dial.add(new Align(alignment: new FractionalOffset(1.0, 1.0),
-    widthFactor: 5.1,
-    heightFactor: 5.1,
-    child:new SessionIcon(
-      session: sessionFactory.firstCoffee(),
-      size: new Size(60.0,60.0),
-      onClick: ()=> sessionController.clearSchedule(),
+      onStateChangeListener: (state) => onTapListener(state),
+      state: paused,
+      firstChild: new RoundButton(
+        child: new Text(
+          "Cancel",
+          style: defaultTextStyle,
+        ),
+        size: CENTRAL_BUTTON_SIZE,
+        foregroundPaint: platePaint(),
+        shadowPaint: defaultShadowPaint(),
+      ),
+      secondChild: new RoundButton(
+        child: new Text(
+          "Start",
+          style: defaultTextStyle,
+        ),
+        size: CENTRAL_BUTTON_SIZE,
+        foregroundPaint: platePaint(),
+        shadowPaint: defaultShadowPaint(),
+      ),
     )));
 
     var children = <Widget>[

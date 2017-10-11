@@ -124,8 +124,9 @@ class SessionStateDelegate {
     );
   }
 
-  void _handlePauseResumeOnTap() {
-    isPaused = !isPaused;
+  void _handlePauseResumeOnTap(bool state) {
+    print("_handlePauseResumeOnTap($state)");
+    isPaused = state;
     startTime = currentTime;
     onChange();
   }
