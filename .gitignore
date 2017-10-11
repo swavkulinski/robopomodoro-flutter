@@ -10,3 +10,4 @@ pubspec.lock
 .flutter-plugins
 build/
 doc/api/
+fastlane
