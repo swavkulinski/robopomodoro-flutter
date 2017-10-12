@@ -17,13 +17,15 @@ TextDecoration defaultTextDecoration = TextDecoration.none;
 
 TextStyle defaultTextStyle = new TextStyle(
           fontSize: 20.0,
+          fontFamily: 'Merkury',
           fontWeight: FontWeight.normal,
           color: new Color(0xFF000000),
           decoration: defaultTextDecoration,
        );
 
 TextStyle sessionTimeTextStyle = new TextStyle(
-          fontSize: 32.0,
+          fontSize: 42.0,
+          fontFamily: 'Merkury',
           fontWeight: FontWeight.normal,
           color: new Color(0xFF000000),
           decoration: defaultTextDecoration,
@@ -32,6 +34,7 @@ TextStyle sessionTimeTextStyle = new TextStyle(
 
 TextStyle currentTimeTextStyle = new TextStyle(
           fontSize: 20.0,
+          fontFamily: 'Merkury',
           fontWeight: FontWeight.normal,
           color: new Color(0xFF000000),
           decoration: defaultTextDecoration,
@@ -88,13 +91,17 @@ Paint defaultStrokePaint(Color color, double width) {
   return paint;
 }
 
+
+Color WHITE_COLOR = const Color(0xFFFFFFFF);
+Color BASE_COLOR = const Color(0xFFFC2B08);
+
 Color workSectionIncompleteColor = new Color(0x88A4C639);
 Color workSectionCompleteColor = new Color(0xFFA4C639);
 
 Color breakSectionIncompleteColor = new Color(0x88A8CF2B);
 Color breakSectionCompleteColor = new Color(0xFFA8CF2B);
 
-Color dialColor = new Color(0xFFF0F0F0);
+Color dialColor = WHITE_COLOR;
 
 Color darkDialColor = new Color(0x20202020);
 
@@ -124,4 +131,8 @@ const MILLIS_TO_ANGLE =  2 * PI / (60 * 60 * 1000);
 const double STRIPES_FACTOR = PI / (6 / 60 / 1000);
 
 const REFRESH_TIME_MILLISECONDS = 300;
+
+EdgeInsets PADDING_24 = const EdgeInsets.all(16.0);
+
+Widget padding24(Widget child) => new Padding(padding:PADDING_24,child: child,);
 

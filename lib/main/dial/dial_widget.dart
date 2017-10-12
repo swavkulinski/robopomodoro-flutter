@@ -37,7 +37,8 @@ class DialWidget extends StatelessWidget {
       : assert(onTapListener != null);
 
   Widget build(BuildContext context) {
-    var sessionState = paused ? '' : 'Session in progress';
+    var size = MediaQuery.of(context).size;
+    var sessionState = paused ? '' : 'SESSION IN PROGRESS';
     var dial = <Widget>[
       new Center(
           child: new CustomPaint(
@@ -63,12 +64,12 @@ class DialWidget extends StatelessWidget {
       )));
     }
     //TODO investigate why I have to add central button on the end. SessionDigit intercepts clicks even if it doesn't have gesture detector
-    
+
     dial.add(
       new Align(
           alignment: new FractionalOffset(1.0, 1.0),
-          widthFactor: 5.1,
-          heightFactor: 5.1,
+          widthFactor: 5.3,
+          heightFactor: 5.3,
           child: new GestureDetector(
               onTap: () => sessionController.clearSchedule(),
               child: new RoundButton(
@@ -84,7 +85,7 @@ class DialWidget extends StatelessWidget {
       state: paused,
       firstChild: new RoundButton(
         child: new Text(
-          "Cancel",
+          "CANCEL",
           style: defaultTextStyle,
         ),
         size: CENTRAL_BUTTON_SIZE,
@@ -93,7 +94,7 @@ class DialWidget extends StatelessWidget {
       ),
       secondChild: new RoundButton(
         child: new Text(
-          "Start",
+          "START",
           style: defaultTextStyle,
         ),
         size: CENTRAL_BUTTON_SIZE,
@@ -144,42 +145,45 @@ class DialWidget extends StatelessWidget {
 
       //session buttons
       new Align(
-          alignment: new FractionalOffset(0.0, 1.0),
-          child: new Material(
-            child: new ButtonBar(
-              alignment: MainAxisAlignment.center,
-              children: <Widget>[
-                new Padding(
-                  padding: new EdgeInsets.all(6.0),
-                  child: new SessionIcon(
-                      session: sessionFactory.longPomodoro(),
-                      size: iconSize,
-                      onClick: () =>
-                          sessionController.add(sessionFactory.longPomodoro())),
-                ),
-                new SessionIcon(
-                    session: sessionFactory.shortPomodoro(),
-                    size: iconSize,
-                    onClick: () =>
-                        sessionController.add(sessionFactory.shortPomodoro())),
-                new SessionIcon(
-                    session: sessionFactory.firstCoffee(),
-                    size: iconSize,
-                    onClick: () =>
-                        sessionController.add(sessionFactory.firstCoffee())),
-                new SessionIcon(
-                    session: sessionFactory.secondCoffee(),
-                    size: iconSize,
-                    onClick: () =>
-                        sessionController.add(sessionFactory.secondCoffee())),
-                new SessionIcon(
-                    session: sessionFactory.thirdCoffee(),
-                    size: iconSize,
-                    onClick: () =>
-                        sessionController.add(sessionFactory.thirdCoffee())),
-              ],
-            ),
-          ))
+        alignment: new FractionalOffset(0.0, 1.0),
+        child:
+      new ConstrainedBox(
+          constraints: new BoxConstraints.loose(new Size(size.width,100.0)),
+          child: 
+        new  ListView(
+          physics: new BouncingScrollPhysics(),
+          padding: new EdgeInsets.all(10.0),
+          scrollDirection: Axis.horizontal,
+          children: <Widget>[
+            padding24(
+            new SessionIcon(
+                session: sessionFactory.longPomodoro(),
+                size: iconSize,
+                onClick: () =>
+                    sessionController.add(sessionFactory.longPomodoro()))),
+            padding24(new SessionIcon(
+                session: sessionFactory.shortPomodoro(),
+                size: iconSize,
+                onClick: () =>
+                    sessionController.add(sessionFactory.shortPomodoro()))),
+            padding24(new SessionIcon(
+                session: sessionFactory.firstCoffee(),
+                size: iconSize,
+                onClick: () =>
+                    sessionController.add(sessionFactory.firstCoffee()))),
+            padding24(new SessionIcon(
+                session: sessionFactory.secondCoffee(),
+                size: iconSize,
+                onClick: () =>
+                    sessionController.add(sessionFactory.secondCoffee()))),
+            padding24(new SessionIcon(
+                session: sessionFactory.thirdCoffee(),
+                size: iconSize,
+                onClick: () =>
+                    sessionController.add(sessionFactory.thirdCoffee()))),
+          ],
+        ),
+      ))
     ];
 
     //session digit
