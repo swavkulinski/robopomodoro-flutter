@@ -132,7 +132,6 @@ const double STRIPES_FACTOR = PI / (6 / 60 / 1000);
 
 const REFRESH_TIME_MILLISECONDS = 300;
 
-EdgeInsets PADDING_24 = const EdgeInsets.all(16.0);
+const EdgeInsets PADDING_24 = const EdgeInsets.all(16.0);
 
-Widget padding24(Widget child) => new Padding(padding:PADDING_24,child: child,);
 

@@ -4,7 +4,6 @@ import 'dart:ui';
 
 import '../../app/models.dart';
 import '../di/main_module.dart';
-
 import 'path_builder.dart';
 import '../models.dart';
 

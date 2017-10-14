@@ -8,6 +8,7 @@ import '../digit/minute_digit.dart';
 import '../models.dart';
 import '../session_state/session_state_delegate.dart';
 import '../session_icon/session_icon.dart';
+import '../../app/models.dart';
 
 class DialWidget extends StatelessWidget {
   static const DIAL_CENTER = 200.0;
@@ -63,7 +64,6 @@ class DialWidget extends StatelessWidget {
         sessionWidgetModel: sessionWidgetModel,
       )));
     }
-    //TODO investigate why I have to add central button on the end. SessionDigit intercepts clicks even if it doesn't have gesture detector
 
     dial.add(
       new Align(
@@ -79,29 +79,31 @@ class DialWidget extends StatelessWidget {
                 shadowPaint: defaultShadowPaint(),
               ))),
     );
-    dial.add(new Center(
-        child: new ToggleButton(
-      onStateChangeListener: (state) => onTapListener(state),
-      state: paused,
-      firstChild: new RoundButton(
-        child: new Text(
-          "CANCEL",
-          style: defaultTextStyle,
-        ),
-        size: CENTRAL_BUTTON_SIZE,
-        foregroundPaint: platePaint(),
-        shadowPaint: defaultShadowPaint(),
-      ),
-      secondChild: new RoundButton(
-        child: new Text(
-          "START",
-          style: defaultTextStyle,
-        ),
-        size: CENTRAL_BUTTON_SIZE,
-        foregroundPaint: platePaint(),
-        shadowPaint: defaultShadowPaint(),
-      ),
-    )));
+
+    if (sessionWidgetModel.session != null) {
+      dial.add(new Center(
+          child: new ToggleButton(
+              onStateChangeListener: (state) => onTapListener(state),
+              state: paused,
+              firstChild: new RoundButton(
+                child: new Text(
+                  "CANCEL",
+                  style: defaultTextStyle,
+                ),
+                size: CENTRAL_BUTTON_SIZE,
+                foregroundPaint: platePaint(),
+                shadowPaint: defaultShadowPaint(),
+              ),
+              secondChild: new RoundButton(
+                child: new Text(
+                  "START",
+                  style: defaultTextStyle,
+                ),
+                size: CENTRAL_BUTTON_SIZE,
+                foregroundPaint: platePaint(),
+                shadowPaint: defaultShadowPaint(),
+              ))));
+    }
 
     var children = <Widget>[
       //background
@@ -145,49 +147,35 @@ class DialWidget extends StatelessWidget {
 
       //session buttons
       new Align(
-        alignment: new FractionalOffset(0.0, 1.0),
-        child:
-      new ConstrainedBox(
-          constraints: new BoxConstraints.loose(new Size(size.width,100.0)),
-          child: 
-        new  ListView(
-          physics: new BouncingScrollPhysics(),
-          padding: new EdgeInsets.all(10.0),
-          scrollDirection: Axis.horizontal,
-          children: <Widget>[
-            padding24(
-            new SessionIcon(
-                session: sessionFactory.longPomodoro(),
-                size: iconSize,
-                onClick: () =>
-                    sessionController.add(sessionFactory.longPomodoro()))),
-            padding24(new SessionIcon(
-                session: sessionFactory.shortPomodoro(),
-                size: iconSize,
-                onClick: () =>
-                    sessionController.add(sessionFactory.shortPomodoro()))),
-            padding24(new SessionIcon(
-                session: sessionFactory.firstCoffee(),
-                size: iconSize,
-                onClick: () =>
-                    sessionController.add(sessionFactory.firstCoffee()))),
-            padding24(new SessionIcon(
-                session: sessionFactory.secondCoffee(),
-                size: iconSize,
-                onClick: () =>
-                    sessionController.add(sessionFactory.secondCoffee()))),
-            padding24(new SessionIcon(
-                session: sessionFactory.thirdCoffee(),
-                size: iconSize,
-                onClick: () =>
-                    sessionController.add(sessionFactory.thirdCoffee()))),
-          ],
-        ),
-      ))
+          alignment: new FractionalOffset(0.0, 1.0),
+          child: new ConstrainedBox(
+            constraints: new BoxConstraints.loose(new Size(size.width, 100.0)),
+            child: new ListView(
+              physics: new BouncingScrollPhysics(),
+              padding: new EdgeInsets.all(10.0),
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+                _createIcon(sessionFactory.longPomodoro()),
+                _createIcon(sessionFactory.shortPomodoro()),
+                _createIcon(sessionFactory.firstCoffee()),
+                _createIcon(sessionFactory.secondCoffee()),
+                _createIcon(sessionFactory.thirdCoffee()),
+              ],
+            ),
+          ))
     ];
 
     //session digit
 
     return new Stack(children: children);
+  }
+
+  Widget _createIcon(Session session) {
+    return new Padding(
+        padding: PADDING_24,
+        child: new SessionIcon(
+            session: session,
+            size: iconSize,
+            onClick: () => sessionController.add(session)));
   }
 }

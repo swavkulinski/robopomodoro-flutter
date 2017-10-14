@@ -10,17 +10,17 @@ timeout(60) {
 
                 stage('Flutter Doctor') {
                     sh "flutter doctor > doctor_report.log"
-                    archiveArtifacts artifacts 'doctor_report.log', fingerprint: true
+                    archiveArtifacts artifacts: 'doctor_report.log', fingerprint: true
                 }
 
                 stage('Flutter analyze') {
                     sh "flutter analyze > analyze_report.log"
-                    archiveArtifacts artifacts 'analyze_report.log', fingerprint: true
+                    archiveArtifacts artifacts: 'analyze_report.log', fingerprint: true
                 }
 
                 stage('Debug build type : Test Coverage') {
                     sh "flutter test > tests.log"
-                    archiveArtifacts artifacts 'tests.log', fingerprint: true
+                    archiveArtifacts artifacts: 'tests.log', fingerprint: true
                 }
 
                 if ("${env.BRANCH_NAME}".toString() != "develop") {
