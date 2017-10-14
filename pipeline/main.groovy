@@ -12,10 +12,10 @@ timeout(60) {
                     archiveArtifacts artifacts: 'doctor_report.log', fingerprint: true
                 }
 
-                stage('Flutter analyze') {
-                    sh "flutter analyze > analyze_report.log"
-                    archiveArtifacts artifacts: 'analyze_report.log', fingerprint: true
-                }
+                //stage('Flutter analyze') {
+                //    sh "flutter analyze > analyze_report.log"
+                //    archiveArtifacts artifacts: 'analyze_report.log', fingerprint: true
+                //}
 
                 stage('Debug build type : Test Coverage') {
                     sh "flutter test > tests.log"
