@@ -1,6 +1,5 @@
 timeout(60) {
     timestamps {
-        ansiColor('xterm') {
             node {
                 checkout scm
                 
@@ -37,7 +36,6 @@ timeout(60) {
 
                 }
 
-            }
         }
     }
 }
