@@ -4,8 +4,7 @@ description: Robowerkz pomodoro app
 dependencies:
   flutter:
     sdk: flutter
-  shared_preferences:
-    path: ../flutter-plugins/packages/shared_preferences
+  shared_preferences: "^0.2.5"
   mockito: "^2.0.2"
 
 dev_dependencies:
