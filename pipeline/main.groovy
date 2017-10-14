@@ -26,11 +26,6 @@ timeout(60) {
                 if ("${env.BRANCH_NAME}".toString() != "develop") {
                     return
                 }
-
-                /**
-                 * When we merge to develop, we build, archive and upload to hockey.
-                 */
-
                 stage('Build Android') {
                     sh "flutter build apk"
                     archiveArtifacts artifacts: 'app/build/outputs/apk/*.apk', fingerprint: true
