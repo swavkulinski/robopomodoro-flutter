@@ -1,17 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:intl/intl.dart';
-//import 'dart:ui';
-
-TextPainter textPainter(String label) => new TextPainter(
-      text: new TextSpan(
-       style: defaultTextStyle,
-       text: label,
-    ),
-      textAlign: TextAlign.center,
-      maxLines: 1,
-    );
-
 
 TextDecoration defaultTextDecoration = TextDecoration.none;
 
@@ -70,6 +59,8 @@ Paint breakSectionCompletePaint = defaultFillPaint(breakSectionCompleteColor);
 Paint minuteDigitPaint = defaultStrokePaint(darkDialColor, 2.0);
 
 Paint tickDialPaint = defaultStrokePaint(deepDarkColor, 1.0);
+
+Paint schedulePillPaint = defaultFillPaint(darkDialColor);
 
 double tickLength = 5.0;
 
@@ -130,8 +121,8 @@ var timeProvider = () => new DateTime.now();//.add(warp());
 const MILLIS_TO_ANGLE =  2 * PI / (60 * 60 * 1000);
 const double STRIPES_FACTOR = PI / (6 / 60 / 1000);
 
-const REFRESH_TIME_MILLISECONDS = 300;
+const REFRESH_TIME_MILLISECONDS = 1000;
 
-const EdgeInsets PADDING_24 = const EdgeInsets.all(16.0);
+const EdgeInsets PADDING_24 = const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0);
 
 

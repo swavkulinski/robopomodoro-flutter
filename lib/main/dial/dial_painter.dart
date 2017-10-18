@@ -24,7 +24,6 @@ class DialPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawColor(dialColor, BlendMode.src);
     canvas.drawShadow(_createPath(size), shadowPaint.color, 2.0, false);
     canvas.drawPath(_createPath(size), platePaint);
     _drawTicks(canvas,size);
