@@ -141,15 +141,16 @@ class SessionStateDelegate {
 }
 
 class SessionFactory {
-  Session shortPomodoro() => _pomodoro(25, 5, 'Short Pomodoro');
-  Session longPomodoro() => _pomodoro(25, 15, 'Long Pomodoro');
+  Session shortPomodoro() => _pomodoro(25, 5, 'Short Pomodoro','25\' work + 5\' break');
+  Session longPomodoro() => _pomodoro(25, 15, 'Long Pomodoro', '25\' work + 15\' break');
 
-  Session firstCoffee() => _coffee(8, 'First coffee');
-  Session secondCoffee() => _coffee(5, 'Second coffee');
-  Session thirdCoffee() => _coffee(3, 'Third coffee');
+  Session firstCoffee() => _coffee(8, 'First coffee', '8\' discussion');
+  Session secondCoffee() => _coffee(5, 'Second coffee', '5\' discussion');
+  Session thirdCoffee() => _coffee(3, 'Third coffee', '3\' discussion');
 
-  Session _pomodoro(workSectionLength, breakSectionLength, name) =>
+  Session _pomodoro(workSectionLength, breakSectionLength, name, description) =>
       new Session()
+        ..description = description
         ..name = name
         ..sections = <Section>[
           new Section()
@@ -164,8 +165,9 @@ class SessionFactory {
             ..signalOnEnd = true,
         ];
 
-  Session _coffee(length, name) => new Session()
+  Session _coffee(length, name, description) => new Session()
     ..name = name
+    ..description = description
     ..sections = <Section>[
       new Section()
         ..backgroundPaint = workSectionIncompletePaint
