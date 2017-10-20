@@ -129,8 +129,14 @@ class DialWidget extends StatelessWidget {
               child: new Padding(
                   padding: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 50.0),
                   child: new GestureDetector(
-                    onTap: ()=>scrollController.position.animateTo(size.height,curve: Curves.easeIn,duration: const Duration(milliseconds: 300)),
-                    child:new Text("Add sessions",style: defaultTextStyle,))))),
+                      onTap: () => scrollController.position.animateTo(
+                          size.height,
+                          curve: Curves.easeIn,
+                          duration: const Duration(milliseconds: 300)),
+                      child: new Text(
+                        "Add sessions",
+                        style: defaultTextStyle,
+                      ))))),
       //main linear layout
       new Padding(
           padding:
@@ -185,7 +191,7 @@ class DialWidget extends StatelessWidget {
   }
 
   String _sessionEnds() {
-    if(sessionWidgetModel.totalLength() > 0) {
+    if (sessionWidgetModel.totalLength() > 0) {
       return "Session ends ${currentTimeFormat.format(sessionWidgetModel.startTime.add(new Duration(milliseconds:sessionWidgetModel.totalLength())))}";
     }
     return "";
@@ -195,7 +201,7 @@ class DialWidget extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       child: new Container(
         width: size.width,
-        height: 300.0,
+        height: size.height,
         child: new Column(
           children: <Widget>[_scheduleWidget(size), _sessionIcons(size)],
         ),
@@ -210,7 +216,6 @@ class DialWidget extends StatelessWidget {
         scrollDirection: Axis.vertical,
         gridDelegate:
             new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
-        physics: new BouncingScrollPhysics(),
         padding: new EdgeInsets.all(10.0),
         children: <Widget>[
           _createIcon(sessionFactory.longPomodoro()),
@@ -221,23 +226,49 @@ class DialWidget extends StatelessWidget {
         ],
       ));
 
-  Widget _scheduleWidget(Size size) => new Expanded(
-      child: new OverflowBox(
-          alignment: Alignment.centerLeft,
-          maxWidth: size.width + 200,
-          maxHeight: 100.0,
-          child: new ScheduleWidget(
-            painter: new PillPainter(pillPaint: schedulePillPaint),
-            size: new Size(size.width, 100.0),
-          )));
+  Widget _scheduleWidget(Size size) => new Flexible(
+      flex: 0,
+      child: new DragTarget<Session>(
+        onWillAccept: (session) {return true;},
+        onAccept:(session){sessionController.add(session);},
+        builder: (context, candidate, rejected) {
+        return new Padding(
+            padding: const EdgeInsets.fromLTRB(8.0, 36.0, 8.0, 0.0),
+            child: new Card(
+              child: new Container( height: 400.0, width: size.width, child:new CustomScrollView(slivers: [ new SliverGrid.count(crossAxisCount: 4,children: _createScheduleWidgets())]))));
+      }));
 
-  Widget _createIcon(Session session) {
-    return new Padding(
+  List<Widget> _createScheduleWidgets() {
+      var list = new List();
+      for(Session session in sessionController.getSchedule()){
+        list.add(new Padding(
         padding: PADDING_24,
         child: new SessionIcon(
             session: session,
             size: iconSize,
-            onClick: () => sessionController.add(session)));
+        )),);
+      }
+      return list;
+  }
+
+  Widget _createIcon(Session session) {
+
+    return new Draggable<Session>(
+      data: session,
+      onDragCompleted: (){print(session.length());},
+      onDraggableCanceled: (velocity,offset){print("cancelled");}, 
+      feedback: new Padding(
+        padding: PADDING_24,
+        child: new SessionIcon(
+            session: session,
+            size: iconSize,
+        )),
+      child: new Padding(
+        padding: PADDING_24,
+        child: new SessionIcon(
+            session: session,
+            size: iconSize,
+            onClick: (){})));
   }
 }
 
