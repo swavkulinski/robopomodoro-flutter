@@ -28,8 +28,8 @@ class SessionDigitPainter extends CustomPainter {
     Section shadowSection = new Section(
         length: _model.totalLength(),
         sessionType: SectionType.COFFEE,
-        foregroundPaint: workSectionCompletePaint,
-        backgroundPaint: workSectionCompletePaint);
+        foregroundPaint: PomodoroPaints.fillFullWork,
+        backgroundPaint: PomodoroPaints.fillFullWork);
     canvas.drawPath(
         _pathBuilder.buildPath(
           shadowSection,

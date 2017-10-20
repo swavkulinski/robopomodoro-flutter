@@ -7,14 +7,14 @@ class SessionIcon extends StatelessWidget {
   final Session session;
   final Size size;
   final VoidCallback onClick;
+  final Paint shadowPaint;
 
-  const SessionIcon({this.size, this.session, this.onClick});
-
+  SessionIcon({this.size, this.session, this.onClick, this.shadowPaint});
   Widget build(BuildContext context) {
     return new GestureDetector(
       onTap: onClick,
       child: new CustomPaint(
-        painter: new _IconPainter(session),
+        painter: new _IconPainter(session,shadowPaint),
         size: size,
       ),
     );
@@ -23,8 +23,9 @@ class SessionIcon extends StatelessWidget {
 
 class _IconPainter extends CustomPainter {
   final Session session;
+  final Paint shadowPaint;
 
-  const _IconPainter(this.session);
+  const _IconPainter(this.session,this.shadowPaint);
 
   bool shouldRepaint(CustomPainter oldPainter) {
     return false;
@@ -34,7 +35,7 @@ class _IconPainter extends CustomPainter {
     Offset center = new Offset(0.0, 0.0);
     canvas.save();
     canvas.translate(size.width / 2, size.height / 2);
-    canvas.drawCircle(center, size.width / 2, defaultShadowPaint());
+    canvas.drawCircle(center, size.width / 2, shadowPaint);
     for (var section in session.sections) {
       canvas.drawPath(
           _sectionPath(section, size, center), section.foregroundPaint);

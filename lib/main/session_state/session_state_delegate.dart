@@ -154,12 +154,12 @@ class SessionFactory {
         ..name = name
         ..sections = <Section>[
           new Section()
-            ..backgroundPaint = workSectionIncompletePaint
-            ..foregroundPaint = workSectionCompletePaint
+            ..backgroundPaint = PomodoroPaints.fillSemiWork
+            ..foregroundPaint = PomodoroPaints.fillFullWork 
             ..length = workSectionLength * 60 * 1000,
           new Section()
-            ..backgroundPaint = breakSectionIncompletePaint
-            ..foregroundPaint = breakSectionCompletePaint
+            ..backgroundPaint = PomodoroPaints.fillSemiRecess
+            ..foregroundPaint = PomodoroPaints.fillFullRecess
             ..length = breakSectionLength * 60 * 1000
             ..signalOnStart = true
             ..signalOnEnd = true,
@@ -170,8 +170,8 @@ class SessionFactory {
     ..description = description
     ..sections = <Section>[
       new Section()
-        ..backgroundPaint = workSectionIncompletePaint
-        ..foregroundPaint = workSectionCompletePaint
+        ..backgroundPaint = PomodoroPaints.fillSemiWork
+        ..foregroundPaint = PomodoroPaints.fillFullWork 
         ..length = length * 60 * 1000
         ..signalOnEnd = true,
     ];

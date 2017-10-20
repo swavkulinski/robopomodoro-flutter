@@ -53,7 +53,7 @@ class DialWidget extends StatelessWidget {
               size: new Size(DIAL_RADIUS * 2, DIAL_RADIUS * 2),
               painter: new DialPainter(
                 platePaint: platePaint(),
-                tickPaint: tickDialPaint,
+                tickPaint: PomodoroPaints.strokeGray80w1,
                 tickLength: tickLength,
                 dialColor: dialColor,
                 shadowPaint: defaultShadowPaint(),
@@ -251,10 +251,11 @@ class DialWidget extends StatelessWidget {
       var list = new List();
       for(Session session in sessionController.getSchedule()){
         list.add(new Padding(
-        padding: PADDING_24,
+        padding: PADDING_8,
         child: new SessionIcon(
             session: session,
             size: iconSize,
+            shadowPaint: PomodoroPaints.shadowPaint,
         )),);
       }
       return list;
@@ -276,16 +277,18 @@ class DialWidget extends StatelessWidget {
       onDragCompleted: (){print(session.length());},
       onDraggableCanceled: (velocity,offset){print("cancelled");}, 
       feedback: new Padding(
-        padding: PADDING_24,
+        padding: PADDING_8,
         child: new SessionIcon(
             session: session,
             size: iconSize,
+            shadowPaint: PomodoroPaints.highLevelShadowPaint,
         )),
       child: new Padding(
-        padding: PADDING_24,
+        padding: PADDING_8,
         child: new SessionIcon(
             session: session,
             size: iconSize,
+            shadowPaint: PomodoroPaints.highLevelShadowPaint,
             onClick: (){})));
   }
 }
