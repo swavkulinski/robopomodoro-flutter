@@ -20,7 +20,7 @@ class RoundButton extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return new Stack(
-      alignment: FractionalOffsetDirectional.center,
+      alignment: Alignment.center,
       children: <Widget>[
         new CustomPaint(
           key: key,

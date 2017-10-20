@@ -3,10 +3,6 @@ timeout(60) {
             node {
                 checkout scm
                 
-                stage('Flutter upgrade') {
-                    sh "flutter upgrade"
-                }
-
                 stage('Flutter Doctor') {
                     sh "flutter doctor > doctor_report.log"
                     archiveArtifacts artifacts: 'doctor_report.log', fingerprint: true

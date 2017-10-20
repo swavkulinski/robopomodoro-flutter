@@ -21,6 +21,7 @@ class Section {
 
 class Session {
   String name;
+  String description;
   List<Section> sections;
   int length() {
       if(sections == null) return 0;
