@@ -4,7 +4,6 @@ import 'dial_painter.dart';
 import '../di/main_module.dart';
 import 'toggle_button.dart';
 import 'round_button.dart';
-import 'schedule_widget.dart';
 import 'plate_widget.dart';
 import '../digit/session_digit.dart';
 import '../digit/minute_digit.dart';
@@ -207,12 +206,16 @@ class DialWidget extends StatelessWidget {
         ),
       ));
 
-  Widget _sessionIcons(Size size) => new Container(
+  Widget _sessionIcons(Size size) => new Column(children: [
+   
+    new Text("Sessions",style: defaultTextStyle,),
+    new Container(
       width: size.width,
       height: 200.0,
       child:
           //TODO Grid
           new GridView(
+            physics: const NeverScrollableScrollPhysics(),
         scrollDirection: Axis.vertical,
         gridDelegate:
             new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
@@ -224,7 +227,7 @@ class DialWidget extends StatelessWidget {
           _createIcon(sessionFactory.secondCoffee()),
           _createIcon(sessionFactory.thirdCoffee()),
         ],
-      ));
+      ))]);
 
   Widget _scheduleWidget(Size size) => new Flexible(
       flex: 0,
@@ -235,7 +238,13 @@ class DialWidget extends StatelessWidget {
         return new Padding(
             padding: const EdgeInsets.fromLTRB(8.0, 36.0, 8.0, 0.0),
             child: new Card(
-              child: new Container( height: 400.0, width: size.width, child:new CustomScrollView(slivers: [ new SliverGrid.count(crossAxisCount: 4,children: _createScheduleWidgets())]))));
+              child:new Column(children:[
+                  new Text(_yourScheduleEnds(),style: defaultTextStyle,),
+              new Container( height: 380.0, width: size.width, 
+               child:  
+                  new GridView(
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),children: _createScheduleWidgets()))])));
       }));
 
   List<Widget> _createScheduleWidgets() {
@@ -249,6 +258,15 @@ class DialWidget extends StatelessWidget {
         )),);
       }
       return list;
+  }
+
+  String _yourScheduleEnds() {
+    if(sessionController.getSchedule() == null || sessionController.getSchedule().length == 0) {
+      return "Your schedule";
+    } else{
+      var scheduleEnd = currentTimeFormat.format(startTime.add(new Duration(milliseconds: sessionController.getSchedule().map((session) => session.length()).reduce((i,c)=> i+=c))));
+      return "Your schedule ends $scheduleEnd";   
+    }
   }
 
   Widget _createIcon(Session session) {
