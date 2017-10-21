@@ -26,7 +26,14 @@ timeout(60) {
                     archiveArtifacts artifacts: 'app/build/outputs/apk/*.apk', fingerprint: true
                 }
 
+		stage('Install pods') {
+		    sh "brew install cocoapods"
+		}
+		stage('Pod setup') {
+		    sh "pod setup"
+		}	
                 stage('Archive iOS') {
+
                     sh "flutter build ios"
                     //TODO archive artifacts
 
