@@ -38,15 +38,9 @@ platePaint() => PomodoroPaints.fillFullWhite;
 
 defaultShadowPaint() => PomodoroPaints.shadowPaint; 
 
-Paint breakSectionIncompletePaint = defaultFillPaint(breakSectionIncompleteColor);
+Paint minuteDigitPaint = PomodoroPaints.strokeGray80w2; 
 
-Paint breakSectionCompletePaint = defaultFillPaint(breakSectionCompleteColor);
-
-Paint minuteDigitPaint = defaultStrokePaint(darkDialColor, 2.0);
-
-Paint tickDialPaint = defaultStrokePaint(deepDarkColor, 1.0);
-
-double tickLength = 5.0;
+const double tickLength = 5.0;
 
 Paint defaultFillPaint(Color color) {
   Paint paint = new Paint();
@@ -104,15 +98,7 @@ class PomodoroPaints {
     ..maskFilter = new MaskFilter.blur(BlurStyle.normal, 8.0);
 }
 
-Color workSectionIncompleteColor = new Color(0x88A4C639);
-Color workSectionCompleteColor = new Color(0xFFA4C639);
-
-Color breakSectionIncompleteColor = new Color(0x88A8CF2B);
-Color breakSectionCompleteColor = new Color(0xFFA8CF2B);
-
 Color dialColor = PomodoroColors.white_full;
-
-Color darkDialColor = new Color(0x20202020);
 
 Color deepDarkColor = new Color(0x90050505);
 

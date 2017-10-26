@@ -114,10 +114,7 @@ class DialWidget extends StatelessWidget {
 
     var scrollController = new ScrollController();
     var plate = <Widget>[
-      //background
-      new Container(
-        color: platePaint().color,
-      ),
+      
       new PlateWidget(size: size),
       //Add session prompt
       new SizedBox(
@@ -170,9 +167,7 @@ class DialWidget extends StatelessWidget {
                       style: currentTimeTextStyle,
                     ))
               ])),
-      //session buttons
-      new Align(alignment: Alignment.bottomCenter, child: _bottomSlate(size))
-    ];
+        ];
 
     //session digit
     return new CustomScrollView(
@@ -181,10 +176,16 @@ class DialWidget extends StatelessWidget {
       slivers: <Widget>[
         new SliverToBoxAdapter(
             child: new Container(
+              decoration: new BoxDecoration(color: platePaint().color),
           width: size.width,
           height: size.height * 2,
-          child: new Stack(children: plate),
-        ))
+          child: new Column( children: <Widget>[
+            new Stack(children: plate),
+            _scheduleWidget(size), 
+            _sessionIcons(size)
+        
+            ]
+        )))
       ],
     );
   }
@@ -196,100 +197,110 @@ class DialWidget extends StatelessWidget {
     return "";
   }
 
-  Widget _bottomSlate(Size size) => new Align(
-      alignment: Alignment.bottomCenter,
-      child: new Container(
-        width: size.width,
-        height: size.height,
-        child: new Column(
-          children: <Widget>[_scheduleWidget(size), _sessionIcons(size)],
-        ),
-      ));
-
   Widget _sessionIcons(Size size) => new Column(children: [
-   
-    new Text("Sessions",style: defaultTextStyle,),
-    new Container(
-      width: size.width,
-      height: 200.0,
-      child:
-          //TODO Grid
-          new GridView(
-            physics: const NeverScrollableScrollPhysics(),
-        scrollDirection: Axis.vertical,
-        gridDelegate:
-            new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
-        padding: new EdgeInsets.all(10.0),
-        children: <Widget>[
-          _createIcon(sessionFactory.longPomodoro()),
-          _createIcon(sessionFactory.shortPomodoro()),
-          _createIcon(sessionFactory.firstCoffee()),
-          _createIcon(sessionFactory.secondCoffee()),
-          _createIcon(sessionFactory.thirdCoffee()),
-        ],
-      ))]);
+        new Text(
+          "Sessions",
+          style: defaultTextStyle,
+        ),
+        new Container(
+            width: size.width,
+            height: 200.0,
+            child:
+                //TODO Grid
+                new GridView(
+              physics: const NeverScrollableScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4),
+              padding: new EdgeInsets.all(10.0),
+              children: <Widget>[
+                _createIcon(sessionFactory.longPomodoro()),
+                _createIcon(sessionFactory.shortPomodoro()),
+                _createIcon(sessionFactory.firstCoffee()),
+                _createIcon(sessionFactory.secondCoffee()),
+                _createIcon(sessionFactory.thirdCoffee()),
+              ],
+            ))
+      ]);
 
-  Widget _scheduleWidget(Size size) => new Flexible(
-      flex: 0,
-      child: new DragTarget<Session>(
-        onWillAccept: (session) {return true;},
-        onAccept:(session){sessionController.add(session);},
-        builder: (context, candidate, rejected) {
+  Widget _scheduleWidget(Size size) =>  new DragTarget<Session>(onWillAccept: (session) {
+        return true;
+      }, onAccept: (session) {
+        sessionController.add(session);
+      }, builder: (context, candidate, rejected) {
         return new Padding(
             padding: const EdgeInsets.fromLTRB(8.0, 36.0, 8.0, 0.0),
             child: new Card(
-              child:new Column(children:[
-                  new Text(_yourScheduleEnds(),style: defaultTextStyle,),
-              new Container( height: 380.0, width: size.width, 
-               child:  
-                  new GridView(
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),children: _createScheduleWidgets()))])));
-      }));
+                child: new Column(children: [
+              new Text(
+                _yourScheduleEnds(),
+                style: defaultTextStyle,
+              ),
+              new Container(
+                  height: 380.0,
+                  width: size.width,
+                  child: new GridView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          new SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 4),
+                      children: _createScheduleWidgets()))
+            ])));
+      });
 
   List<Widget> _createScheduleWidgets() {
-      var list = new List();
-      for(Session session in sessionController.getSchedule()){
-        list.add(new Padding(
-        padding: PADDING_8,
-        child: new SessionIcon(
-            session: session,
-            size: iconSize,
-            shadowPaint: PomodoroPaints.shadowPaint,
-        )),);
-      }
-      return list;
+    var list = new List();
+    for (Session session in sessionController.getSchedule()) {
+      list.add(
+        new Padding(
+            padding: PADDING_8,
+            child: new SessionIcon(
+              session: session,
+              size: iconSize,
+              shadowPaint: PomodoroPaints.shadowPaint,
+            )),
+      );
+    }
+    return list;
   }
 
   String _yourScheduleEnds() {
-    if(sessionController.getSchedule() == null || sessionController.getSchedule().length == 0) {
+    if (sessionController.getSchedule() == null ||
+        sessionController.getSchedule().length == 0) {
       return "Your schedule";
-    } else{
-      var scheduleEnd = currentTimeFormat.format(startTime.add(new Duration(milliseconds: sessionController.getSchedule().map((session) => session.length()).reduce((i,c)=> i+=c))));
-      return "Your schedule ends $scheduleEnd";   
+    } else {
+      var scheduleEnd = currentTimeFormat.format(startTime.add(new Duration(
+          milliseconds: sessionController
+              .getSchedule()
+              .map((session) => session.length())
+              .reduce((i, c) => i += c))));
+      return "Your schedule ends $scheduleEnd";
     }
   }
 
   Widget _createIcon(Session session) {
-
     return new Draggable<Session>(
-      data: session,
-      onDragCompleted: (){print(session.length());},
-      onDraggableCanceled: (velocity,offset){print("cancelled");}, 
-      feedback: new Padding(
-        padding: PADDING_8,
-        child: new SessionIcon(
-            session: session,
-            size: iconSize,
-            shadowPaint: PomodoroPaints.highLevelShadowPaint,
-        )),
-      child: new Padding(
-        padding: PADDING_8,
-        child: new SessionIcon(
-            session: session,
-            size: iconSize,
-            shadowPaint: PomodoroPaints.highLevelShadowPaint,
-            onClick: (){})));
+        data: session,
+        onDragCompleted: () {
+          print(session.length());
+        },
+        onDraggableCanceled: (velocity, offset) {
+          print("cancelled");
+        },
+        feedback: new Padding(
+            padding: PADDING_8,
+            child: new SessionIcon(
+              session: session,
+              size: iconSize,
+              shadowPaint: PomodoroPaints.highLevelShadowPaint,
+            )),
+        child: new Padding(
+            padding: PADDING_8,
+            child: new SessionIcon(
+                session: session,
+                size: iconSize,
+                shadowPaint: PomodoroPaints.highLevelShadowPaint,
+                onClick: () {})));
   }
 }
 
