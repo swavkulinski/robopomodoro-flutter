@@ -11,6 +11,7 @@ import '../digit/minute_digit.dart';
 import '../models.dart';
 import '../session_state/session_state_delegate.dart';
 import '../session_icon/session_icon.dart';
+import 'session_prompt/widget.dart';
 import '../../app/models.dart';
 import 'dragable_icon/widget.dart';
 import 'clear_schedule_button/widget.dart';
@@ -75,7 +76,7 @@ class DialWidget extends StatelessWidget {
       new Stack(children: <Widget>[
         new PlateWidget(size: size),
         //Add session prompt
-        _sessionPrompt(size, scrollController),
+        new SessionPrompt(size: size, scrollController: scrollController,),
         //main linear layout
         new Padding(
             padding: new EdgeInsets.fromLTRB(
@@ -170,24 +171,6 @@ class DialWidget extends StatelessWidget {
     }
     return dial;
   }
-
-  Widget _sessionPrompt(size, scrollController) => new SizedBox(
-      width: size.width,
-      height: size.height,
-      child: new Align(
-          alignment: Alignment.bottomCenter,
-          child: new Padding(
-              padding: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 50.0),
-              child: new GestureDetector(
-                  onTap: () => scrollController.position.animateTo(size.height,
-                      curve: Curves.easeIn,
-                      duration: const Duration(milliseconds: 300)),
-                  child: new Text(
-                    "Add sessions",
-                    style: defaultTextStyle,
-                  )))));
-
-  Widget _sessionEnds() {}
 
   Widget _sessionIcons(Size size) => new Column(children: [
         new Text(
