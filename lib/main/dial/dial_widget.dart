@@ -16,6 +16,7 @@ import '../../app/models.dart';
 import 'dragable_icon/widget.dart';
 import 'clear_schedule_button/widget.dart';
 import 'session_ends/widget.dart';
+import 'session_icons_grid/widget.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
@@ -66,7 +67,7 @@ class DialWidget extends StatelessWidget {
                 child: new Column(children: <Widget>[
                   _plate(size, scrollController, sessionState),
                   _scheduleWidget(size),
-                  _sessionIcons(size)
+                  new SessionIconsGrid(size:size, iconSize: iconSize,),
                 ])))
       ],
     );
@@ -172,7 +173,7 @@ class DialWidget extends StatelessWidget {
     return dial;
   }
 
-  Widget _sessionIcons(Size size) => new Column(children: [
+ /* Widget _sessionIcons(Size size) => new Column(children: [
         new Text(
           "Sessions",
           style: defaultTextStyle,
@@ -200,7 +201,7 @@ class DialWidget extends StatelessWidget {
                     session: sessionFactory.thirdCoffee(), iconSize: iconSize),
               ],
             ))
-      ]);
+      ]);*/
 
   Widget _scheduleWidget(Size size) =>
       new DragTarget<Session>(onWillAccept: (session) {
