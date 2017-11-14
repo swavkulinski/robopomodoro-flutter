@@ -14,7 +14,7 @@ import '../session_icon/session_icon.dart';
 import '../../app/models.dart';
 import 'dragable_icon/widget.dart';
 import 'clear_schedule_button/widget.dart';
-
+import 'session_ends/widget.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
@@ -95,7 +95,14 @@ class DialWidget extends StatelessWidget {
                       style: sessionTimeTextStyle,
                     ),
                   ),
-                  _sessionEnds(),
+                  new SessionEnds(
+                    length: sessionWidgetModel.totalLength(),
+                    sessionEnds: sessionWidgetModel.startTime.add(
+                      new Duration(
+                        milliseconds: sessionWidgetModel.totalLength(),
+                      ),
+                    ),
+                  ),
                   new Padding(
                       padding: new EdgeInsets.all(8.0),
                       child: new Text(
@@ -180,18 +187,7 @@ class DialWidget extends StatelessWidget {
                     style: defaultTextStyle,
                   )))));
 
-  Widget _sessionEnds() {
-    var message = "";
-
-    if (sessionWidgetModel.totalLength() > 0) {
-      message =
-          "Session ends ${currentTimeFormat.format(sessionWidgetModel.startTime.add(new Duration(milliseconds:sessionWidgetModel.totalLength())))}";
-    }
-    return new Text(
-      message,
-      style: currentTimeTextStyle,
-    );
-  }
+  Widget _sessionEnds() {}
 
   Widget _sessionIcons(Size size) => new Column(children: [
         new Text(
@@ -208,11 +204,17 @@ class DialWidget extends StatelessWidget {
                   crossAxisCount: 4),
               padding: new EdgeInsets.all(10.0),
               children: <Widget>[
-                new DragableIcon (session:sessionFactory.longPomodoro(),iconSize:iconSize),
-                new DragableIcon (session:sessionFactory.shortPomodoro(),iconSize:iconSize),
-                new DragableIcon (session:sessionFactory.firstCoffee(),iconSize:iconSize),
-                new DragableIcon (session:sessionFactory.secondCoffee(),iconSize:iconSize),
-                new DragableIcon (session:sessionFactory.thirdCoffee(),iconSize:iconSize),
+                new DragableIcon(
+                    session: sessionFactory.longPomodoro(), iconSize: iconSize),
+                new DragableIcon(
+                    session: sessionFactory.shortPomodoro(),
+                    iconSize: iconSize),
+                new DragableIcon(
+                    session: sessionFactory.firstCoffee(), iconSize: iconSize),
+                new DragableIcon(
+                    session: sessionFactory.secondCoffee(), iconSize: iconSize),
+                new DragableIcon(
+                    session: sessionFactory.thirdCoffee(), iconSize: iconSize),
               ],
             ))
       ]);
@@ -247,7 +249,8 @@ class DialWidget extends StatelessWidget {
                         new Size(size.width, size.height / 2)),
                     child: new Align(
                       alignment: new Alignment(0.0, 1.0),
-                      child: new ClearScheduleButton(callback: ()=> sessionController.clearSchedule()),
+                      child: new ClearScheduleButton(
+                          callback: () => sessionController.clearSchedule()),
                     ),
                   ),
                 ],
@@ -256,7 +259,6 @@ class DialWidget extends StatelessWidget {
           ),
         );
       });
-
 
   List<Widget> _createScheduleWidgets() {
     var list = new List();
@@ -287,6 +289,4 @@ class DialWidget extends StatelessWidget {
       return "Your schedule ends $scheduleEnd";
     }
   }
-
 }
-
