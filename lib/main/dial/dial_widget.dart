@@ -4,16 +4,17 @@ import 'dial_painter.dart';
 import '../di/main_module.dart';
 import 'toggle_button.dart';
 import 'round_button.dart';
-import 'pill_button.dart';
 import 'plate_widget.dart';
+import 'snapping_scroll_physics.dart';
 import '../digit/session_digit.dart';
 import '../digit/minute_digit.dart';
 import '../models.dart';
 import '../session_state/session_state_delegate.dart';
 import '../session_icon/session_icon.dart';
 import '../../app/models.dart';
+import 'dragable_icon/widget.dart';
+import 'clear_schedule_button/widget.dart';
 
-import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
@@ -48,6 +49,69 @@ class DialWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var sessionState = paused ? '' : 'SESSION IN PROGRESS';
+
+    var scrollController = new ScrollController();
+
+    //session digit
+    return new CustomScrollView(
+      controller: scrollController,
+      physics: new SnappingScrollPhysics(maxScrollOffset: size.height),
+      slivers: <Widget>[
+        new SliverToBoxAdapter(
+            child: new Container(
+                decoration: new BoxDecoration(color: platePaint().color),
+                width: size.width,
+                height: size.height * 2,
+                child: new Column(children: <Widget>[
+                  _plate(size, scrollController, sessionState),
+                  _scheduleWidget(size),
+                  _sessionIcons(size)
+                ])))
+      ],
+    );
+  }
+
+  Widget _plate(size, scrollController, sessionState) =>
+      new Stack(children: <Widget>[
+        new PlateWidget(size: size),
+        //Add session prompt
+        _sessionPrompt(size, scrollController),
+        //main linear layout
+        new Padding(
+            padding: new EdgeInsets.fromLTRB(
+                0.0, DIAL_CENTER - DIAL_RADIUS, 0.0, 0.0),
+            child: new Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  //dial
+                  _dial(),
+                  new Padding(
+                    padding: new EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
+                    child: new Text(
+                      sessionTimeFormat.format(
+                          new DateTime.fromMillisecondsSinceEpoch(
+                              sessionWidgetModel.totalLength() - elapsedTime)),
+                      style: sessionTimeTextStyle,
+                    ),
+                  ),
+                  _sessionEnds(),
+                  new Padding(
+                      padding: new EdgeInsets.all(8.0),
+                      child: new Text(
+                        sessionState,
+                        style: currentTimeTextStyle,
+                      ))
+                ])),
+      ]);
+
+  Widget _dial() => new Stack(
+        fit: StackFit.passthrough,
+        alignment: Alignment.center,
+        children: _dialElements(),
+      );
+
+  List<Widget> _dialElements() {
     var dial = <Widget>[
       new Center(
           child: new CustomPaint(
@@ -97,87 +161,36 @@ class DialWidget extends StatelessWidget {
                 shadowPaint: defaultShadowPaint(),
               ))));
     }
-
-    var scrollController = new ScrollController();
-    var plate = <Widget>[
-      new PlateWidget(size: size),
-      //Add session prompt
-      new SizedBox(
-          width: size.width,
-          height: size.height,
-          child: new Align(
-              alignment: Alignment.bottomCenter,
-              child: new Padding(
-                  padding: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 50.0),
-                  child: new GestureDetector(
-                      onTap: () => scrollController.position.animateTo(
-                          size.height,
-                          curve: Curves.easeIn,
-                          duration: const Duration(milliseconds: 300)),
-                      child: new Text(
-                        "Add sessions",
-                        style: defaultTextStyle,
-                      ))))),
-      //main linear layout
-      new Padding(
-          padding:
-              new EdgeInsets.fromLTRB(0.0, DIAL_CENTER - DIAL_RADIUS, 0.0, 0.0),
-          child: new Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                //dial
-                new Stack(
-                  fit: StackFit.passthrough,
-                  alignment: Alignment.center,
-                  children: dial,
-                ),
-                new Padding(
-                  padding: new EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
-                  child: new Text(
-                    sessionTimeFormat.format(
-                        new DateTime.fromMillisecondsSinceEpoch(
-                            sessionWidgetModel.totalLength() - elapsedTime)),
-                    style: sessionTimeTextStyle,
-                  ),
-                ),
-                new Text(
-                  _sessionEnds(),
-                  style: currentTimeTextStyle,
-                ),
-                new Padding(
-                    padding: new EdgeInsets.all(8.0),
-                    child: new Text(
-                      sessionState,
-                      style: currentTimeTextStyle,
-                    ))
-              ])),
-    ];
-
-    //session digit
-    return new CustomScrollView(
-      controller: scrollController,
-      physics: new _SnappingScrollPhysics(maxScrollOffset: size.height),
-      slivers: <Widget>[
-        new SliverToBoxAdapter(
-            child: new Container(
-                decoration: new BoxDecoration(color: platePaint().color),
-                width: size.width,
-                height: size.height * 2,
-                child: new Column(children: <Widget>[
-                  new Stack(children: plate),
-                  _scheduleWidget(size),
-                  _sessionIcons(size)
-                ])))
-      ],
-    );
+    return dial;
   }
 
-  String _sessionEnds() {
+  Widget _sessionPrompt(size, scrollController) => new SizedBox(
+      width: size.width,
+      height: size.height,
+      child: new Align(
+          alignment: Alignment.bottomCenter,
+          child: new Padding(
+              padding: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 50.0),
+              child: new GestureDetector(
+                  onTap: () => scrollController.position.animateTo(size.height,
+                      curve: Curves.easeIn,
+                      duration: const Duration(milliseconds: 300)),
+                  child: new Text(
+                    "Add sessions",
+                    style: defaultTextStyle,
+                  )))));
+
+  Widget _sessionEnds() {
+    var message = "";
+
     if (sessionWidgetModel.totalLength() > 0) {
-      return "Session ends ${currentTimeFormat.format(sessionWidgetModel.startTime.add(new Duration(milliseconds:sessionWidgetModel.totalLength())))}";
+      message =
+          "Session ends ${currentTimeFormat.format(sessionWidgetModel.startTime.add(new Duration(milliseconds:sessionWidgetModel.totalLength())))}";
     }
-    return "";
+    return new Text(
+      message,
+      style: currentTimeTextStyle,
+    );
   }
 
   Widget _sessionIcons(Size size) => new Column(children: [
@@ -188,20 +201,18 @@ class DialWidget extends StatelessWidget {
         new Container(
             width: size.width,
             height: 200.0,
-            child:
-                //TODO Grid
-                new GridView(
+            child: new GridView(
               physics: const NeverScrollableScrollPhysics(),
               scrollDirection: Axis.vertical,
               gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 4),
               padding: new EdgeInsets.all(10.0),
               children: <Widget>[
-                _createIcon(sessionFactory.longPomodoro()),
-                _createIcon(sessionFactory.shortPomodoro()),
-                _createIcon(sessionFactory.firstCoffee()),
-                _createIcon(sessionFactory.secondCoffee()),
-                _createIcon(sessionFactory.thirdCoffee()),
+                new DragableIcon (session:sessionFactory.longPomodoro(),iconSize:iconSize),
+                new DragableIcon (session:sessionFactory.shortPomodoro(),iconSize:iconSize),
+                new DragableIcon (session:sessionFactory.firstCoffee(),iconSize:iconSize),
+                new DragableIcon (session:sessionFactory.secondCoffee(),iconSize:iconSize),
+                new DragableIcon (session:sessionFactory.thirdCoffee(),iconSize:iconSize),
               ],
             ))
       ]);
@@ -213,9 +224,9 @@ class DialWidget extends StatelessWidget {
         sessionController.add(session);
       }, builder: (context, candidate, rejected) {
         return new Padding(
-            padding: const EdgeInsets.fromLTRB(8.0, 36.0, 8.0, 0.0),
-            child: new Card(
-                child: new Column(children: [
+          padding: const EdgeInsets.fromLTRB(8.0, 36.0, 8.0, 0.0),
+          child: new Card(
+            child: new Column(children: [
               new Text(
                 _yourScheduleEnds(),
                 style: defaultTextStyle,
@@ -236,44 +247,23 @@ class DialWidget extends StatelessWidget {
                         new Size(size.width, size.height / 2)),
                     child: new Align(
                       alignment: new Alignment(0.0, 1.0),
-                      //   child:
-                      //new Center(
-                      child: new Padding(
-                        padding: new EdgeInsets.all(16.0),
-                        child: new GestureDetector(
-                            onTap: () => sessionController.clearSchedule(),
-                            child: new PillButton(
-                              foregroundPaint: PomodoroPaints.fillFullWhite,
-                              shadowPaint: PomodoroPaints.shadowPaint,
-                              child: new Container(
-                                constraints: const BoxConstraints.tightForFinite(height: 30.0), 
-                                child:new Center( child:new Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  new Icon(Icons.delete),
-                                  new Text(
-                                    'CLEAR SCHEDULE',
-                                    style: defaultTextStyle,
-                                  )
-                                ],
-                              ),),),
-                            ),
-                          ),
-                        ),
-                      ),
-                    
+                      child: new ClearScheduleButton(callback: ()=> sessionController.clearSchedule()),
+                    ),
                   ),
                 ],
               ),
-            ])));
+            ]),
+          ),
+        );
       });
+
 
   List<Widget> _createScheduleWidgets() {
     var list = new List();
     for (Session session in sessionController.getSchedule()) {
       list.add(
         new Padding(
-            padding: PADDING_8,
+            padding: Paddings.ALL_8,
             child: new SessionIcon(
               session: session,
               size: iconSize,
@@ -298,89 +288,5 @@ class DialWidget extends StatelessWidget {
     }
   }
 
-  Widget _createIcon(Session session) {
-    return new Draggable<Session>(
-        data: session,
-        onDragCompleted: () {
-          print(session.length());
-        },
-        onDraggableCanceled: (velocity, offset) {
-          print("cancelled");
-        },
-        feedback: new Padding(
-            padding: PADDING_8,
-            child: new SessionIcon(
-              session: session,
-              size: iconSize,
-              shadowPaint: PomodoroPaints.highLevelShadowPaint,
-            )),
-        child: new Padding(
-            padding: PADDING_8,
-            child: new SessionIcon(
-                session: session,
-                size: iconSize,
-                shadowPaint: PomodoroPaints.highLevelShadowPaint,
-                onClick: () {})));
-  }
 }
 
-class _SnappingScrollPhysics extends ScrollPhysics {
-  const _SnappingScrollPhysics({
-    ScrollPhysics parent,
-    @required this.maxScrollOffset,
-  })
-      : assert(maxScrollOffset != null),
-        super(parent: parent);
-
-  final double maxScrollOffset;
-
-  @override
-  _SnappingScrollPhysics applyTo(ScrollPhysics ancestor) {
-    return new _SnappingScrollPhysics(
-        parent: buildParent(ancestor), maxScrollOffset: maxScrollOffset);
-  }
-
-  Simulation _toMaxScrollOffsetSimulation(double offset, double dragVelocity) {
-    final double velocity = math.max(dragVelocity, minFlingVelocity);
-    return new ScrollSpringSimulation(spring, offset, maxScrollOffset, velocity,
-        tolerance: tolerance);
-  }
-
-  Simulation _toZeroScrollOffsetSimulation(double offset, double dragVelocity) {
-    final double velocity = math.max(dragVelocity, minFlingVelocity);
-    return new ScrollSpringSimulation(spring, offset, 0.0, velocity,
-        tolerance: tolerance);
-  }
-
-  @override
-  Simulation createBallisticSimulation(
-      ScrollMetrics position, double dragVelocity) {
-    final Simulation simulation =
-        super.createBallisticSimulation(position, dragVelocity);
-    final double offset = position.pixels;
-
-    if (simulation != null) {
-      // The drag ended with sufficient velocity to trigger creating a simulation.
-      // If the simulation is headed up towards midScrollOffset but will not reach it,
-      // then snap it there. Similarly if the simulation is headed down past
-      // midScrollOffset but will not reach zero, then snap it to zero.
-      final double simulationEnd = simulation.x(maxScrollOffset);
-      if (simulationEnd >= maxScrollOffset) return simulation;
-      if (dragVelocity > 0.0)
-        return _toMaxScrollOffsetSimulation(offset, dragVelocity);
-      if (dragVelocity < 0.0)
-        return _toZeroScrollOffsetSimulation(offset, dragVelocity);
-    } else {
-      // The user ended the drag with little or no velocity. If they
-      // didn't leave the the offset above midScrollOffset, then
-      // snap to midScrollOffset if they're more than halfway there,
-      // otherwise snap to zero.
-      final double snapThreshold = maxScrollOffset / 2.0;
-      if (offset >= snapThreshold && offset < maxScrollOffset)
-        return _toMaxScrollOffsetSimulation(offset, dragVelocity);
-      if (offset > 0.0 && offset < snapThreshold)
-        return _toZeroScrollOffsetSimulation(offset, dragVelocity);
-    }
-    return simulation;
-  }
-}

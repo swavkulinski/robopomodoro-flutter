@@ -113,7 +113,6 @@ void drawDebug(Canvas canvas, Size size) {
     canvas.drawLine(new Offset(0.0, y), new Offset(size.width, y), debugPaint);
   }
 }
-
 const double DEFAULT_ANGLE_CORRECTION = -PI/2;
 
 var wrapTime = 0;
@@ -125,6 +124,8 @@ const double STRIPES_FACTOR = PI / (6 / 60 / 1000);
 
 const REFRESH_TIME_MILLISECONDS = 1000;
 
-const EdgeInsets PADDING_8 = const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 12.0);
+class Paddings {
+  static const ALL_8 = const EdgeInsets.all(8.0);
+}
 
 
