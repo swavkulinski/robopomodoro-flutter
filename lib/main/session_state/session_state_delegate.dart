@@ -128,6 +128,9 @@ class SessionStateDelegate {
     print("_handlePauseResumeOnTap($state)");
     isPaused = state;
     startTime = currentTime;
+    if(state){
+      pop();
+    }
     onChange();
   }
 

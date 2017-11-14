@@ -4,6 +4,7 @@ import 'dial_painter.dart';
 import '../di/main_module.dart';
 import 'toggle_button.dart';
 import 'round_button.dart';
+import 'pill_button.dart';
 import 'plate_widget.dart';
 import '../digit/session_digit.dart';
 import '../digit/minute_digit.dart';
@@ -72,21 +73,6 @@ class DialWidget extends StatelessWidget {
       )));
     }
 
-    dial.add(
-      new Align(
-          alignment: new FractionalOffset(1.0, 1.0),
-          widthFactor: 5.3,
-          heightFactor: 5.3,
-          child: new GestureDetector(
-              onTap: () => sessionController.clearSchedule(),
-              child: new RoundButton(
-                child: new Icon(Icons.delete),
-                size: new Size(60.0, 60.0),
-                foregroundPaint: platePaint(),
-                shadowPaint: defaultShadowPaint(),
-              ))),
-    );
-
     if (sessionWidgetModel.session != null) {
       dial.add(new Center(
           child: new ToggleButton(
@@ -114,7 +100,6 @@ class DialWidget extends StatelessWidget {
 
     var scrollController = new ScrollController();
     var plate = <Widget>[
-      
       new PlateWidget(size: size),
       //Add session prompt
       new SizedBox(
@@ -167,7 +152,7 @@ class DialWidget extends StatelessWidget {
                       style: currentTimeTextStyle,
                     ))
               ])),
-        ];
+    ];
 
     //session digit
     return new CustomScrollView(
@@ -176,16 +161,14 @@ class DialWidget extends StatelessWidget {
       slivers: <Widget>[
         new SliverToBoxAdapter(
             child: new Container(
-              decoration: new BoxDecoration(color: platePaint().color),
-          width: size.width,
-          height: size.height * 2,
-          child: new Column( children: <Widget>[
-            new Stack(children: plate),
-            _scheduleWidget(size), 
-            _sessionIcons(size)
-        
-            ]
-        )))
+                decoration: new BoxDecoration(color: platePaint().color),
+                width: size.width,
+                height: size.height * 2,
+                child: new Column(children: <Widget>[
+                  new Stack(children: plate),
+                  _scheduleWidget(size),
+                  _sessionIcons(size)
+                ])))
       ],
     );
   }
@@ -223,7 +206,8 @@ class DialWidget extends StatelessWidget {
             ))
       ]);
 
-  Widget _scheduleWidget(Size size) =>  new DragTarget<Session>(onWillAccept: (session) {
+  Widget _scheduleWidget(Size size) =>
+      new DragTarget<Session>(onWillAccept: (session) {
         return true;
       }, onAccept: (session) {
         sessionController.add(session);
@@ -236,15 +220,48 @@ class DialWidget extends StatelessWidget {
                 _yourScheduleEnds(),
                 style: defaultTextStyle,
               ),
-              new Container(
-                  height: 380.0,
-                  width: size.width,
-                  child: new GridView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          new SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 4),
-                      children: _createScheduleWidgets()))
+              new Stack(
+                children: <Widget>[
+                  new Container(
+                      constraints: new BoxConstraints.loose(
+                          new Size(size.width, size.height / 2)),
+                      child: new GridView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              new SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 4),
+                          children: _createScheduleWidgets())),
+                  new Container(
+                    constraints: new BoxConstraints.loose(
+                        new Size(size.width, size.height / 2)),
+                    child: new Align(
+                      alignment: new Alignment(0.0, 1.0),
+                      //   child:
+                      //new Center(
+                      child: new Padding(
+                        padding: new EdgeInsets.all(16.0),
+                        child: new GestureDetector(
+                            onTap: () => sessionController.clearSchedule(),
+                            child: new PillButton(
+                              foregroundPaint: PomodoroPaints.fillFullWhite,
+                              shadowPaint: PomodoroPaints.shadowPaint,
+                              child: new Row(
+                                children: <Widget>[
+                                  new Icon(Icons.delete),
+                                  new Text(
+                                    'CLEAR SCHEDULE',
+                                    style: defaultTextStyle,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    
+                  ),
+                ],
+              ),
             ])));
       });
 
