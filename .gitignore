@@ -12,3 +12,4 @@ pubspec.lock
 build/
 doc/api/
 fastlane
+ios/Podfile.lock

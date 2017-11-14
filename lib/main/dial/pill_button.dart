@@ -50,7 +50,8 @@ class _RoundButtonPainter extends CustomPainter {
     var rectangle = new Rect.fromLTWH(-margins.left, -margins.top, size.width + margins.right + margins.left, size.height + margins.top + margins.bottom);
     var path = new Path();
     //path.addOval(rectangle);
-    path.addRRect(new RRect.fromRectXY(rectangle, size.height/2, size.height/2));
+    var radius = (size.height + margins.top + margins.bottom)/2;
+    path.addRRect(new RRect.fromRectXY(rectangle, radius , radius));
     canvas.drawPath(path, shadowPaint);
     canvas.drawPath(path, bodyPaint);
   }

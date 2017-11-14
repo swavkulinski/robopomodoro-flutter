@@ -245,7 +245,10 @@ class DialWidget extends StatelessWidget {
                             child: new PillButton(
                               foregroundPaint: PomodoroPaints.fillFullWhite,
                               shadowPaint: PomodoroPaints.shadowPaint,
-                              child: new Row(
+                              child: new Container(
+                                constraints: const BoxConstraints.tightForFinite(height: 30.0), 
+                                child:new Center( child:new Row(
+                                mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   new Icon(Icons.delete),
                                   new Text(
@@ -253,7 +256,7 @@ class DialWidget extends StatelessWidget {
                                     style: defaultTextStyle,
                                   )
                                 ],
-                              ),
+                              ),),),
                             ),
                           ),
                         ),
