@@ -4,7 +4,7 @@ import 'dial_painter.dart';
 import '../di/main_module.dart';
 import 'toggle_button.dart';
 import 'round_button.dart';
-import 'plate_widget.dart';
+import 'plate_widget/widget.dart';
 import 'snapping_scroll_physics.dart';
 import '../digit/session_digit.dart';
 import '../digit/minute_digit.dart';
