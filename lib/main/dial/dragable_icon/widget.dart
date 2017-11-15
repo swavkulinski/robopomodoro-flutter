@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../app/models.dart';
 import '../../di/main_module.dart';
-import '../../session_icon/session_icon.dart';
+import '../session_icon/widget.dart';
 
 class DragableIcon extends StatelessWidget {
   final Session session;

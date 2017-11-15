@@ -4,7 +4,7 @@ import '../../di/main_module.dart';
 import '../../../app/models.dart';
 import '../clear_schedule_button/widget.dart';
 import '../../session_state/session_state_delegate.dart';
-import '../../session_icon/session_icon.dart';
+import '../session_icon/widget.dart';
 
 class ScheduleWidget extends StatelessWidget {
   final Size size;
