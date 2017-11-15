@@ -1,6 +1,8 @@
+import 'package:Robopomodoro/app/models.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:intl/intl.dart';
+import '../session_state/session_state_delegate.dart';
 
 TextDecoration defaultTextDecoration = TextDecoration.none;
 
@@ -77,26 +79,35 @@ class PomodoroColors {
   }
 
 class PomodoroPaints {
-  static var fillFullWhite = defaultFillPaint(PomodoroColors.white_full);
+  static final fillFullWhite = defaultFillPaint(PomodoroColors.white_full);
 
-  static var fillFullCoffee = defaultFillPaint(PomodoroColors.coffee_full);
-  static var fillFullWork = defaultFillPaint(PomodoroColors.work_full);
-  static var fillFullRecess = defaultFillPaint(PomodoroColors.recess_full);
+  static final fillFullCoffee = defaultFillPaint(PomodoroColors.coffee_full);
+  static final fillFullWork = defaultFillPaint(PomodoroColors.work_full);
+  static final fillFullRecess = defaultFillPaint(PomodoroColors.recess_full);
 
-  static var fillSemiCoffee = defaultFillPaint(PomodoroColors.white_semi);
-  static var fillSemiWork = defaultFillPaint(PomodoroColors.work_semi);
-  static var fillSemiRecess = defaultFillPaint(PomodoroColors.recess_semi);
+  static final fillSemiCoffee = defaultFillPaint(PomodoroColors.white_semi);
+  static final fillSemiWork = defaultFillPaint(PomodoroColors.work_semi);
+  static final fillSemiRecess = defaultFillPaint(PomodoroColors.recess_semi);
 
-  static var strokeGray80w2 = defaultStrokePaint(PomodoroColors.dark_gray_80, 2.0);
-  static var strokeGray80w1 = defaultStrokePaint(PomodoroColors.dark_gray_80, 1.0);
+  static final strokeGray80w2 = defaultStrokePaint(PomodoroColors.dark_gray_80, 2.0);
+  static final strokeGray80w1 = defaultStrokePaint(PomodoroColors.dark_gray_80, 1.0);
 
-  static var shadowPaint = new Paint()
+  static final shadowPaint = new Paint()
     ..color = PomodoroColors.dark_gray_80
     ..maskFilter = new MaskFilter.blur(BlurStyle.normal, 2.0);
-  static var highLevelShadowPaint = new Paint()
+  static final highLevelShadowPaint = new Paint()
     ..color = PomodoroColors.dark_gray_80
     ..maskFilter = new MaskFilter.blur(BlurStyle.normal, 8.0);
 }
+
+final List<Session> sessionTemplates = [
+    sessionFactory.longPomodoro(),
+    sessionFactory.shortPomodoro(),
+    sessionFactory.firstCoffee(),
+    sessionFactory.secondCoffee(),
+    sessionFactory.thirdCoffee(),
+  ];
+
 
 Color dialColor = PomodoroColors.white_full;
 

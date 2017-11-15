@@ -10,13 +10,10 @@ import '../digit/session_digit.dart';
 import '../digit/minute_digit.dart';
 import '../models.dart';
 import '../session_state/session_state_delegate.dart';
-import '../session_icon/session_icon.dart';
 import 'session_prompt/widget.dart';
-import '../../app/models.dart';
-import 'dragable_icon/widget.dart';
-import 'clear_schedule_button/widget.dart';
 import 'session_ends/widget.dart';
 import 'session_icons_grid/widget.dart';
+import 'schedule_widget/widget.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
@@ -66,18 +63,35 @@ class DialWidget extends StatelessWidget {
                 height: size.height * 2,
                 child: new Column(children: <Widget>[
                   _plate(size, scrollController, sessionState),
-                  _scheduleWidget(size),
-                  new SessionIconsGrid(size:size, iconSize: iconSize,),
+                  new ScheduleWidget(
+                    sessionController: sessionController,
+                    size: size,
+                    iconSize: iconSize,
+                    scheduleEnds: _calculateSessionEnds(
+                      sessionStarts: sessionWidgetModel.startTime,
+                      milliseconds: sessionWidgetModel.totalLength(),
+                    ),
+                  ),
+                  new SessionIconsGrid(
+                    size: size,
+                    iconSize: iconSize,
+                  ),
                 ])))
       ],
     );
   }
 
+  DateTime _calculateSessionEnds({DateTime sessionStarts, int milliseconds}) =>
+      sessionStarts.add(new Duration(milliseconds: milliseconds));
+
   Widget _plate(size, scrollController, sessionState) =>
       new Stack(children: <Widget>[
         new PlateWidget(size: size),
         //Add session prompt
-        new SessionPrompt(size: size, scrollController: scrollController,),
+        new SessionPrompt(
+          size: size,
+          scrollController: scrollController,
+        ),
         //main linear layout
         new Padding(
             padding: new EdgeInsets.fromLTRB(
@@ -171,106 +185,5 @@ class DialWidget extends StatelessWidget {
               ))));
     }
     return dial;
-  }
-
- /* Widget _sessionIcons(Size size) => new Column(children: [
-        new Text(
-          "Sessions",
-          style: defaultTextStyle,
-        ),
-        new Container(
-            width: size.width,
-            height: 200.0,
-            child: new GridView(
-              physics: const NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4),
-              padding: new EdgeInsets.all(10.0),
-              children: <Widget>[
-                new DragableIcon(
-                    session: sessionFactory.longPomodoro(), iconSize: iconSize),
-                new DragableIcon(
-                    session: sessionFactory.shortPomodoro(),
-                    iconSize: iconSize),
-                new DragableIcon(
-                    session: sessionFactory.firstCoffee(), iconSize: iconSize),
-                new DragableIcon(
-                    session: sessionFactory.secondCoffee(), iconSize: iconSize),
-                new DragableIcon(
-                    session: sessionFactory.thirdCoffee(), iconSize: iconSize),
-              ],
-            ))
-      ]);*/
-
-  Widget _scheduleWidget(Size size) =>
-      new DragTarget<Session>(onWillAccept: (session) {
-        return true;
-      }, onAccept: (session) {
-        sessionController.add(session);
-      }, builder: (context, candidate, rejected) {
-        return new Padding(
-          padding: const EdgeInsets.fromLTRB(8.0, 36.0, 8.0, 0.0),
-          child: new Card(
-            child: new Column(children: [
-              new Text(
-                _yourScheduleEnds(),
-                style: defaultTextStyle,
-              ),
-              new Stack(
-                children: <Widget>[
-                  new Container(
-                      constraints: new BoxConstraints.loose(
-                          new Size(size.width, size.height / 2)),
-                      child: new GridView(
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              new SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 4),
-                          children: _createScheduleWidgets())),
-                  new Container(
-                    constraints: new BoxConstraints.loose(
-                        new Size(size.width, size.height / 2)),
-                    child: new Align(
-                      alignment: new Alignment(0.0, 1.0),
-                      child: new ClearScheduleButton(
-                          callback: () => sessionController.clearSchedule()),
-                    ),
-                  ),
-                ],
-              ),
-            ]),
-          ),
-        );
-      });
-
-  List<Widget> _createScheduleWidgets() {
-    var list = new List();
-    for (Session session in sessionController.getSchedule()) {
-      list.add(
-        new Padding(
-            padding: Paddings.ALL_8,
-            child: new SessionIcon(
-              session: session,
-              size: iconSize,
-              shadowPaint: PomodoroPaints.shadowPaint,
-            )),
-      );
-    }
-    return list;
-  }
-
-  String _yourScheduleEnds() {
-    if (sessionController.getSchedule() == null ||
-        sessionController.getSchedule().length == 0) {
-      return "Your schedule";
-    } else {
-      var scheduleEnd = currentTimeFormat.format(startTime.add(new Duration(
-          milliseconds: sessionController
-              .getSchedule()
-              .map((session) => session.length())
-              .reduce((i, c) => i += c))));
-      return "Your schedule ends $scheduleEnd";
-    }
   }
 }

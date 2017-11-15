@@ -8,10 +8,10 @@ import 'package:flutter/services.dart';
 import 'dart:async';
 import 'dart:math';
 
-SessionFactory sessionFactory = new SessionFactory();
-SessionStateDelegate sessionController = new SessionStateDelegate();
+const SessionFactory sessionFactory = const SessionFactory();
 
 class SessionStateDelegate {
+
   VoidCallback onChange;
 
   SessionDigitConfig sessionDigitConfig;
@@ -144,6 +144,8 @@ class SessionStateDelegate {
 }
 
 class SessionFactory {
+  const SessionFactory();
+
   Session shortPomodoro() => _pomodoro(25, 5, 'Short Pomodoro','25\' work + 5\' break');
   Session longPomodoro() => _pomodoro(25, 15, 'Long Pomodoro', '25\' work + 15\' break');
 

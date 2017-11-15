@@ -9,7 +9,13 @@ class SessionIcon extends StatelessWidget {
   final VoidCallback onClick;
   final Paint shadowPaint;
 
-  SessionIcon({this.size, this.session, this.onClick, this.shadowPaint});
+  SessionIcon({Key key,this.size, this.session, this.onClick, this.shadowPaint}):
+  assert(size != null),
+  assert(session != null),
+  assert(shadowPaint != null),
+  super(key:key);
+
+  @override
   Widget build(BuildContext context) {
     return new GestureDetector(
       onTap: onClick,
@@ -25,7 +31,9 @@ class _IconPainter extends CustomPainter {
   final Session session;
   final Paint shadowPaint;
 
-  const _IconPainter(this.session,this.shadowPaint);
+  const _IconPainter(this.session,this.shadowPaint):
+  //assert(session != null),
+  assert(shadowPaint != null);
 
   bool shouldRepaint(CustomPainter oldPainter) {
     return false;
