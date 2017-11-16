@@ -36,7 +36,7 @@ class _PlatePainter extends CustomPainter {
     path.close();
     canvas.save();
     canvas.translate(0.0, 2.0);
-    canvas.drawPath(path, defaultShadowPaint());
+    canvas.drawPath(path, PomodoroPaints.shadowPaint);
     canvas.restore();
     canvas.drawPath(path, defaultFillPaint(dialColor));
   }

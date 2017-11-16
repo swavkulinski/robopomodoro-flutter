@@ -7,7 +7,6 @@ void main() {
 
   SessionWidgetModel modelUnderTest = new SessionWidgetModel()
   ..config = mockConfig
-  ..elapsed = 0
   ..startTime = mockTime
   ..session = mockSession;
    test(

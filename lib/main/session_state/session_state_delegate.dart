@@ -112,12 +112,7 @@ class SessionStateDelegate {
 
   Widget getDialWidget() {
     return new DialWidget(
-      elapsedTime:
-          currentTime.millisecondsSinceEpoch - startTime.millisecondsSinceEpoch,
-      onTapListener: _handlePauseResumeOnTap,
-      paused: isPaused,
-      currentTime: currentTime,
-      startTime: startTime,
+            onTapListener: _handlePauseResumeOnTap,
       sessionWidgetModel: sessionWidgetModel(sessionDigitConfig),
       sessionController: this,
       iconSize: new Size.fromRadius(30.0),
@@ -138,9 +133,10 @@ class SessionStateDelegate {
           SessionDigitConfig sessionDigitConfig) =>
       new SessionWidgetModel()
         ..startTime = startTime
+        ..currentTime = currentTime
         ..session = getCurrentSession()
-        ..config = sessionDigitConfig
-        ..elapsed = currentTime.millisecondsSinceEpoch - startTime.millisecondsSinceEpoch;
+        ..paused = isPaused
+        ..config = sessionDigitConfig;
 }
 
 class SessionFactory {

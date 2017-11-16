@@ -38,8 +38,6 @@ DateFormat currentTimeFormat = new DateFormat('h:mm a');
 
 platePaint() => PomodoroPaints.fillFullWhite;
 
-defaultShadowPaint() => PomodoroPaints.shadowPaint; 
-
 Paint minuteDigitPaint = PomodoroPaints.strokeGray80w2; 
 
 const double tickLength = 5.0;
@@ -138,5 +136,9 @@ const REFRESH_TIME_MILLISECONDS = 1000;
 class Paddings {
   static const ALL_8 = const EdgeInsets.all(8.0);
 }
+
+const DIAL_CENTER = 200.0;
+const DIAL_RADIUS = 140.0;
+const CENTRAL_BUTTON_SIZE = const Size(90.0, 90.0);
 
 

@@ -29,7 +29,8 @@ class SessionDigitPainter extends CustomPainter {
         length: _model.totalLength(),
         sessionType: SectionType.COFFEE,
         foregroundPaint: PomodoroPaints.fillFullWork,
-        backgroundPaint: PomodoroPaints.fillFullWork);
+        backgroundPaint: PomodoroPaints.fillFullWork,
+        );
     canvas.drawPath(
         _pathBuilder.buildPath(
           shadowSection,
@@ -39,7 +40,7 @@ class SessionDigitPainter extends CustomPainter {
           initOuterRadius: _model.config.delta(),
           initInnerRadius: 0.0,
         ),
-        defaultShadowPaint());
+        PomodoroPaints.shadowPaint);
 
     for (Section section in _model.session.sections) {
       double initAngle = _model.angleBeforeSection(section);
@@ -47,7 +48,7 @@ class SessionDigitPainter extends CustomPainter {
           _model.config.delta() - _model.initRadius(section);
       double initInnerRadius =
           _model.config.delta() - _model.endRadius(section);
-      if (lengthCounter + section.length <= _model.elapsed) {
+      if (lengthCounter + section.length <= _model.elapsedTime()) {
         // Completed section
         drawSection(
           canvas,
@@ -58,7 +59,7 @@ class SessionDigitPainter extends CustomPainter {
           initInnerRadius: initInnerRadius,
           paintType: _PaintType.FOREGROUND,
         );
-      } else if (lengthCounter >= _model.elapsed) {
+      } else if (lengthCounter >= _model.elapsedTime()) {
         // Incomplete section
         drawSection(
           canvas,
@@ -72,13 +73,13 @@ class SessionDigitPainter extends CustomPainter {
       } else {
         // Split into two sections - completed and incomplete
         Section completedSection = new Section(
-          length: _model.elapsed - lengthCounter,
+          length: _model.elapsedTime() - lengthCounter,
           sessionType: section.sessionType,
           foregroundPaint: section.foregroundPaint,
           backgroundPaint: section.backgroundPaint,
         );
         Section incompleteSection = new Section(
-          length: section.length - (_model.elapsed - lengthCounter),
+          length: section.length - (_model.elapsedTime() - lengthCounter),
           sessionType: section.sessionType,
           foregroundPaint: section.foregroundPaint,
           backgroundPaint: section.backgroundPaint,
