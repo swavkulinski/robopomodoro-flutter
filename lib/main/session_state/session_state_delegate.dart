@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../app/models.dart';
 import '../di/main_module.dart';
-import '../dial/dial_widget.dart';
+import '../dial/widget.dart';
 import '../../main/models.dart';
 import 'dart:ui';
 import 'package:flutter/services.dart';
@@ -111,7 +111,7 @@ class SessionStateDelegate {
   }
 
   Widget getDialWidget() {
-    return new DialWidget(
+    return new MainWidget(
             onTapListener: _handlePauseResumeOnTap,
       sessionWidgetModel: sessionWidgetModel(sessionDigitConfig),
       sessionController: this,

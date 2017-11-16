@@ -11,13 +11,13 @@ import 'pomodoro_widget/widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 
-class DialWidget extends StatelessWidget {
+class MainWidget extends StatelessWidget {
   final ValueChanged<bool> onTapListener;
   final SessionWidgetModel sessionWidgetModel;
   final SessionStateDelegate sessionController;
   final Size iconSize;
 
-  DialWidget({
+  MainWidget({
     Key key,
     @required this.onTapListener,
     @required this.sessionWidgetModel,
