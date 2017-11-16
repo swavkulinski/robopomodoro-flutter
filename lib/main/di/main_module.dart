@@ -2,7 +2,7 @@ import 'package:Robopomodoro/app/models.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:intl/intl.dart';
-import '../session_state/session_state_delegate.dart';
+import 'package:Robopomodoro/main/session_state/session_state_delegate.dart';
 
 TextDecoration defaultTextDecoration = TextDecoration.none;
 

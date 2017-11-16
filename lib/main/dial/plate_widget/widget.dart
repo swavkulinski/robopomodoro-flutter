@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/foundation.dart';
-import '../../di/main_module.dart';
+import 'package:Robopomodoro/main/di/main_module.dart';
 import 'dart:ui';
 
 class PlateWidget extends StatelessWidget {

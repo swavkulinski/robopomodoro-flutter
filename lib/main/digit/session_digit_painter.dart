@@ -2,10 +2,10 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/painting.dart';
 import 'dart:ui';
 
-import '../../app/models.dart';
-import '../di/main_module.dart';
-import 'path_builder.dart';
-import '../models.dart';
+import 'package:Robopomodoro/app/models.dart';
+import 'package:Robopomodoro/main/di/main_module.dart';
+import 'package:Robopomodoro/main/digit/path_builder.dart';
+import 'package:Robopomodoro/main/models.dart';
 
 class SessionDigitPainter extends CustomPainter {
   SessionWidgetModel _model;

@@ -1,17 +1,18 @@
+import 'package:Robopomodoro/main/dial/session_timer/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import '../plate_widget/widget.dart';
-import '../session_prompt/widget.dart';
-import '../session_ends/widget.dart';
+import 'package:Robopomodoro/main/dial/plate_widget/widget.dart';
+import 'package:Robopomodoro/main/dial/session_prompt/widget.dart';
+import 'package:Robopomodoro/main/dial/session_ends/widget.dart';
 
-import '../dial_painter.dart';
-import '../../digit/minute_digit.dart';
-import '../../digit/session_digit.dart';
-import '../toggle_button.dart';
-import '../round_button.dart';
+import 'package:Robopomodoro/main/dial/dial_painter.dart';
+import 'package:Robopomodoro/main/digit/minute_digit.dart';
+import 'package:Robopomodoro/main/digit/session_digit.dart';
+import 'package:Robopomodoro/main/dial/toggle_button.dart';
+import 'package:Robopomodoro/main/dial/round_button.dart';
 
-import '../../di/main_module.dart';
-import '../../models.dart';
+import 'package:Robopomodoro/main/di/main_module.dart';
+import 'package:Robopomodoro/main/models.dart';
 
 class PomodoroWidget extends StatelessWidget {
   final Size size;
@@ -47,15 +48,7 @@ new Stack(children: <Widget>[
                 children: <Widget>[
                   //dial
                   _dial(),
-                  new Padding(
-                    padding: new EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
-                    child: new Text(
-                      sessionTimeFormat.format(
-                          new DateTime.fromMillisecondsSinceEpoch(
-                              sessionWidgetModel.totalLength() - sessionWidgetModel.elapsedTime())),
-                      style: sessionTimeTextStyle,
-                    ),
-                  ),
+                  new SessionTimer(sessionWidgetModel: sessionWidgetModel,),
                   new SessionEnds(
                     length: sessionWidgetModel.totalLength(),
                     sessionEnds: sessionWidgetModel.startTime.add(

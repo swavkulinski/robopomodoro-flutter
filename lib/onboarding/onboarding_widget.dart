@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../di/di.dart';
+import 'package:Robopomodoro/di/di.dart';
 
 class OnboardingWidget extends StatefulWidget {
   OnboardingWidget({Key key, this.onComplete, this.stateFactory}):

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import '../di/main_module.dart';
-import 'snapping_scroll_physics.dart';
-import '../models.dart';
-import '../session_state/session_state_delegate.dart';
-import 'session_icons_grid/widget.dart';
-import 'schedule_widget/widget.dart';
-import 'pomodoro_widget/widget.dart';
+import 'package:Robopomodoro/main/di/main_module.dart';
+import 'package:Robopomodoro/main/dial/snapping_scroll_physics.dart';
+import 'package:Robopomodoro/main/models.dart';
+import 'package:Robopomodoro/main/session_state/session_state_delegate.dart';
+import 'package:Robopomodoro/main/dial/session_icons_grid/widget.dart';
+import 'package:Robopomodoro/main/dial/schedule_widget/widget.dart';
+import 'package:Robopomodoro/main/dial/pomodoro_widget/widget.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
@@ -47,7 +47,6 @@ class MainWidget extends StatelessWidget {
                     sessionWidgetModel: sessionWidgetModel,
                     onTapListener: onTapListener,
                   ),
-                  //_plate(size, scrollController, sessionState),
                   new ScheduleWidget(
                     sessionController: sessionController,
                     sessionWidgetModel: sessionWidgetModel,

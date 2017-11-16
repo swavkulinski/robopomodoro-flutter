@@ -2,9 +2,9 @@ import 'dart:ui';
 import 'package:flutter/rendering.dart';
 
 import 'dart:math';
-import '../models.dart';
-import '../../app/models.dart';
-import '../di/main_module.dart';
+import 'package:Robopomodoro/main/models.dart';
+import 'package:Robopomodoro/app/models.dart';
+import 'package:Robopomodoro/main/di/main_module.dart';
 
 
 class PathBuilder {

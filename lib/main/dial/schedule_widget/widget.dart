@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import '../../di/main_module.dart';
-import '../../../app/models.dart';
-import '../../models.dart';
-import '../clear_schedule_button/widget.dart';
-import '../../session_state/session_state_delegate.dart';
-import '../session_icon/widget.dart';
+import 'package:Robopomodoro/main/di/main_module.dart';
+import 'package:Robopomodoro/app/models.dart';
+import 'package:Robopomodoro/main/models.dart';
+import 'package:Robopomodoro/main/dial/clear_schedule_button/widget.dart';
+import 'package:Robopomodoro/main/session_state/session_state_delegate.dart';
+import 'package:Robopomodoro/main/dial/session_icon/widget.dart';
 
 class ScheduleWidget extends StatelessWidget {
   final Size size;

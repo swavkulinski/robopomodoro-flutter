@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import '../../di/main_module.dart';
+import 'package:Robopomodoro/main/di/main_module.dart';
 
 class SessionPrompt extends StatelessWidget {
 

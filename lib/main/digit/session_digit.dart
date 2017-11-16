@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'session_digit_painter.dart';
-import '../models.dart';
-import 'path_builder.dart';
+import 'package:Robopomodoro/main/digit/session_digit_painter.dart';
+import 'package:Robopomodoro/main/models.dart';
+import 'package:Robopomodoro/main/digit/path_builder.dart';
 
 class SessionDigit extends StatelessWidget {
 
