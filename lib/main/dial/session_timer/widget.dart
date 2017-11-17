@@ -4,10 +4,10 @@ import 'package:Robopomodoro/main/models.dart';
 import 'package:Robopomodoro/main/di/main_module.dart';
 import 'package:Robopomodoro/app/models.dart';
 
-class SessionTimer extends StatelessWidget {
+class SectionTimer extends StatelessWidget {
   SessionWidgetModel sessionWidgetModel;
 
-  SessionTimer({@required this.sessionWidgetModel});
+  SectionTimer({@required this.sessionWidgetModel});
 
   @override
   Widget build(BuildContext context) => new Padding(
