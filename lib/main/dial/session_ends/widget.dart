@@ -15,7 +15,6 @@ class SessionEnds extends StatelessWidget {
     var message = "";
     if (length > 0) {
       message = "Session ends ${currentTimeFormat.format(sessionEnds)}";
-      //"Session ends ${currentTimeFormat.format(sessionWidgetModel.startTime.add(new Duration(milliseconds:sessionWidgetModel.totalLength())))}";
     }
     return new Text(
       message,

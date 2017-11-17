@@ -155,10 +155,12 @@ class SessionFactory {
         ..name = name
         ..sections = <Section>[
           new Section()
+            ..sessionType = SectionType.WORK
             ..backgroundPaint = PomodoroPaints.fillSemiWork
             ..foregroundPaint = PomodoroPaints.fillFullWork 
             ..length = workSectionLength * 60 * 1000,
           new Section()
+            ..sessionType = SectionType.BREAK
             ..backgroundPaint = PomodoroPaints.fillSemiRecess
             ..foregroundPaint = PomodoroPaints.fillFullRecess
             ..length = breakSectionLength * 60 * 1000
@@ -171,6 +173,7 @@ class SessionFactory {
     ..description = description
     ..sections = <Section>[
       new Section()
+        ..sessionType = SectionType.COFFEE
         ..backgroundPaint = PomodoroPaints.fillSemiWork
         ..foregroundPaint = PomodoroPaints.fillFullWork 
         ..length = length * 60 * 1000
