@@ -18,8 +18,10 @@ class SectionTimer extends StatelessWidget {
       );
 
   String _sectionTimeString() {
-
-    Section section = sessionWidgetModel.session.currentSection(sessionWidgetModel.elapsedTime());
+    Section section = sessionWidgetModel.session?.currentSection(sessionWidgetModel.elapsedTime());
+    if(section == null){
+      return "";
+    }
     int lengthBefore = sessionWidgetModel.totalLengthBefore(section);
     int elapsedSectionTime = sessionWidgetModel.elapsedTime() - lengthBefore;
     return sessionTimeFormat.format(new DateTime.fromMillisecondsSinceEpoch(
