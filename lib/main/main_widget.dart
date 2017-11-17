@@ -13,12 +13,11 @@ class MainWidget extends StatefulWidget {
 
 class _MainWidgetState extends State<MainWidget> {
   //bool isPaused = true;
-    SessionStateDelegate sc;
+    SessionStateDelegate sc = new SessionStateDelegate();
 
   //bool isScheduling = false;
 
   _MainWidgetState() {
-    sc = sessionController;
     sc.sessionDigitConfig = sessionDigitConfig();
     sc.onChange = _controllerOnChangeHandler();
     print(sc == null);

@@ -28,8 +28,8 @@ class SessionDigitPainter extends CustomPainter {
     Section shadowSection = new Section(
         length: _model.totalLength(),
         sessionType: SectionType.COFFEE,
-        foregroundPaint: workSectionCompletePaint,
-        backgroundPaint: workSectionCompletePaint);
+        foregroundPaint: PomodoroPaints.fillFullWork,
+        backgroundPaint: PomodoroPaints.fillFullWork);
     canvas.drawPath(
         _pathBuilder.buildPath(
           shadowSection,
@@ -131,29 +131,9 @@ class SessionDigitPainter extends CustomPainter {
         : session.backgroundPaint;
     canvas.drawPath(path, selectedPaint);
   }
-
-  void drawDebug(Canvas canvas, Size size) {
-    Path path = new Path()
-      ..addOval(new Rect.fromLTRB(0.0, 0.0, size.width, size.height));
-    Paint paint = defaultFillPaint(breakSectionCompleteColor);
-    canvas.drawPath(path, paint);
-  }
 }
 
 enum _PaintType {
   FOREGROUND,
   BACKGROUND,
-}
-
-class DummySessionDigitPainter extends CustomPainter {
-  @override
-  bool shouldRepaint(CustomPainter old) {
-    return false;
-  }
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    canvas.drawCircle(new Offset(size.width / 2, size.height / 2),
-        size.width / 2, defaultFillPaint(breakSectionCompleteColor));
-  }
 }

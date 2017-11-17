@@ -1,6 +1,8 @@
+import 'package:Robopomodoro/app/models.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:intl/intl.dart';
+import '../session_state/session_state_delegate.dart';
 
 TextDecoration defaultTextDecoration = TextDecoration.none;
 
@@ -34,37 +36,13 @@ TextStyle currentTimeTextStyle = new TextStyle(
 DateFormat sessionTimeFormat = new DateFormat('mm:ss');
 DateFormat currentTimeFormat = new DateFormat('h:mm a');
 
-Paint platePaint() {
-  var paint = new Paint();
-  paint.color = new Color(0xFFFFFFFF);
-  return paint;
-}
+platePaint() => PomodoroPaints.fillFullWhite;
 
-Paint defaultShadowPaint() {
-  var paint = new Paint();
-  paint.color = new Color(0x66000000);
-  paint.maskFilter = new MaskFilter.blur(BlurStyle.normal, 2.0);
-  return paint;
-}
+defaultShadowPaint() => PomodoroPaints.shadowPaint; 
 
-Paint workSectionIncompletePaint = platePaint();
+Paint minuteDigitPaint = PomodoroPaints.strokeGray80w2; 
 
-Paint workSectionCompletePaint = defaultFillPaint(workSectionCompleteColor);
-
-Paint breakSectionIncompletePaint = defaultFillPaint(breakSectionIncompleteColor);
-    
-
-Paint breakSectionCompletePaint = defaultFillPaint(breakSectionCompleteColor);
-
-Paint minuteDigitPaint = defaultStrokePaint(darkDialColor, 2.0);
-
-Paint tickDialPaint = defaultStrokePaint(deepDarkColor, 1.0);
-
-Paint schedulePillPaint = defaultFillPaint(darkDialColor);
-
-double tickLength = 5.0;
-
-Paint centralButtonPaint = defaultFillPaint(centralButtonColor);
+const double tickLength = 5.0;
 
 Paint defaultFillPaint(Color color) {
   Paint paint = new Paint();
@@ -83,22 +61,57 @@ Paint defaultStrokePaint(Color color, double width) {
 }
 
 
-Color WHITE_COLOR = const Color(0xFFFFFFFF);
-Color BASE_COLOR = const Color(0xFFFC2B08);
+class PomodoroColors {
+  static const white_full = const Color(0xFFFFFFFF);
+  static const coffee_full = const Color(0xFFB46230);
+  static const work_full = const Color(0xFFB43048);
+  static const recess_full = const Color(0xFFFC2B08);
 
-Color workSectionIncompleteColor = new Color(0x88A4C639);
-Color workSectionCompleteColor = new Color(0xFFA4C639);
+  static const white_semi = const Color(0x88FFFFFF);
+  static const coffee_semi = const Color(0x88B46230);
+  static const work_semi = const Color(0x88B43048);
+  static const recess_semi = const Color(0x88FC2B08);
 
-Color breakSectionIncompleteColor = new Color(0x88A8CF2B);
-Color breakSectionCompleteColor = new Color(0xFFA8CF2B);
+  static const dark_gray_20 = const Color(0x20202020);
+  static const dark_gray_40 = const Color(0x40404040);
+  static const dark_gray_80 = const Color(0x80808080);
+  
+  }
 
-Color dialColor = WHITE_COLOR;
+class PomodoroPaints {
+  static final fillFullWhite = defaultFillPaint(PomodoroColors.white_full);
 
-Color darkDialColor = new Color(0x20202020);
+  static final fillFullCoffee = defaultFillPaint(PomodoroColors.coffee_full);
+  static final fillFullWork = defaultFillPaint(PomodoroColors.work_full);
+  static final fillFullRecess = defaultFillPaint(PomodoroColors.recess_full);
+
+  static final fillSemiCoffee = defaultFillPaint(PomodoroColors.white_semi);
+  static final fillSemiWork = defaultFillPaint(PomodoroColors.work_semi);
+  static final fillSemiRecess = defaultFillPaint(PomodoroColors.recess_semi);
+
+  static final strokeGray80w2 = defaultStrokePaint(PomodoroColors.dark_gray_80, 2.0);
+  static final strokeGray80w1 = defaultStrokePaint(PomodoroColors.dark_gray_80, 1.0);
+
+  static final shadowPaint = new Paint()
+    ..color = PomodoroColors.dark_gray_80
+    ..maskFilter = new MaskFilter.blur(BlurStyle.normal, 2.0);
+  static final highLevelShadowPaint = new Paint()
+    ..color = PomodoroColors.dark_gray_80
+    ..maskFilter = new MaskFilter.blur(BlurStyle.normal, 8.0);
+}
+
+final List<Session> sessionTemplates = [
+    sessionFactory.longPomodoro(),
+    sessionFactory.shortPomodoro(),
+    sessionFactory.firstCoffee(),
+    sessionFactory.secondCoffee(),
+    sessionFactory.thirdCoffee(),
+  ];
+
+
+Color dialColor = PomodoroColors.white_full;
 
 Color deepDarkColor = new Color(0x90050505);
-
-Color centralButtonColor = workSectionCompleteColor;
 
 void drawDebug(Canvas canvas, Size size) {
   var increment = 20.0;
@@ -111,7 +124,6 @@ void drawDebug(Canvas canvas, Size size) {
     canvas.drawLine(new Offset(0.0, y), new Offset(size.width, y), debugPaint);
   }
 }
-
 const double DEFAULT_ANGLE_CORRECTION = -PI/2;
 
 var wrapTime = 0;
@@ -123,6 +135,8 @@ const double STRIPES_FACTOR = PI / (6 / 60 / 1000);
 
 const REFRESH_TIME_MILLISECONDS = 1000;
 
-const EdgeInsets PADDING_24 = const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0);
+class Paddings {
+  static const ALL_8 = const EdgeInsets.all(8.0);
+}
 
 

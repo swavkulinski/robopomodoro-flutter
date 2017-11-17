@@ -8,10 +8,10 @@ import 'package:flutter/services.dart';
 import 'dart:async';
 import 'dart:math';
 
-SessionFactory sessionFactory = new SessionFactory();
-SessionStateDelegate sessionController = new SessionStateDelegate();
+const SessionFactory sessionFactory = const SessionFactory();
 
 class SessionStateDelegate {
+
   VoidCallback onChange;
 
   SessionDigitConfig sessionDigitConfig;
@@ -128,6 +128,9 @@ class SessionStateDelegate {
     print("_handlePauseResumeOnTap($state)");
     isPaused = state;
     startTime = currentTime;
+    if(state){
+      pop();
+    }
     onChange();
   }
 
@@ -141,6 +144,8 @@ class SessionStateDelegate {
 }
 
 class SessionFactory {
+  const SessionFactory();
+
   Session shortPomodoro() => _pomodoro(25, 5, 'Short Pomodoro','25\' work + 5\' break');
   Session longPomodoro() => _pomodoro(25, 15, 'Long Pomodoro', '25\' work + 15\' break');
 
@@ -154,12 +159,12 @@ class SessionFactory {
         ..name = name
         ..sections = <Section>[
           new Section()
-            ..backgroundPaint = workSectionIncompletePaint
-            ..foregroundPaint = workSectionCompletePaint
+            ..backgroundPaint = PomodoroPaints.fillSemiWork
+            ..foregroundPaint = PomodoroPaints.fillFullWork 
             ..length = workSectionLength * 60 * 1000,
           new Section()
-            ..backgroundPaint = breakSectionIncompletePaint
-            ..foregroundPaint = breakSectionCompletePaint
+            ..backgroundPaint = PomodoroPaints.fillSemiRecess
+            ..foregroundPaint = PomodoroPaints.fillFullRecess
             ..length = breakSectionLength * 60 * 1000
             ..signalOnStart = true
             ..signalOnEnd = true,
@@ -170,8 +175,8 @@ class SessionFactory {
     ..description = description
     ..sections = <Section>[
       new Section()
-        ..backgroundPaint = workSectionIncompletePaint
-        ..foregroundPaint = workSectionCompletePaint
+        ..backgroundPaint = PomodoroPaints.fillSemiWork
+        ..foregroundPaint = PomodoroPaints.fillFullWork 
         ..length = length * 60 * 1000
         ..signalOnEnd = true,
     ];
