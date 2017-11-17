@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import '../app_state.dart';
-import '../app_repository.dart';
-import '../app_widget.dart';
+import 'package:Robopomodoro/app/app_state.dart';
+import 'package:Robopomodoro/app/app_repository.dart';
+import 'package:Robopomodoro/app/app_widget.dart';
 
 
 var sharedPreferences = SharedPreferences.getInstance();

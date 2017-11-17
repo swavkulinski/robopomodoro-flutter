@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'app_repository.dart';
 import 'app_widget.dart';
-import '../main/main_widget.dart';
-import '../onboarding/onboarding_module.dart';
+import 'package:Robopomodoro/main/main_widget.dart';
+import 'package:Robopomodoro/onboarding/onboarding_module.dart';
 
 class AppState extends State<RobopomodoroApp> {
   AppState(this._appRepository);

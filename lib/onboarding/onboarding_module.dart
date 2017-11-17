@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'onboarding_widget.dart';
+import 'package:Robopomodoro/onboarding/onboarding_widget.dart';
 
 var onboardingPageController = new PageController();
 

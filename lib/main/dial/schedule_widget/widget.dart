@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import '../../di/main_module.dart';
-import '../../../app/models.dart';
-import '../clear_schedule_button/widget.dart';
-import '../../session_state/session_state_delegate.dart';
-import '../../session_icon/session_icon.dart';
+import 'package:Robopomodoro/main/di/main_module.dart';
+import 'package:Robopomodoro/app/models.dart';
+import 'package:Robopomodoro/main/models.dart';
+import 'package:Robopomodoro/main/dial/clear_schedule_button/widget.dart';
+import 'package:Robopomodoro/main/session_state/session_state_delegate.dart';
+import 'package:Robopomodoro/main/dial/session_icon/widget.dart';
 
 class ScheduleWidget extends StatelessWidget {
   final Size size;
   final Size iconSize;
-  final DateTime scheduleEnds;
   final SessionStateDelegate sessionController;
+  final SessionWidgetModel sessionWidgetModel;
 
   ScheduleWidget({
     Key key,
     this.size,
     this.iconSize,
-    this.scheduleEnds,
     this.sessionController,
+    this.sessionWidgetModel,
   })
       : assert(size != null),
         assert(iconSize != null),
-        assert(scheduleEnds != null),
         assert(sessionController != null),
+        assert(sessionWidgetModel != null),
         super(key: key);
 
   @override
@@ -37,7 +38,7 @@ class ScheduleWidget extends StatelessWidget {
           child: new Card(
             child: new Column(children: [
               new Text(
-                _yourScheduleEnds(scheduleEnds),
+                _yourScheduleEnds(),
                 style: defaultTextStyle,
               ),
               new Stack(
@@ -78,12 +79,12 @@ class ScheduleWidget extends StatelessWidget {
         );
       });
 
-  String _yourScheduleEnds(startTime) {
+  String _yourScheduleEnds() {
     if (sessionController.getSchedule() == null ||
         sessionController.getSchedule().length == 0) {
       return "Your schedule";
     } else {
-      var scheduleEnd = currentTimeFormat.format(startTime.add(new Duration(
+      var scheduleEnd = currentTimeFormat.format(_calculateSessionEnds().add(new Duration(
           milliseconds: sessionController
               .getSchedule()
               .map((session) => session.length())
@@ -91,4 +92,9 @@ class ScheduleWidget extends StatelessWidget {
       return "Your schedule ends $scheduleEnd";
     }
   }
+
+  DateTime _calculateSessionEnds() =>
+      sessionWidgetModel.startTime.add(new Duration(milliseconds: sessionWidgetModel.totalLength()));
+
+
 }

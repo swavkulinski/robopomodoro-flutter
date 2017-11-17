@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../pill_button.dart';
-import '../../di/main_module.dart';
+import 'package:Robopomodoro/main/dial/pill_button.dart';
+import 'package:Robopomodoro/main/di/main_module.dart';
 
 class ClearScheduleButton extends StatelessWidget {
 

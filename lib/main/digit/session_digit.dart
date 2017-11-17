@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'session_digit_painter.dart';
-import '../models.dart';
-import 'path_builder.dart';
+import 'package:Robopomodoro/main/digit/session_digit_painter.dart';
+import 'package:Robopomodoro/main/models.dart';
+import 'package:Robopomodoro/main/digit/path_builder.dart';
 
 class SessionDigit extends StatelessWidget {
 
@@ -23,7 +23,6 @@ class SessionDigit extends StatelessWidget {
            return new CustomPaint(
             size: new Size(radius * 2, radius * 2),
             painter: new SessionDigitPainter(sessionWidgetModel,new PathBuilder(sessionWidgetModel.config, sessionWidgetModel)),
-            //painter: new DummySessionDigitPainter(),
             );
   }
   

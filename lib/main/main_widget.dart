@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'di/main_module.dart';
-import 'models.dart';
-import 'session_state/session_state_delegate.dart';
+import 'package:Robopomodoro/main/di/main_module.dart';
+import 'package:Robopomodoro/main/models.dart';
+import 'package:Robopomodoro/main/session_state/session_state_delegate.dart';
 
 class MainWidget extends StatefulWidget {
 

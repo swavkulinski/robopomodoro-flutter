@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'app_state.dart';
-import '../di/di.dart';
+import 'package:Robopomodoro/di/di.dart';
 
 class RobopomodoroApp extends StatefulWidget {
 

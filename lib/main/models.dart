@@ -1,5 +1,5 @@
 import 'dart:math';
-import '../app/models.dart';
+import 'package:Robopomodoro/app/models.dart';
 import 'di/main_module.dart';
 
 class Stripe {
@@ -34,9 +34,10 @@ class SessionDigitConfig {
 class SessionWidgetModel {
 
   Session session;
-  int elapsed;
   SessionDigitConfig config;
   DateTime startTime;
+  DateTime currentTime;
+  bool paused;
 
   int totalLength() {
     if(session == null || session.sections == null || session.sections.length == 0) return 0;
@@ -63,4 +64,5 @@ class SessionWidgetModel {
 
   int calculateStartRotation(DateTime startTime) => (startTime.minute - 15) * 1000 * 60 + (startTime.second * 1000);
   
+  int elapsedTime() => currentTime.millisecondsSinceEpoch - startTime.millisecondsSinceEpoch;
 }

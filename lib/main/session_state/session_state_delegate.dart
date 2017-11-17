@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../app/models.dart';
-import '../di/main_module.dart';
-import '../dial/dial_widget.dart';
-import '../../main/models.dart';
+import 'package:Robopomodoro/app/models.dart';
+import 'package:Robopomodoro/main/di/main_module.dart';
+import 'package:Robopomodoro/main/dial/widget.dart';
+import 'package:Robopomodoro/main/models.dart';
 import 'dart:ui';
 import 'package:flutter/services.dart';
 import 'dart:async';
@@ -111,13 +111,8 @@ class SessionStateDelegate {
   }
 
   Widget getDialWidget() {
-    return new DialWidget(
-      elapsedTime:
-          currentTime.millisecondsSinceEpoch - startTime.millisecondsSinceEpoch,
-      onTapListener: _handlePauseResumeOnTap,
-      paused: isPaused,
-      currentTime: currentTime,
-      startTime: startTime,
+    return new MainWidget(
+            onTapListener: _handlePauseResumeOnTap,
       sessionWidgetModel: sessionWidgetModel(sessionDigitConfig),
       sessionController: this,
       iconSize: new Size.fromRadius(30.0),
@@ -138,9 +133,10 @@ class SessionStateDelegate {
           SessionDigitConfig sessionDigitConfig) =>
       new SessionWidgetModel()
         ..startTime = startTime
+        ..currentTime = currentTime
         ..session = getCurrentSession()
-        ..config = sessionDigitConfig
-        ..elapsed = currentTime.millisecondsSinceEpoch - startTime.millisecondsSinceEpoch;
+        ..paused = isPaused
+        ..config = sessionDigitConfig;
 }
 
 class SessionFactory {

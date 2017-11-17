@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../di/main_module.dart';
+import 'package:Robopomodoro/main/di/main_module.dart';
 import 'dart:math';
 
 class MinuteDigit extends StatelessWidget {

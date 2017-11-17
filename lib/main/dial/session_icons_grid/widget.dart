@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import '../../di/main_module.dart';
-import '../dragable_icon/widget.dart';
+import 'package:Robopomodoro/main/di/main_module.dart';
+import 'package:Robopomodoro/main/dial/dragable_icon/widget.dart';
 
 class SessionIconsGrid extends StatelessWidget {
   final Size size;

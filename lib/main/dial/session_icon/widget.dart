@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../app/models.dart';
-import '../di/main_module.dart';
+import 'package:Robopomodoro/app/models.dart';
+import 'package:Robopomodoro/main/di/main_module.dart';
 import 'dart:math';
 
 class SessionIcon extends StatelessWidget {
@@ -49,7 +49,7 @@ class _IconPainter extends CustomPainter {
           _sectionPath(section, size, center), section.foregroundPaint);
       canvas.rotate(section.length * MILLIS_TO_ANGLE);
     }
-    var remaining = session.remaining(platePaint());
+    var remaining = session.remaining(PomodoroPaints.fillFullWhite);
     canvas.drawPath(
         _sectionPath(remaining, size, center), remaining.foregroundPaint);
     canvas.restore();

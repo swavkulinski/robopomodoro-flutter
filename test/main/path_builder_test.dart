@@ -12,7 +12,6 @@ const double INNER_RADIUS = 50.0;
     SessionWidgetModel mockModel = new SessionWidgetModel()
         ..config = mockConfig
         ..startTime = mockTime
-        ..elapsed = 0
         ..session = mockSession;
 
     PathBuilder pathBuilderUnderTest = new PathBuilder(mockConfig, mockModel);
