@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 import 'package:flutter/material.dart';
-import '../../../lib/main/digit/minute_digit.dart';
+import 'package:Robopomodoro/main/digit/minute_digit.dart';
 
 main() {
 

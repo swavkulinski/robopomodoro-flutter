@@ -1,5 +1,5 @@
-import '../../lib/app/models.dart';
-import '../../lib/main/models.dart';
+import 'package:Robopomodoro/app/models.dart';
+import 'package:Robopomodoro/main/models.dart';
 import 'package:flutter/material.dart';
 
 Paint mockForegroundPaint = new Paint();
