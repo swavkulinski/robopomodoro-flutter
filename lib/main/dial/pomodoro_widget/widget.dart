@@ -48,7 +48,7 @@ new Stack(children: <Widget>[
                 children: <Widget>[
                   //dial
                   _dial(),
-                  new SessionTimer(sessionWidgetModel: sessionWidgetModel,),
+                  new SectionTimer(sessionWidgetModel: sessionWidgetModel,),
                   new SessionEnds(
                     length: sessionWidgetModel.totalLength(),
                     sessionEnds: sessionWidgetModel.startTime.add(
