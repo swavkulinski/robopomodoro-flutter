@@ -4,14 +4,14 @@ machine:
 
 dependencies:
   pre:
-    - if [[ ! -d ../flutter ]] ; then git clone -b alpha https://github.com/flutter/flutter.git ../flutter; fi
-    - if [[ ! -d ../flutter-plugins ]] ; then git clone git@github.com:flutter/plugins.git ../flutter-plugins; fi
+    - if [[ ! -d ../flutter ]] ; then git clone -b master https://github.com/flutter/flutter.git ../flutter; fi
   cache_directories:
     - "../flutter"
-    - "../flutter-plugins"
 test:
   override:
-    - echo `flutter test` > test.log
+    - echo `flutter build apk` > build.log
 general:
   artifacts:
-    - "test.log"
+    - "build.log"
+    - "build/app/outputs/apk/debug/app-debug.apk"
+    - "build/app/outputs/apk/debug/output.json"
