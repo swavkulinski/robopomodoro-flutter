@@ -118,7 +118,7 @@ class DialWidget extends StatelessWidget {
                 //dial
                 new Stack(
                   fit: StackFit.passthrough,
-                  alignment: FractionalOffsetDirectional.center,
+                  alignment: Alignment.center,
                   children: dial,
                 ),
                 new Padding(

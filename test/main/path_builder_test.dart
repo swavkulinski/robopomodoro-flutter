@@ -1,7 +1,7 @@
 import 'package:test/test.dart';
 import '../../lib/main/digit/path_builder.dart';
 import '../../lib/main/models.dart';
-import 'dart:math';
+import 'dart:math' show pi;
 import 'session_widget_model_mock.dart';
 
 
@@ -21,7 +21,7 @@ const double INNER_RADIUS = 50.0;
       "GIVEN stripe angle WHEN stripe is calculated THEN returned stripe consist four corners of the stripe defined by angle and inner and outer radius",
       () {
     Stripe stripe =
-        pathBuilderUnderTest.createStripe(0.0, PI / 2, 50.0, 40.0);
+        pathBuilderUnderTest.createStripe(0.0, pi / 2, 50.0, 40.0);
 
     expect(stripe.beginBottom.x, INNER_RADIUS);
     expect(stripe.beginBottom.y, 0.0);

@@ -4,14 +4,14 @@ description: Robowerkz pomodoro app
 dependencies:
   flutter:
     sdk: flutter
-  shared_preferences:
-    path: ../flutter-plugins/packages/shared_preferences
-  mockito: "^2.0.2"
+  shared_preferences: any
+  intl: any
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  mockito: any
+  test: any
 flutter:
   uses-material-design: true
   assets:

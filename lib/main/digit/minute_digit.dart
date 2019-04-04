@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../di/main_module.dart';
-import 'dart:math';
+import 'dart:math' show pi,cos,sin;
 
 class MinuteDigit extends StatelessWidget {
   final DateTime currentTime;
@@ -41,11 +41,11 @@ class MinuteDigitPainter extends CustomPainter {
   Offset calculateDigitRotation(int timestamp, Size size) {
     return new Offset(
         size.width / 2 +
-            cos(DEFAULT_ANGLE_CORRECTION + timestamp / 60 / 30 * PI) *
+            cos(DEFAULT_ANGLE_CORRECTION + timestamp / 60 / 30 * pi) *
                 size.width /
                 2,
         size.height / 2 +
-            sin(DEFAULT_ANGLE_CORRECTION + timestamp / 60 / 30 * PI) *
+            sin(DEFAULT_ANGLE_CORRECTION + timestamp / 60 / 30 * pi) *
                 size.height /
                 2);
   }
