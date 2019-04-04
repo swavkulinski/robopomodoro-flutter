@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../app/models.dart';
 import '../di/main_module.dart';
-import 'dart:math';
+import 'dart:math' as math;
 
 class SessionIcon extends StatelessWidget {
   final Session session;
@@ -48,7 +48,7 @@ class _IconPainter extends CustomPainter {
 
   Path _sectionPath(Section section, Size size, Offset center) => new Path()
     ..arcTo(new Rect.fromCircle(center: center, radius: size.width / 2),
-        -PI / 2, section.length * MILLIS_TO_ANGLE, true)
+        -math.pi / 2, section.length * MILLIS_TO_ANGLE, true)
     ..lineTo(center.dx, center.dy)
     ..close();
 }

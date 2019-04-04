@@ -1,7 +1,7 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter/painting.dart';
 import 'dart:ui';
-import 'dart:math';
+import 'dart:math' show pi;
 
 
 
@@ -44,7 +44,7 @@ class DialPainter extends CustomPainter {
   void _drawTicks(Canvas canvas, Size size) {
 
     Matrix4 translateDialTransform = new Matrix4.translationValues(size.width/2, size.height/2, 0.0);
-    Matrix4 rotateDialTransform = new Matrix4.rotationZ(PI/6);
+    Matrix4 rotateDialTransform = new Matrix4.rotationZ(pi/6);
     canvas.save();
     canvas.transform(translateDialTransform.storage);
     for (int counter = 0; counter < 60; counter += 5) {

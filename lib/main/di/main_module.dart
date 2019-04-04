@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 import 'package:intl/intl.dart';
-//import 'dart:ui';
+import 'dart:math' show pi;
+
 
 TextPainter textPainter(String label) => new TextPainter(
       text: new TextSpan(
@@ -114,14 +114,14 @@ void drawDebug(Canvas canvas, Size size) {
   }
 }
 
-const double DEFAULT_ANGLE_CORRECTION = -PI/2;
+const double DEFAULT_ANGLE_CORRECTION = -pi/2;
 
 var wrapTime = 0;
 Duration warp() => new Duration(milliseconds: wrapTime += 5000);
 var timeProvider = () => new DateTime.now();//.add(warp());
 
-const MILLIS_TO_ANGLE =  2 * PI / (60 * 60 * 1000);
-const double STRIPES_FACTOR = PI / (6 / 60 / 1000);
+const MILLIS_TO_ANGLE =  2 * pi / (60 * 60 * 1000);
+const double STRIPES_FACTOR = pi / (6 / 60 / 1000);
 
 const REFRESH_TIME_MILLISECONDS = 300;
 
