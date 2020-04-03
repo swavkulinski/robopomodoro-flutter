@@ -4,9 +4,9 @@ description: Robowerkz pomodoro app
 dependencies:
   flutter:
     sdk: flutter
-  shared_preferences: "^0.2.5"
-  mockito: "^2.0.2"
-  intl: "0.15.6"
+  shared_preferences: any
+  mockito: any
+  intl: any
 
 dev_dependencies:
   flutter_test:

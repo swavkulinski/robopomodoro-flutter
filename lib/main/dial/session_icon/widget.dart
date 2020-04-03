@@ -57,7 +57,7 @@ class _IconPainter extends CustomPainter {
 
   Path _sectionPath(Section section, Size size, Offset center) => new Path()
     ..arcTo(new Rect.fromCircle(center: center, radius: size.width / 2),
-        -PI / 2, section.length * MILLIS_TO_ANGLE, true)
+        -pi / 2, section.length * MILLIS_TO_ANGLE, true)
     ..lineTo(center.dx, center.dy)
     ..close();
 }
