@@ -13,3 +13,13 @@ build/
 doc/api/
 fastlane
 ios/Podfile.lock
+# Files and directories created by pub
+.dart_tool/
+
+# Conventional directory for build outputs
+build/
+
+# Directory created by dartdoc
+doc/api/
+
+
