@@ -122,14 +122,14 @@ void drawDebug(Canvas canvas, Size size) {
     canvas.drawLine(new Offset(0.0, y), new Offset(size.width, y), debugPaint);
   }
 }
-const double DEFAULT_ANGLE_CORRECTION = -PI/2;
+const double DEFAULT_ANGLE_CORRECTION = -pi/2;
 
 var wrapTime = 0;
 Duration warp() => new Duration(milliseconds: wrapTime += 5000);
 var timeProvider = () => new DateTime.now();//.add(warp());
 
-const MILLIS_TO_ANGLE =  2 * PI / (60 * 60 * 1000);
-const double STRIPES_FACTOR = PI / (6 / 60 / 1000);
+const MILLIS_TO_ANGLE =  2 * pi / (60 * 60 * 1000);
+const double STRIPES_FACTOR = pi / (6 / 60 / 1000);
 
 const REFRESH_TIME_MILLISECONDS = 1000;
 

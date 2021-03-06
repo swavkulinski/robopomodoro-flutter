@@ -1,4 +1,4 @@
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'session_widget_model_mock.dart';
 import 'package:Robopomodoro/main/models.dart';
 
